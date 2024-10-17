@@ -1,4 +1,3 @@
-
 /*
 Template Name: Shopingo - eCommerce HTML Template
 Author: codervent
@@ -615,7 +614,7 @@ h6 {
 .subscribe-banner {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0.542), rgba(0, 0, 0, 0.73)),
-    url('../../../../../../images.pexels.com/photos/5864245/pexels-photo-58642457874.jpg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=1');
+    url('/src/assets/images/photos/7679877/pexels-photo-7679877.jpeg');
   background-position: center;
   background-size: cover;
   background-attachment: scroll;
@@ -721,8 +720,8 @@ h6 {
 
 
 .section-padding {
-   padding-top: 2rem !important;
-   padding-bottom: 2rem !important;
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
 }
 
 .bg-section-1 {
