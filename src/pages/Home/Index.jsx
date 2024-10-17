@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import Footer from "../../layouts/Footer";
 import Header from "../../layouts/Header";
+import { Card, Col, Container, Image, Row } from "react-bootstrap";
 
 function Index() {
   return (
@@ -435,7 +437,7 @@ function Index() {
               <hr />
               <div className='tab-content tabular-product'>
                 <div className='tab-pane fade show active' id='new-arrival'>
-                  <div className='row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4 row-cols-xxl-5 g-4'>
+                  <div className='row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4 row-cols-xxl-4 g-4'>
                     <div className='col'>
                       <div className='card'>
                         <div className='position-relative overflow-hidden'>
@@ -469,27 +471,27 @@ function Index() {
                         </div>
                       </div>
                     </div>
-                    <div className='col'>
-                      <div className='card'>
+                    <Col xs='auto'>
+                      <Card>
                         <div className='ribban'>New Season</div>
                         <div className='position-relative overflow-hidden'>
                           <div className='product-options d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute bottom-0 start-0 end-0'>
-                            <a>
+                            <a className='text-bg-dark'>
                               <i className='bi bi-heart' />
                             </a>
-                            <a>
+                            <a className='text-bg-dark'>
                               <i className='bi bi-basket3' />
                             </a>
-                            <a data-bs-toggle='modal' data-bs-target='#QuickViewModal'>
+                            <a className='text-bg-dark' data-bs-toggle='modal' data-bs-target='#QuickViewModal'>
                               <i className='bi bi-zoom-in' />
                             </a>
                           </div>
-                          <a href='product-details.html'>
-                            <img src='./src/assets/images/new-arrival/02.webp' className='card-img-top' alt='...' />
-                          </a>
+                          <Link to='product-details.html'>
+                            <Image src='./src/assets/images/new-arrival/02.webp' className='card-img-top' alt='...' />
+                          </Link>
                         </div>
-                        <div className='card-body'>
-                          <div className='product-info text-center'>
+                        <Card.Body>
+                          <div className='text-center'>
                             <h6 className='mb-1 fw-bold product-name'>Product Name</h6>
                             <div className='ratings mb-1 h6'>
                               <i className='bi bi-star-fill text-warning' />
@@ -500,9 +502,9 @@ function Index() {
                             </div>
                             <p className='mb-0 h6 fw-bold product-price'>$49</p>
                           </div>
-                        </div>
-                      </div>
-                    </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
                     <div className='col'>
                       <div className='card'>
                         <div className='position-relative overflow-hidden'>
@@ -1475,25 +1477,27 @@ function Index() {
           {/*end Brands*/}
           {/*start cartegory slider*/}
           <section className='cartegory-slider section-padding bg-section-2'>
-            <div className='container'>
+            <Container>
               <div className='text-center pb-3'>
                 <h3 className='mb-0 h3 fw-bold'>Top Categories</h3>
                 <p className='mb-0 text-capitalize'>Select your favorite categories and purchase</p>
               </div>
-              <div className='cartegory-box row'>
-                <a className='col-3' href='shop-grid-type-4.html'>
-                  <div className='card'>
-                    <div className='card-body'>
-                      <div className='overflow-hidden'>
-                        <img src='./src/assets/images/categories/01.webp' className='card-img-top rounded-0' alt='...' />
-                      </div>
-                      <div className='text-center'>
-                        <h5 className='mb-1 cartegory-name mt-3 fw-bold'>Kurtas</h5>
-                        <h6 className='mb-0 product-number fw-bold'>856 Products</h6>
-                      </div>
-                    </div>
-                  </div>
-                </a>
+              <Row>
+                <Col xs={3}>
+                  <Link to={"#!"}>
+                    <Card>
+                      <Card.Body>
+                        <div className='overflow-hidden'>
+                          <Image src='./src/assets/images/categories/01.webp' className='card-img-top rounded-0' alt='...' />
+                        </div>
+                        <div className='text-center'>
+                          <h5 className='mb-1 cartegory-name mt-3 fw-bold'>Kurtas</h5>
+                          <h6 className='mb-0 product-number fw-bold'>856 Products</h6>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
                 <a className='col-3' href='shop-grid-type-4.html'>
                   <div className='card'>
                     <div className='card-body'>
@@ -1559,8 +1563,8 @@ function Index() {
                     </div>
                   </div>
                 </a>
-              </div>
-            </div>
+              </Row>
+            </Container>
           </section>
           {/*end cartegory slider*/}
           {/*subscribe banner*/}
