@@ -48,7 +48,7 @@ const Contact = () => {
                   <Col md={6}>
                     <Form.Group className="form-group">
                       <Form.Label>Chủ đề</Form.Label>
-                      <Form.Control type="text" placeholder="Chủ đề . . ." />
+                      <Form.Control type="text" placeholder="Chủ đề . . .." />
                     </Form.Group>
                   </Col>
                 </Row>
