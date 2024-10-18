@@ -40,3 +40,76 @@
 .read-the-docs {
   color: #888;
 }
+.contact-container {
+  padding: 50px 0;
+  font-family: "Times New Roman";
+}
+.contact-content {
+  border: 1px solid rgb(191, 177, 177);
+  font-family: "Times New Roman";
+}
+
+.breadcrumb {
+  background-color: #f8f9fa;
+  padding: 15px;
+  text-align: center;
+}
+
+.breadcrumb p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.contact-image img {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  object-fit: cover;
+}
+
+.contact-form {
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.contact-form .form-group {
+  margin-bottom: 20px;
+}
+.contact-form .form-group:nth-child(1) {
+  text-align: left;
+  font-family: "Times New Roman";
+}
+
+.contact-form .form-control {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.contact-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background-color: #0056b3;
+}
+
+/* CSS cho viền đen quanh 2 cột */
+.form-row-bordered {
+  border: 2px solid black; /* Viền đen bao quanh */
+  padding: 10px; /* Khoảng cách bên trong */
+  margin-bottom: 20px; /* Khoảng cách dưới giữa các hàng */
+  border-radius: 5px; /* Bo góc viền */
+}
