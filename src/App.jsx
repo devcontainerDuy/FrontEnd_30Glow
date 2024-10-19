@@ -8,16 +8,16 @@ import "swiper/css/pagination";
 import Home from "./pages/Home/Index";
 import Contact from "./pages/Home/Contact";
 import Service from "./pages/Service/Index";
-import ServiceShow from "./pages/Service/Show";
+import Show from "./pages/Service/Show";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/dich-vu' element={<Service />} />
-        <Route path='/dich-vu/:slug' element={<ServiceShow />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/dich-vu" element={<Service />} />
+        <Route path="/dich-vu/:slug" element={<Show />} />
       </Routes>
     </BrowserRouter>
   );
