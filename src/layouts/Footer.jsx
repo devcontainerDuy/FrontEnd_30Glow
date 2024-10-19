@@ -12,7 +12,7 @@ function Footer() {
             <div className='row row-cols-1 row-cols-lg-4 g-4'>
               <div className='col'>
                 <div className='footer-widget-6'>
-                  <img src='./src/assets/images/logo.webp' className='logo-img mb-3' alt='' />
+                  <img src='./src/assets/images/logo.webp' width={100} className='logo-img mb-3' alt='' />
                   <h5 className='mb-3 fw-bold'>About Us</h5>
                   <p className='mb-2'>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
                   <a className='link-dark'>Read More</a>

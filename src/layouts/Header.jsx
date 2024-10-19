@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { Notyf } from "notyf";
 import Modal from "react-bootstrap/Modal";
+import { Col, Container, Dropdown, Image, Nav, Navbar, NavbarBrand, NavDropdown, NavLink, Offcanvas, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function Header() {
   const notyf = new Notyf({
@@ -47,273 +49,103 @@ function Header() {
   return (
     <>
       {/*start top header*/}
-      <header className='top-header'>
-        <nav className='navbar navbar-expand-xl w-100 navbar-dark container gap-3'>
-          <a className='navbar-brand d-none d-xl-inline' href='index.html'>
-            <img src='./src/assets/images/logo.webp' className='logo-img' alt='' />
-          </a>
-          <a className='mobile-menu-btn d-inline d-xl-none' data-bs-toggle='offcanvas' data-bs-target='#offcanvasNavbar'>
-            <i className='bi bi-list' />
-          </a>
-          <div className='offcanvas offcanvas-start' tabIndex={-1} id='offcanvasNavbar'>
-            <div className='offcanvas-header'>
-              <div className='offcanvas-logo'>
-                <img src='./src/assets/images/logo.webp' className='logo-img' alt='' />
-              </div>
-              <button type='button' className='btn-close text-reset' data-bs-dismiss='offcanvas' aria-label='Close' />
-            </div>
-            <div className='offcanvas-body primary-menu'>
-              <ul className='navbar-nav justify-content-start flex-grow-1 gap-1'>
-                <li className='nav-item'>
-                  <a className='nav-link' href='index.html'>
-                    Home
-                  </a>
-                </li>
-                <li className='nav-item dropdown'>
-                  <a className='nav-link dropdown-toggle dropdown-toggle-nocaret' href='tv-shows.html' data-bs-toggle='dropdown'>
-                    Categories
-                  </a>
-                  <div className='dropdown-menu dropdown-large-menu'>
-                    <div className='row'>
-                      <div className='col-12 col-xl-4'>
-                        <h6 className='large-menu-title'>Fashion</h6>
-                        <ul className='list-unstyled'>
-                          <li>
-                            <a>Casual T-Shirts</a>
-                          </li>
-                          <li>
-                            <a>Formal Shirts</a>
-                          </li>
-                          <li>
-                            <a>Jackets</a>
-                          </li>
-                          <li>
-                            <a>Jeans</a>
-                          </li>
-                          <li>
-                            <a>Dresses</a>
-                          </li>
-                          <li>
-                            <a>Sneakers</a>
-                          </li>
-                          <li>
-                            <a>Belts</a>
-                          </li>
-                          <li>
-                            <a>Sports Shoes</a>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* end col-3 */}
-                      <div className='col-12 col-xl-4'>
-                        <h6 className='large-menu-title'>Electronics</h6>
-                        <ul className='list-unstyled'>
-                          <li>
-                            <a>Mobiles</a>
-                          </li>
-                          <li>
-                            <a>Laptops</a>
-                          </li>
-                          <li>
-                            <a>Macbook</a>
-                          </li>
-                          <li>
-                            <a>Televisions</a>
-                          </li>
-                          <li>
-                            <a>Lighting</a>
-                          </li>
-                          <li>
-                            <a>Smart Watch</a>
-                          </li>
-                          <li>
-                            <a>Galaxy Phones</a>
-                          </li>
-                          <li>
-                            <a>PC Monitors</a>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* end col-3 */}
-                      <div className='col-12 col-xl-4 d-none d-xl-block'>
-                        <div className='pramotion-banner1'>
-                          <img src='./src/assets/images/menu-img.webp' className='img-fluid' alt='' />
-                        </div>
-                      </div>
-                      {/* end col-3 */}
-                    </div>
-                    {/* end row */}
-                  </div>
-                </li>
-                <li className='nav-item dropdown'>
-                  <a className='nav-link dropdown-toggle dropdown-toggle-nocaret' data-bs-toggle='dropdown'>
-                    Shop
-                  </a>
-                  <ul className='dropdown-menu'>
-                    <li>
-                      <a className='dropdown-item' href='cart.html'>
-                        Shop Cart
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='wishlist.html'>
-                        Wishlist
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='product-details.html'>
-                        Product Details
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='payment-method.html'>
-                        Payment Method
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='billing-details.html'>
-                        Billing Details
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='address.html'>
-                        Addresses
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='shop-grid.html'>
-                        Shop Grid
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='shop-grid-type-4.html'>
-                        Shop Grid 4
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='shop-grid-type-5.html'>
-                        Shop Grid 5
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='search.html'>
-                        Search
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className='nav-item'>
-                  <a className='nav-link' href='about-us.html'>
-                    About
-                  </a>
-                </li>
-                <li className='nav-item'>
-                  <a className='nav-link' href='contact-us.html'>
-                    Contact
-                  </a>
-                </li>
-                <li className='nav-item dropdown'>
-                  <a className='nav-link dropdown-toggle dropdown-toggle-nocaret' data-bs-toggle='dropdown'>
-                    Account
-                  </a>
-                  <ul className='dropdown-menu'>
-                    <li>
-                      <a className='dropdown-item' href='account-dashboard.html'>
-                        Dashboard
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='account-orders.html'>
-                        My Orders
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='account-profile.html'>
-                        My Profile
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='account-edit-profile.html'>
-                        Edit Profile
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='account-saved-address.html'>
-                        Addresses
-                      </a>
-                    </li>
-                    <li>
-                      <hr className='dropdown-divider' />
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='authentication-login.html'>
-                        Login
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='authentication-register.html'>
-                        Register
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='authentication-reset-password.html'>
-                        Password
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className='nav-item dropdown'>
-                  <a className='nav-link dropdown-toggle dropdown-toggle-nocaret' data-bs-toggle='dropdown'>
-                    Blog
-                  </a>
-                  <ul className='dropdown-menu'>
-                    <li>
-                      <a className='dropdown-item' href='blog-post.html'>
-                        Blog Post
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='blog-read.html'>
-                        Blog Read
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <ul className='navbar-nav secondary-menu flex-row'>
-            <li className='nav-item'>
-              <a className='nav-link dark-mode-icon'>
-                <div className='mode-icon'>
-                  <i className='bi bi-moon' />
-                </div>
-              </a>
-            </li>
-            <li className='nav-item'>
-              <a className='nav-link' href='search.html'>
+      <Navbar expand='xl' className='bg-body-tertiary sticky-top'>
+        <Container>
+          <Navbar.Brand href='#home'>
+            <Image src='./src/assets/images/logo.webp' width={100} fluid />
+          </Navbar.Brand>
+
+          {/* start header */}
+
+          {/* Button mobile */}
+          <Navbar.Toggle aria-controls='offcanvasNavbar' />
+          {/* Button mobile */}
+
+          <Navbar.Offcanvas id='offcanvasNavbar' aria-labelledby='offcanvasNavbarLabel' placement='end' className='bg-body-tertiary'>
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title id='offcanvasNavbarLabel'>
+                <Navbar.Brand href='#home'>
+                  <Image src='./src/assets/images/logo.webp' width={100} fluid />
+                </Navbar.Brand>
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <Nav className='me-auto text-uppercase fw-semibold gap-3' variant='underline'>
+                <Nav.Item>
+                  <Nav.Link href='#home'>Trang chủ</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href='#link'>Thông tin</Nav.Link>
+                </Nav.Item>
+                {/* start dropdown */}
+                <NavDropdown title='Dịch vụ' id='service-dropdown' className='d-none d-lg-block' data-bs-popper='static'>
+                  <Container fluid className='' style={{ width: "532px" }}>
+                    <Row>
+                      <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
+                        <Dropdown.Header as={Link} className='text-decoration-none' href='/'>
+                          Dưỡng tóc
+                        </Dropdown.Header>
+                        <Dropdown.Item as={Link} href='/'>
+                          Phục hồi tóc
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} href='/'>
+                          Dưỡng phục hồi Robo Nano
+                        </Dropdown.Item>
+                      </Col>
+                      <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
+                        <Dropdown.Header as={Link} className='text-decoration-none' href='/'>
+                          Combo
+                        </Dropdown.Header>
+                        <Dropdown.Item as={Link} href='/'>
+                          Combo cắt và tạo kiểu
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} href='/'>
+                          Combo cắt và uốn
+                        </Dropdown.Item>
+                      </Col>
+                    </Row>
+                  </Container>
+                </NavDropdown>
+                {/* end dropdown */}
+                <NavDropdown title='Sản phẩm' id='product-dropdown' className='d-none d-lg-block'>
+                  <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+                  <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown title='Thương hiệu' id='brand-dropdown' className='d-none d-lg-block'>
+                  <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+                  <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Item>
+                  <Nav.Link href='#lien-he'>Liên hệ</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href='#tintuc'>Tin tức</Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+
+          {/* end header */}
+          <Navbar.Collapse className='justify-content-end gap-3 fs-5'>
+            <Nav.Item>
+              <Nav.Link href='#login'>
                 <i className='bi bi-search' />
-              </a>
-            </li>
-            <li className='nav-item'>
-              <a className='nav-link' href='wishlist.html'>
-                <i className='bi bi-suit-heart' />
-              </a>
-            </li>
-            <li className='nav-item' data-bs-toggle='offcanvas' data-bs-target='#offcanvasRight'>
-              <a className='nav-link position-relative'>
-                <div className='cart-badge'>8</div>
-                <i className='bi bi-basket2' />
-              </a>
-            </li>
-            <li className='nav-item'>
-              <a className='nav-link' href='account-dashboard.html'>
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link className='position-relative' href='#login'>
+                <i className='bi bi-bag' />
+                <span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>8</span>
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href='#login'>
                 <i className='bi bi-person-circle' />
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+              </Nav.Link>
+            </Nav.Item>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
       {/*end top header*/}
     </>
   );
