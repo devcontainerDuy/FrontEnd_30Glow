@@ -51,8 +51,8 @@ function Header() {
       {/*start top header*/}
       <Navbar expand='xl' className='bg-body-tertiary sticky-top'>
         <Container>
-          <Navbar.Brand to='#home'>
-            <Image src='./src/assets/images/logo.webp' width={100} fluid />
+          <Navbar.Brand href='#home'>
+            <Image src='./src/assets/images/logo30GLOW.png' width={100} fluid />
           </Navbar.Brand>
 
           {/* start header */}
@@ -64,8 +64,8 @@ function Header() {
           <Navbar.Offcanvas id='offcanvasNavbar' aria-labelledby='offcanvasNavbarLabel' placement='end' className='bg-body-tertiary'>
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id='offcanvasNavbarLabel'>
-                <Navbar.Brand href='/'>
-                  <Image src='./src/assets/images/logo.webp' width={100} fluid />
+                <Navbar.Brand href='#home'>
+                  <Image src='./src/assets/images/logo30GLOW.png' width={80} fluid />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>

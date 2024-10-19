@@ -10,10 +10,10 @@ export default function CardPost({ name, slug, image, createdAt, author, content
           <Image src={image} className='card-img-top rounded-0' alt={slug} />
           <Card.Body className='card-body'>
             <div className='d-flex align-items-center gap-4'>
-              <p className='mb-0'>
+              {/* <p className='mb-0'>
                 <i className='bi bi-person me-2' />
                 {author}
-              </p>
+              </p> */}
 
               <p className='mb-0'>
                 <i className='bi bi-calendar me-2' />

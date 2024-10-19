@@ -130,8 +130,8 @@ function Index() {
                 <div className='h1 fw-bold my-2 text-danger'>
                   <i className='bi bi-credit-card' />
                 </div>
-                <h5 className='fw-bold'>Hoàn tiền 120%</h5>
-                <p className='mb-0'>Không hài lòng? Hoàn tiền 120%! Mua ngay!</p>
+                <h5 className='fw-bold'>Bảo hành 3 ngày</h5>
+                <p className='mb-0'>Không hài lòng? Hoàn tiền 100%!</p>
               </Card.Body>
             </Card>
           </Col>
@@ -152,8 +152,8 @@ function Index() {
                 <div className='h1 fw-bold my-2 text-warning'>
                   <i className='bi bi-headset' />
                 </div>
-                <h5 className='fw-bold'>Cam kết 7 ngày hiệu quả</h5>
-                <p className='mb-0'>Hiệu quả sau 7 ngày hoặc hoàn tiền. Thử ngay!</p>
+                <h5 className='fw-bold'>Hỗ trợ 24/7</h5>
+                <p className='mb-0'>Hỗ trợ khách hàng 24/7</p>
               </Card.Body>
             </Card>
           </Col>
@@ -166,7 +166,7 @@ function Index() {
       <Container className='my-5'>
         <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
           <div className='ms-2'>
-            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>SẢN PHẨM BÁN CHẠY ĐƯỢC CẬP NHẬT LIÊN TỤC</h3>
+            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
         <Row className='row-cols-1 row-cols-lg-5 g-4'>
