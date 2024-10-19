@@ -11,37 +11,41 @@ function Index() {
     {
       id: 1,
       name: "Product 1",
+      slug: "product-1",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 618.0,
-      discount: 494.0,
+      price: 618000,
+      discount: 494000,
     },
     {
       id: 2,
       name: "Product 2",
+      slug: "product-2",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 334.73,
-      discount: 453.71,
+      price: 334730,
     },
     {
       id: 3,
       name: "Product 3",
+      slug: "product-3",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 364.06,
-      discount: 369.23,
+      price: 364060,
+      discount: 369230,
     },
     {
       id: 4,
       name: "Product 4",
+      slug: "product-4",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 691.57,
-      discount: 349.53,
+      price: 691570,
+      discount: 349530,
     },
     {
       id: 5,
       name: "Product 5",
+      slug: "product-5",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 284.57,
-      discount: 109.36,
+      price: 284570,
+      discount: 109360,
     },
   ];
 
@@ -166,8 +170,8 @@ function Index() {
           </div>
         </div>
         <Row className='row-cols-1 row-cols-lg-5 g-4'>
-          {productList.map((product) => (
-            <CardProduct key={product.id} {...product} />
+          {productList.map((product, index) => (
+            <CardProduct key={index} {...product} />
           ))}
         </Row>
       </Container>
@@ -182,8 +186,8 @@ function Index() {
         </div>
 
         <Row className='row-cols-1 row-cols-lg-3 g-4'>
-          {postList.map((post) => (
-            <CardPost key={post.id} {...post} />
+          {postList.map((post, index) => (
+            <CardPost key={index} {...post} />
           ))}
         </Row>
         {/*end row*/}
