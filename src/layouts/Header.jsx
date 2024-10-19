@@ -41,7 +41,7 @@ function Header() {
         color: "white",
         duration: 1500,
         dismissible: false,
-        icon: '<i class="bi bi-bag-check"></i>',
+        icon: '<i className="bi bi-bag-check"></i>',
       },
     ],
   });
@@ -79,27 +79,27 @@ function Header() {
                 </Nav.Item>
                 {/* start dropdown */}
                 <NavDropdown title='Dịch vụ' id='service-dropdown' className='d-none d-lg-block' data-bs-popper='static'>
-                  <Container fluid className='' style={{ width: "532px" }}>
+                  <Container fluid style={{ width: "532px" }}>
                     <Row>
                       <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
-                        <Dropdown.Header as={Link} className='text-decoration-none' href='/'>
+                        <Dropdown.Header as={Link} className='text-decoration-none' to='/dich-vu'>
                           Dưỡng tóc
                         </Dropdown.Header>
-                        <Dropdown.Item as={Link} href='/'>
+                        <Dropdown.Item as={Link} to='/'>
                           Phục hồi tóc
                         </Dropdown.Item>
-                        <Dropdown.Item as={Link} href='/'>
+                        <Dropdown.Item as={Link} to='/'>
                           Dưỡng phục hồi Robo Nano
                         </Dropdown.Item>
                       </Col>
                       <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
-                        <Dropdown.Header as={Link} className='text-decoration-none' href='/'>
+                        <Dropdown.Header as={Link} className='text-decoration-none' to='/'>
                           Combo
                         </Dropdown.Header>
-                        <Dropdown.Item as={Link} href='/'>
+                        <Dropdown.Item as={Link} to='/'>
                           Combo cắt và tạo kiểu
                         </Dropdown.Item>
-                        <Dropdown.Item as={Link} href='/'>
+                        <Dropdown.Item as={Link} to='/'>
                           Combo cắt và uốn
                         </Dropdown.Item>
                       </Col>
@@ -108,18 +108,18 @@ function Header() {
                 </NavDropdown>
                 {/* end dropdown */}
                 <NavDropdown title='Sản phẩm' id='product-dropdown' className='d-none d-lg-block'>
-                  <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-                  <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
+                  <NavDropdown.Item to='#action/3.1'>Action</NavDropdown.Item>
+                  <NavDropdown.Item to='#action/3.2'>Another action</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title='Thương hiệu' id='brand-dropdown' className='d-none d-lg-block'>
-                  <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-                  <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
+                  <NavDropdown.Item to='#action/3.1'>Action</NavDropdown.Item>
+                  <NavDropdown.Item to='#action/3.2'>Another action</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <Nav.Link href='/contact'>Liên hệ</Nav.Link>
+                  <Nav.Link to='/contact'>Liên hệ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href='#tintuc'>Tin tức</Nav.Link>
+                  <Nav.Link to='#tintuc'>Tin tức</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Offcanvas.Body>
@@ -135,7 +135,7 @@ function Header() {
             <Nav.Item>
               <Nav.Link className='position-relative' href='#login'>
                 <i className='bi bi-bag' />
-                <span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>8</span>
+                <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>8</span>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>

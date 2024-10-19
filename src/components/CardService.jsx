@@ -2,7 +2,7 @@ import { Card, Col, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export default function CardProduct({ name, slug, image, price, discount }) {
+export default function CardService({ name, slug, image, price, discount }) {
   // Tính phần trăm giảm giá và làm tròn
   const sale = Math.round(((price - discount) / price) * 100);
   return (
@@ -19,7 +19,7 @@ export default function CardProduct({ name, slug, image, price, discount }) {
                 </p>
               </div>
             ) : null}
-            <Link to={`/san-pham/${slug}`}>
+            <Link to={`/dich-vu/${slug}`}>
               <Image src={image} width={100} height={300} className='card-img-top' fluid alt={slug} />
             </Link>
           </div>
@@ -66,7 +66,7 @@ export default function CardProduct({ name, slug, image, price, discount }) {
   );
 }
 
-CardProduct.propTypes = {
+CardService.propTypes = {
   name: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
