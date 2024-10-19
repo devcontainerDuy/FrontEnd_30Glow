@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Footer from "../../layouts/Footer";
 import Header from "../../layouts/Header";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
