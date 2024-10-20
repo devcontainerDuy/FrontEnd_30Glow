@@ -12,8 +12,12 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@faker-js/faker": "^9.0.3",
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@mui/icons-material": "^6.1.4",
     "@mui/material": "^6.1.4",
+    "@mui/x-data-grid-generator": "^7.21.0",
+    "@mui/x-data-grid-pro": "^7.21.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
