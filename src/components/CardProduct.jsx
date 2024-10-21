@@ -42,7 +42,7 @@ export default function CardProduct({ name, slug, image, price, discount }) {
                         currency: "VND",
                       })}
                     </p>
-                    <p className='fw-bold'>
+                    <p className='fw-bold text-danger'>
                       {discount.toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",

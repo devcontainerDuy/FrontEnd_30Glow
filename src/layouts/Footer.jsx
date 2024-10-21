@@ -12,15 +12,15 @@ function Footer() {
             <div className='row row-cols-1 row-cols-lg-4 g-4'>
               <div className='col'>
                 <div className='footer-widget-6'>
-                  <img src='./src/assets/images/logo30GLOW.png' width={100} className='logo-img mb-3' alt='' />
-                  <h5 className='mb-3 fw-bold'>About Us</h5>
-                  <p className='mb-2'>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                  <a className='link-dark'>Read More</a>
+                  <img src='../src/assets/images/logo30GLOW.png' width={100} className='logo-img mb-3' alt='' />
+                  <h5 className='mb-3 fw-bold'>Về chúng tôi</h5>
+                  <p className='mb-2'>Chúng tôi không chỉ là nơi bạn có thể đặt lịch làm tóc để có mái tóc đẹp tự tin, mà còn là địa điểm tuyệt vời để khám phá các sản phẩm chăm sóc tóc và da mặt.</p>
+                  <a className='link-dark'>Đọc thêm</a>
                 </div>
               </div>
               <div className='col'>
                 <div className='footer-widget-7'>
-                  <h5 className='mb-3 fw-bold'>Explore</h5>
+                  <h5 className='mb-3 fw-bold'>Cửa hàng</h5>
                   <ul className='widget-link list-unstyled'>
                     <li>
                       <a>Fashion</a>
@@ -34,21 +34,12 @@ function Footer() {
                     <li>
                       <a>Shoes</a>
                     </li>
-                    <li>
-                      <a>Topwear</a>
-                    </li>
-                    <li>
-                      <a>Brands</a>
-                    </li>
-                    <li>
-                      <a>Kids</a>
-                    </li>
                   </ul>
                 </div>
               </div>
               <div className='col'>
                 <div className='footer-widget-8'>
-                  <h5 className='mb-3 fw-bold'>Company</h5>
+                  <h5 className='mb-3 fw-bold'>Thông tin</h5>
                   <ul className='widget-link list-unstyled'>
                     <li>
                       <a>About Us</a>
@@ -62,18 +53,12 @@ function Footer() {
                     <li>
                       <a>Privacy</a>
                     </li>
-                    <li>
-                      <a>Terms</a>
-                    </li>
-                    <li>
-                      <a>Complaints</a>
-                    </li>
                   </ul>
                 </div>
               </div>
               <div className='col'>
                 <div className='footer-widget-9'>
-                  <h5 className='mb-3 fw-bold'>Follow Us</h5>
+                  <h5 className='mb-3 fw-bold'>Theo dõi chúng tôi</h5>
                   <div className='social-link d-flex align-items-center gap-2'>
                     <a>
                       <i className='bi bi-facebook' />
@@ -102,34 +87,10 @@ function Footer() {
                 </div>
               </div>
             </div>
-            {/*end row*/}
-            <div className='my-5' />
-            <div className='row'>
-              <div className='col-12'>
-                <div className='text-center'>
-                  <h5 className='fw-bold mb-3'>Download Mobile App</h5>
-                </div>
-                <div className='app-icon d-flex flex-column flex-sm-row align-items-center justify-content-center gap-2'>
-                  <div>
-                    <a>
-                      <img src='./src/assets/images/play-store.webp' width={160} alt='' />
-                    </a>
-                  </div>
-                  <div>
-                    <a>
-                      <img src='./src/assets/images/apple-store.webp' width={160} alt='' />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/*end row*/}
           </div>
         </section>
         {/*end footer*/}
-        <footer className='footer-strip text-center py-3 bg-section-2 border-top positon-absolute bottom-0'>
-          <p className='mb-0 text-muted'>© 2022. www.example.com | All rights reserved.</p>
-        </footer>
+
         {/*start cart*/}
         <div className='offcanvas offcanvas-end' data-bs-scroll='true' tabIndex={-1} id='offcanvasRight' aria-labelledby='offcanvasRightLabel'>
           <div className='offcanvas-header bg-section-2'>
