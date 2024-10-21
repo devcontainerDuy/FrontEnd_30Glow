@@ -116,8 +116,8 @@ function Header() {
                   <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
-                  <NavDropdown.Item to="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item to="#action/3.2">Another action</NavDropdown.Item>
+                  <NavDropdown.Item href="/thuong-hieu">Thương hiệu</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
                   <Nav.Link href="/contact">Liên hệ</Nav.Link>
