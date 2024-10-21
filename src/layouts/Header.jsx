@@ -2,19 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Notyf } from "notyf";
 import Modal from "react-bootstrap/Modal";
-import {
-  Col,
-  Container,
-  Dropdown,
-  Image,
-  Nav,
-  Navbar,
-  NavbarBrand,
-  NavDropdown,
-  NavLink,
-  Offcanvas,
-  Row,
-} from "react-bootstrap";
+import { Col, Container, Dropdown, Image, Nav, Navbar, NavbarBrand, NavDropdown, NavLink, Offcanvas, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -73,28 +61,16 @@ function Header() {
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           {/* Button mobile */}
 
-          <Navbar.Offcanvas
-            id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel"
-            placement="end"
-            className="bg-body-tertiary"
-          >
+          <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" placement="end" className="bg-body-tertiary">
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand href="#home">
-                  <Image
-                    src="./src/assets/images/logo30GLOW.png"
-                    width={80}
-                    fluid
-                  />
+                  <Image src="./src/assets/images/logo30GLOW.png" width={80} fluid />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav
-                className="me-auto text-uppercase fw-semibold gap-3"
-                variant="underline"
-              >
+              <Nav className="me-auto text-uppercase fw-semibold gap-3" variant="underline">
                 <Nav.Item>
                   <Nav.Link href="/">Trang chủ</Nav.Link>
                 </Nav.Item>
@@ -135,22 +111,16 @@ function Header() {
                 </NavDropdown> */}
                 {/* end dropdown */}
 
-                <NavDropdown title='Sản phẩm' id='product-dropdown' className='d-none d-lg-block'>
-                  <NavDropdown.Item href='/san-pham'>Sản phẩm</NavDropdown.Item>
-                  <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
+                <NavDropdown title="Sản phẩm" id="product-dropdown" className="d-none d-lg-block">
+                  <NavDropdown.Item href="/san-pham">Sản phẩm</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown
-                  title="Thương hiệu"
-                  id="brand-dropdown"
-                  className="d-none d-lg-block"
-                >
+                <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
                   <NavDropdown.Item to="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item to="#action/3.2">
-                    Another action
-                  </NavDropdown.Item>
+                  <NavDropdown.Item to="#action/3.2">Another action</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <Nav.Link to="/contact">Liên hệ</Nav.Link>
+                  <Nav.Link href="/contact">Liên hệ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link to="#tintuc">Tin tức</Nav.Link>
@@ -169,9 +139,7 @@ function Header() {
             <Nav.Item>
               <Nav.Link className="position-relative" href="#login">
                 <i className="bi bi-bag" />
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  8
-                </span>
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">8</span>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
