@@ -9,6 +9,8 @@ import Home from "./pages/Home/Index";
 import Contact from "./pages/Home/Contact";
 // import Index from "./pages/Product/Index";
 import Product from "./pages/Product/Index";
+import Service from "./pages/Service/Index";
+import Show from "./pages/Service/Show";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/san-pham" element={<Product />} />
+        <Route path="/dich-vu" element={<Service />} />
+        <Route path="/dich-vu/:slug" element={<Show />} />
       </Routes>
     </BrowserRouter>
   );
