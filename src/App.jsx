@@ -7,6 +7,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Home from "./pages/Home/Index";
 import Contact from "./pages/Home/Contact";
+// import Index from "./pages/Product/Index";
+import Product from "./pages/Product/Index";
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/san-pham" element={<Product />} />
       </Routes>
     </BrowserRouter>
   );

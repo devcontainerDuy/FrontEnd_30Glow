@@ -108,7 +108,7 @@ function Header() {
                 </NavDropdown>
                 {/* end dropdown */}
                 <NavDropdown title='Sản phẩm' id='product-dropdown' className='d-none d-lg-block'>
-                  <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+                  <NavDropdown.Item href='/san-pham'>Sản phẩm</NavDropdown.Item>
                   <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title='Thương hiệu' id='brand-dropdown' className='d-none d-lg-block'>
