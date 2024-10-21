@@ -9,38 +9,43 @@ function Index() {
   const productList = [
     {
       id: 1,
-      name: "Xịt keo ABC",
+      name: "Sửa rửa mặt Simple",
+      slug: "sua-rua-mat-simple",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
       price: 618000,
       discount: 494000,
     },
     {
       id: 2,
-      name: "Sửa rửa mặt Simple",
+      name: "Dầu gội Dvinces",
+      slug: "dau-goi-davinces",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 334730,
-      discount: 453710,
+      price: 334000,
+      discount: 293000,
     },
     {
       id: 3,
-      name: "Dầu gội Davines",
+      name: "Dầu xả Dvinces",
+      slug: "dau-xa-davinces",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
       price: 364060,
-      discount: 369230,
+      discount: 320000,
     },
     {
       id: 4,
-      name: "Dầu xả Davines",
+      name: "Kem dưỡng ẩm ATS",
+      slug: "kem-duong-ats",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 691570,
-      discount: 349530,
+      price: 691000,
+      discount: 549000,
     },
     {
       id: 5,
       name: "Kem chống nắng SkinAqua",
+      slug: "kem-chong-nang-skinaqua",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
       price: 284570,
-      discount: 109360,
+      discount: 159000,
     },
   ];
   return (
@@ -52,8 +57,6 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Sản phẩm</h3>
           </div>
         </div>
-      </Container>
-      <Container className="my-3">
         <Row className="row-cols-1 row-cols-lg-5 g-4">
           {productList.map((product) => (
             <CardProduct key={product.id} {...product} />
