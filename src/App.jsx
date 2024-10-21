@@ -11,6 +11,7 @@ import Detail from "./pages/Product/Detail";
 import Product from "./pages/Product/Index";
 import Service from "./pages/Service/Index";
 import Show from "./pages/Service/Show";
+import About from "./pages/Home/About";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/gioi-thieu" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/san-pham" element={<Product />} />
         <Route path="/san-pham/:slug" element={<Detail />} />
