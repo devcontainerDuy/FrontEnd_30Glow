@@ -9,46 +9,48 @@ function Index() {
   const productList = [
     {
       id: 1,
-      name: "Product 1",
+      name: "Xịt keo ABC",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 618.0,
-      discount: 494.0,
+      price: 618000,
+      discount: 494000,
     },
     {
       id: 2,
-      name: "Product 2",
+      name: "Sửa rửa mặt Simple",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 334.73,
-      discount: 453.71,
+      price: 334730,
+      discount: 453710,
     },
     {
       id: 3,
-      name: "Product 3",
+      name: "Dầu gội Davines",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 364.06,
-      discount: 369.23,
+      price: 364060,
+      discount: 369230,
     },
     {
       id: 4,
-      name: "Product 4",
+      name: "Dầu xả Davines",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 691.57,
-      discount: 349.53,
+      price: 691570,
+      discount: 349530,
     },
     {
       id: 5,
-      name: "Product 5",
+      name: "Kem chống nắng SkinAqua",
       image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 284.57,
-      discount: 109.36,
+      price: 284570,
+      discount: 109360,
     },
   ];
   return (
     <>
       <Headers />
-      <Container className="mt-3">
-        <div className="breadcrumb">
-          <p>Home / Sản phẩm</p>
+      <Container className="my-5">
+        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+          <div className="ms-2">
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Sản phẩm</h3>
+          </div>
         </div>
       </Container>
       <Container className="my-3">
