@@ -1,11 +1,13 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
 import Footers from "../../layouts/Footer";
 import Headers from "../../layouts/Header";
 import CardProduct from "../../components/CardProduct";
 
 function Index() {
+  const [filter, setFilter] = useState("default");
+
   const productList = [
     {
       id: 1,
@@ -48,21 +50,35 @@ function Index() {
       discount: 159000,
     },
   ];
+
   return (
     <>
       <Headers />
       <Container className="my-5">
-        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
-          <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Sản phẩm</h3>
+        <div className="d-flex justify-content-between mb-3">
+          <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+            <div className="ms-2">
+              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Sản phẩm</h3>
+            </div>
+          </div>
+          <div className="d-flex align-items-center">
+            <span className="me-2">Lọc:</span>
+            <FormSelect value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: "200px" }}>
+              <option value="default">Mặc định</option>
+              <option value="high-to-low">Giá cao nhất</option>
+              <option value="low-to-high">Giá thấp nhất</option>
+              <option value="newest">Sản phẩm mới</option>
+            </FormSelect>
           </div>
         </div>
+
         <Row className="row-cols-1 row-cols-lg-5 g-4">
           {productList.map((product) => (
             <CardProduct key={product.id} {...product} />
           ))}
         </Row>
       </Container>
+
       <Container className="my-5">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
           <Col className="d-flex">
