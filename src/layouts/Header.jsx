@@ -75,7 +75,7 @@ function Header() {
                   <Nav.Link href="/">Trang chủ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="#link">Thông tin</Nav.Link>
+                  <Nav.Link href="/gioi-thieu">Giới thiệu</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href="/dich-vu">Dịch vụ</Nav.Link>
