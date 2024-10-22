@@ -7,20 +7,25 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Home from "./pages/Home/Index";
 import Contact from "./pages/Home/Contact";
-// import Index from "./pages/Product/Index";
+import Detail from "./pages/Product/Detail";
 import Product from "./pages/Product/Index";
 import Service from "./pages/Service/Index";
 import Show from "./pages/Service/Show";
 import GioHang from "./pages/Cart/gio-hang";
+import About from "./pages/Home/About";
+import Brand from "./pages/Brand/Index";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/gioi-thieu" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/gio-hang" element={<GioHang />} />
         <Route path="/san-pham" element={<Product />} />
+        <Route path="/thuong-hieu" element={<Brand />} />
+        <Route path="/san-pham/:slug" element={<Detail />} />
         <Route path="/dich-vu" element={<Service />} />
         <Route path="/dich-vu/:slug" element={<Show />} />
       </Routes>

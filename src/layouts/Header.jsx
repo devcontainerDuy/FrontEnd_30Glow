@@ -64,7 +64,7 @@ function Header() {
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
           <Navbar.Brand href="#home">
-            <Image src="./src/assets/images/logo30GLOW.png" width={100} fluid />
+            <Image src="../src/assets/images/logo30GLOW.png" width={100} fluid />
           </Navbar.Brand>
 
           {/* start header */}
@@ -82,11 +82,8 @@ function Header() {
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand href="#home">
-                  <Image
-                    src="./src/assets/images/logo30GLOW.png"
-                    width={80}
-                    fluid
-                  />
+                  <Image src="../src/assets/images/logo30GLOW.png" width={80} fluid />
+
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
@@ -99,7 +96,7 @@ function Header() {
                   <Nav.Link href="/">Trang chủ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="#link">Thông tin</Nav.Link>
+                  <Nav.Link href="/gioi-thieu">Giới thiệu</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href="/dich-vu">Dịch vụ</Nav.Link>
@@ -145,15 +142,9 @@ function Header() {
                     Another action
                   </NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown
-                  title="Thương hiệu"
-                  id="brand-dropdown"
-                  className="d-none d-lg-block"
-                >
-                  <NavDropdown.Item to="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item to="#action/3.2">
-                    Another action
-                  </NavDropdown.Item>
+                <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
+                  <NavDropdown.Item href="/thuong-hieu">Thương hiệu</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
                   <Nav.Link href="/contact">Liên hệ</Nav.Link>

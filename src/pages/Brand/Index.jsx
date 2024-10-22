@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { Container, FormSelect } from "react-bootstrap";
+import Header from "../../layouts/Header";
+import Footer from "../../layouts/Footer";
+import { Container } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
-import Footers from "../../layouts/Footer";
-import Headers from "../../layouts/Header";
 import CardProduct from "../../components/CardProduct";
-import Paginated from "../../components/Paginated";
+// import CardBrand from "../../components/CardBrand.jsx";
 
 function Index() {
-  const [filter, setFilter] = useState("default");
-
   const productList = [
     {
       id: 1,
@@ -51,18 +49,17 @@ function Index() {
       discount: 159000,
     },
   ];
-
   return (
     <>
-      <Headers />
+      <Header />
       <Container className="my-5">
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
             <div className="ms-2">
-              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Sản phẩm</h3>
+              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Thương hiệu</h3>
             </div>
           </div>
-          <div className="d-flex align-items-center">
+          {/* <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
             <FormSelect value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: "200px" }}>
               <option value="default">Mặc định</option>
@@ -70,17 +67,14 @@ function Index() {
               <option value="low-to-high">Giá thấp nhất</option>
               <option value="newest">Sản phẩm mới</option>
             </FormSelect>
-          </div>
+          </div> */}
         </div>
-
         <Row className="row-cols-1 row-cols-lg-5 g-4">
           {productList.map((product) => (
             <CardProduct key={product.id} {...product} />
           ))}
         </Row>
-        <Paginated current={1} total={5} />
       </Container>
-
       <Container className="my-5">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
           <Col className="d-flex">
@@ -130,7 +124,7 @@ function Index() {
         </Row>
         {/*end row*/}
       </Container>
-      <Footers />
+      <Footer />
     </>
   );
 }
