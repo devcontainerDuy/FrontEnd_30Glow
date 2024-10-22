@@ -4,6 +4,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import Footers from "../../layouts/Footer";
 import Headers from "../../layouts/Header";
 import CardProduct from "../../components/CardProduct";
+import Paginated from "../../components/Paginated";
 
 function Index() {
   const [filter, setFilter] = useState("default");
@@ -77,6 +78,7 @@ function Index() {
             <CardProduct key={product.id} {...product} />
           ))}
         </Row>
+        <Paginated current={1} total={5} />
       </Container>
 
       <Container className="my-5">
