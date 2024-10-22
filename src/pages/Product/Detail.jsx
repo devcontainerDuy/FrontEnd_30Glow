@@ -133,6 +133,12 @@ function Show() {
               <Carousel.Item>
                 <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
               </Carousel.Item>
+              <Carousel.Item>
+                <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
+              </Carousel.Item>
             </Carousel>
           </Col>
 
