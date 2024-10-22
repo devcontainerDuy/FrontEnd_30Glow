@@ -96,7 +96,13 @@ function GioHang() {
                           </td>
                           <td>
                             <h5 className="fw-bold mb-0">
-                              <a href="" style={{ textDecoration: "none", color:"black" }}>
+                              <a
+                                href=""
+                                style={{
+                                  textDecoration: "none",
+                                  color: "black",
+                                }}
+                              >
                                 {item.name}
                               </a>
                             </h5>
