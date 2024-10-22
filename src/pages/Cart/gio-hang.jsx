@@ -128,7 +128,7 @@ function GioHang() {
                                   variant="outline-danger"
                                   onClick={() => deleteItem(item.id)}
                                 >
-                                  <i class="bi bi-trash"></i>
+                                  <i class="bi bi-trash "></i>
                                 </Button>
                               </div>
                             </div>
