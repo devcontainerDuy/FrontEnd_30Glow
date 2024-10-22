@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";

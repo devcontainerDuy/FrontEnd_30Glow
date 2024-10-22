@@ -11,6 +11,7 @@ import Contact from "./pages/Home/Contact";
 import Product from "./pages/Product/Index";
 import Service from "./pages/Service/Index";
 import Show from "./pages/Service/Show";
+import GioHang from "./pages/Cart/gio-hang";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/gio-hang" element={<GioHang />} />
         <Route path="/san-pham" element={<Product />} />
         <Route path="/dich-vu" element={<Service />} />
         <Route path="/dich-vu/:slug" element={<Show />} />
