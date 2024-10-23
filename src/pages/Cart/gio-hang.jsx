@@ -1,9 +1,18 @@
-/* eslint-disable*/
+/* eslint-disable*/ 
 import React, { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
+import { ButtonGroup } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Card,
+  Col,
+  Table,
+  Button,
+  Form,
+} from "react-bootstrap";
 
 function GioHang() {
   const [carts, setCarts] = useState([
@@ -35,15 +44,15 @@ function GioHang() {
   const tong = carts.reduce((acc, item) => acc + item.tong, 0);
 
   // Xác định phí giao hàng
-  const PhiGH = tong >= 1000000 ? 0 : 30000;
+  const PhiGH = tong > 0 && tong < 1000000 ? 30000 : 0;
 
   // Tổng hóa đơn bao gồm phí giao hàng
-  const tongHoaDon = tong + PhiGH;
+  const tongHoaDon = carts.length === 0 ? 0 : tong + PhiGH;
 
-  const updateQuantity = (id, e) => {
+  const updateQuantity = (id, newQuantity) => {
+    if (newQuantity < 1) return; // Đảm bảo số lượng không nhỏ hơn 1
     const updatedCarts = carts.map((item) => {
       if (item.id === id) {
-        const newQuantity = +e.target.value;
         return {
           ...item,
           quantity: newQuantity,
@@ -66,7 +75,7 @@ function GioHang() {
         <Container className="pt-5">
           <div className="d-flex align-items-center px-3 py-2 border mb-4">
             <h4 className="mb-0 h4 fw-bold">Giỏ hàng</h4>
-            <a href="/san-pham" className="ms-auto btn btn-light btn-ecomm">
+            <a href="/" className="ms-auto btn btn-light btn-ecomm">
               Tiếp tục mua sắm
             </a>
           </div>
@@ -110,25 +119,44 @@ function GioHang() {
                               <span className="text-decoration-line-through pe-2">
                                 {Intl.NumberFormat("en-US").format(item.price)}
                               </span>
-                              <span className="text-danger me-auto">
+                              <span className="text-danger me-auto fw-bold ">
                                 {Intl.NumberFormat("en-US").format(
                                   item.discount
                                 )}
                               </span>
-                              <div className="d-flex align-items-center">
-                                <Form.Control
-                                  type="number"
-                                  min="1"
-                                  value={item.quantity}
-                                  onChange={(e) => updateQuantity(item.id, e)}
-                                  className="me-2"
-                                  style={{ width: "200px" }}
-                                />
+                              <div className="d-flex align-items-center w-5">
+                                <ButtonGroup aria-label="Basic example">
+                                  <Button
+                                    variant="secondary"
+                                    onClick={() =>
+                                      updateQuantity(item.id, item.quantity - 1)
+                                    }
+                                  >
+                                    -
+                                  </Button>
+                                  <Form.Control
+                                    type="number"
+                                    min="1"
+                                    value={item.quantity}
+                                    onChange={(e) =>
+                                      updateQuantity(item.id, +e.target.value)
+                                    }
+                                  />
+                                  <Button
+                                    variant="secondary"
+                                    onClick={() =>
+                                      updateQuantity(item.id, item.quantity + 1)
+                                    }
+                                  >
+                                    +
+                                  </Button>
+                                </ButtonGroup>
                                 <Button
                                   variant="outline-danger"
                                   onClick={() => deleteItem(item.id)}
+                                  className="ms-3"
                                 >
-                                  <i class="bi bi-trash "></i>
+                                  <i className="bi bi-trash "></i>
                                 </Button>
                               </div>
                             </div>
@@ -138,6 +166,13 @@ function GioHang() {
                           </td>
                         </tr>
                       ))}
+                      {carts.length === 0 && (
+                        <tr>
+                          <td colSpan="3" className="text-center">
+                            <h5>Giỏ hàng của bạn hiện đang trống.</h5>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                   <h4>
@@ -172,6 +207,7 @@ function GioHang() {
                     <button
                       type="button"
                       className="btn btn-dark btn-ecomm py-3 px-5"
+                      disabled={carts.length === 0} // Disable button if cart is empty
                     >
                       Thanh toán hóa đơn
                     </button>
@@ -182,6 +218,63 @@ function GioHang() {
           </Row>
         </Container>
       </section>
+      <Container className="my-5">
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-primary">
+                  <i className="bi bi-truck" />
+                </div>
+                <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
+                <p className="mb-0">
+                  Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-danger border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-danger">
+                  <i className="bi bi-credit-card" />
+                </div>
+                <h5 className="fw-bold">Thanh toán bảo mật</h5>
+                <p className="mb-0">
+                  Đảm bảo tính an toàn trong mọi giao dịch của bạn.
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-success border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-success">
+                  <i className="bi bi-shield-lock" />
+                </div>
+                <h5 className="fw-bold">Khách hàng an tâm</h5>
+                <p className="mb-0">
+                  Chúng tôi cam kết mang đến trải nghiệm mua sắm an toàn.
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-info border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-info">
+                  <i className="bi bi-star" />
+                </div>
+                <h5 className="fw-bold">Đánh giá tốt nhất</h5>
+                <p className="mb-0">
+                  Hơn 1 triệu khách hàng hài lòng với sản phẩm và dịch vụ của
+                  chúng tôi.
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
       <Footer />
     </>
   );
