@@ -1,3 +1,4 @@
+/* eslint-disable*/ 
 import { Card, Col, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";

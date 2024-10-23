@@ -1,7 +1,8 @@
-/* eslint-disable*/
+/* eslint-disable*/ 
 import React, { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
+import { ButtonGroup } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {
   Container,
@@ -43,15 +44,15 @@ function GioHang() {
   const tong = carts.reduce((acc, item) => acc + item.tong, 0);
 
   // Xác định phí giao hàng
-  const PhiGH = tong >= 1000000 ? 0 : 30000;
+  const PhiGH = tong > 0 && tong < 1000000 ? 30000 : 0;
 
   // Tổng hóa đơn bao gồm phí giao hàng
-  const tongHoaDon = tong + PhiGH;
+  const tongHoaDon = carts.length === 0 ? 0 : tong + PhiGH;
 
-  const updateQuantity = (id, e) => {
+  const updateQuantity = (id, newQuantity) => {
+    if (newQuantity < 1) return; // Đảm bảo số lượng không nhỏ hơn 1
     const updatedCarts = carts.map((item) => {
       if (item.id === id) {
-        const newQuantity = +e.target.value;
         return {
           ...item,
           quantity: newQuantity,
@@ -118,23 +119,42 @@ function GioHang() {
                               <span className="text-decoration-line-through pe-2">
                                 {Intl.NumberFormat("en-US").format(item.price)}
                               </span>
-                              <span className="text-danger me-auto">
+                              <span className="text-danger me-auto fw-bold ">
                                 {Intl.NumberFormat("en-US").format(
                                   item.discount
                                 )}
                               </span>
-                              <div className="d-flex align-items-center">
-                                <Form.Control
-                                  type="number"
-                                  min="1"
-                                  value={item.quantity}
-                                  onChange={(e) => updateQuantity(item.id, e)}
-                                  className="me-2"
-                                  style={{ width: "200px" }}
-                                />
+                              <div className="d-flex align-items-center w-5">
+                                <ButtonGroup aria-label="Basic example">
+                                  <Button
+                                    variant="secondary"
+                                    onClick={() =>
+                                      updateQuantity(item.id, item.quantity - 1)
+                                    }
+                                  >
+                                    -
+                                  </Button>
+                                  <Form.Control
+                                    type="number"
+                                    min="1"
+                                    value={item.quantity}
+                                    onChange={(e) =>
+                                      updateQuantity(item.id, +e.target.value)
+                                    }
+                                  />
+                                  <Button
+                                    variant="secondary"
+                                    onClick={() =>
+                                      updateQuantity(item.id, item.quantity + 1)
+                                    }
+                                  >
+                                    +
+                                  </Button>
+                                </ButtonGroup>
                                 <Button
                                   variant="outline-danger"
                                   onClick={() => deleteItem(item.id)}
+                                  className="ms-3"
                                 >
                                   <i className="bi bi-trash "></i>
                                 </Button>
@@ -146,6 +166,13 @@ function GioHang() {
                           </td>
                         </tr>
                       ))}
+                      {carts.length === 0 && (
+                        <tr>
+                          <td colSpan="3" className="text-center">
+                            <h5>Giỏ hàng của bạn hiện đang trống.</h5>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                   <h4>
@@ -180,6 +207,7 @@ function GioHang() {
                     <button
                       type="button"
                       className="btn btn-dark btn-ecomm py-3 px-5"
+                      disabled={carts.length === 0} // Disable button if cart is empty
                     >
                       Thanh toán hóa đơn
                     </button>
@@ -211,8 +239,10 @@ function GioHang() {
                 <div className="h1 fw-bold my-2 text-danger">
                   <i className="bi bi-credit-card" />
                 </div>
-                <h5 className="fw-bold">Bảo hành 3 ngày</h5>
-                <p className="mb-0">Không hài lòng? Hoàn tiền 100%!</p>
+                <h5 className="fw-bold">Thanh toán bảo mật</h5>
+                <p className="mb-0">
+                  Đảm bảo tính an toàn trong mọi giao dịch của bạn.
+                </p>
               </Card.Body>
             </Card>
           </Col>
@@ -220,26 +250,30 @@ function GioHang() {
             <Card className="border-0 rounded-0 border-bottom border-success border-3 w-100">
               <Card.Body className="text-center">
                 <div className="h1 fw-bold my-2 text-success">
-                  <i className="bi bi-minecart-loaded" />
+                  <i className="bi bi-shield-lock" />
                 </div>
-                <h5 className="fw-bold">Đổi trả tận nơi</h5>
-                <p className="mb-0">Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
+                <h5 className="fw-bold">Khách hàng an tâm</h5>
+                <p className="mb-0">
+                  Chúng tôi cam kết mang đến trải nghiệm mua sắm an toàn.
+                </p>
               </Card.Body>
             </Card>
           </Col>
           <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-warning border-3 w-100">
+            <Card className="border-0 rounded-0 border-bottom border-info border-3 w-100">
               <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-warning">
-                  <i className="bi bi-headset" />
+                <div className="h1 fw-bold my-2 text-info">
+                  <i className="bi bi-star" />
                 </div>
-                <h5 className="fw-bold">Hỗ trợ 24/7</h5>
-                <p className="mb-0">Hỗ trợ khách hàng 24/7</p>
+                <h5 className="fw-bold">Đánh giá tốt nhất</h5>
+                <p className="mb-0">
+                  Hơn 1 triệu khách hàng hài lòng với sản phẩm và dịch vụ của
+                  chúng tôi.
+                </p>
               </Card.Body>
             </Card>
           </Col>
         </Row>
-        {/*end row*/}
       </Container>
       <Footer />
     </>
