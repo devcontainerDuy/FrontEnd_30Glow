@@ -3,7 +3,15 @@ import React, { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Card,
+  Col,
+  Table,
+  Button,
+  Form,
+} from "react-bootstrap";
 
 function GioHang() {
   const [carts, setCarts] = useState([
@@ -66,7 +74,7 @@ function GioHang() {
         <Container className="pt-5">
           <div className="d-flex align-items-center px-3 py-2 border mb-4">
             <h4 className="mb-0 h4 fw-bold">Giỏ hàng</h4>
-            <a href="/san-pham" className="ms-auto btn btn-light btn-ecomm">
+            <a href="/" className="ms-auto btn btn-light btn-ecomm">
               Tiếp tục mua sắm
             </a>
           </div>
@@ -128,7 +136,7 @@ function GioHang() {
                                   variant="outline-danger"
                                   onClick={() => deleteItem(item.id)}
                                 >
-                                  <i class="bi bi-trash "></i>
+                                  <i className="bi bi-trash "></i>
                                 </Button>
                               </div>
                             </div>
@@ -182,6 +190,57 @@ function GioHang() {
           </Row>
         </Container>
       </section>
+      <Container className="my-5">
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-primary">
+                  <i className="bi bi-truck" />
+                </div>
+                <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
+                <p className="mb-0">
+                  Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-danger border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-danger">
+                  <i className="bi bi-credit-card" />
+                </div>
+                <h5 className="fw-bold">Bảo hành 3 ngày</h5>
+                <p className="mb-0">Không hài lòng? Hoàn tiền 100%!</p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-success border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-success">
+                  <i className="bi bi-minecart-loaded" />
+                </div>
+                <h5 className="fw-bold">Đổi trả tận nơi</h5>
+                <p className="mb-0">Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-warning border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-warning">
+                  <i className="bi bi-headset" />
+                </div>
+                <h5 className="fw-bold">Hỗ trợ 24/7</h5>
+                <p className="mb-0">Hỗ trợ khách hàng 24/7</p>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        {/*end row*/}
+      </Container>
       <Footer />
     </>
   );

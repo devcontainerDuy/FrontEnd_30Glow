@@ -11,7 +11,7 @@ export default function CardService({ name, slug, image, price, discount }) {
         <Card>
           <div className="position-relative overflow-hidden">
             {discount > 0 ? (
-              <div className="d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0">
+              <div className="d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0 ">
                 <p className="my-3 h6">
                   <span className="text-bg-danger">
                     <span className="fw-bold m-2">{sale}% OFF</span>
@@ -23,7 +23,7 @@ export default function CardService({ name, slug, image, price, discount }) {
               <Image
                 src={image}
                 width={100}
-                height={300}
+                height={400}
                 className="card-img-top"
                 fluid
                 alt={slug}
