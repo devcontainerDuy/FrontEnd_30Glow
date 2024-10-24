@@ -14,6 +14,9 @@ import Show from "./pages/Service/Show";
 import GioHang from "./pages/Cart/gio-hang";
 import About from "./pages/Home/About";
 import Brand from "./pages/Brand/Index";
+import Register from "./pages/Auth/Register";
+import Login from "./pages/Auth/Login";
+import Forgot from "./pages/Auth/Forgot";
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
         <Route path="/san-pham/:slug" element={<Detail />} />
         <Route path="/dich-vu" element={<Service />} />
         <Route path="/dich-vu/:slug" element={<Show />} />
+        <Route path="/dang-ky" element={<Register />} />
+        <Route path="/dang-nhap" element={<Login />} />
+        <Route path="/quen-mat-khau" element={<Forgot />} />
       </Routes>
     </BrowserRouter>
   );
