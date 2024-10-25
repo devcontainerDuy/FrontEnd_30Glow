@@ -6,6 +6,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Home from "./pages/Home/Index";
+import Manager from "./pages/Manager/Staff";
+import Baocao from "./pages/Manager/Baocao";
 import Contact from "./pages/Home/Contact";
 import Detail from "./pages/Product/Detail";
 import Product from "./pages/Product/Index";
@@ -20,10 +22,14 @@ import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import Forgot from "./pages/Auth/Forgot";
 
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/manager' element={<Manager />} />
+        <Route path='/baocao' element={<Baocao />} />
         <Route path="/" element={<Home />} />
         <Route path="/gioi-thieu" element={<About />} />
         <Route path="/contact" element={<Contact />} />
