@@ -42,7 +42,7 @@ const ThanhToan = () => {
       name: "Serum dưỡng tóc",
       price: 1200000,
       discount: 900000, // giảm
-      quantity: 2, //số lượng
+      quantity: 2, //số lượng sp
       tong: 1800000, // giảm x sl
       image:
         "https://backend.codingfs.com/storage/products/X%E1%BB%8Bt%20D%C6%B0%E1%BB%A1ng%20T%C3%B3c%20It's%20A%2010%20Miracle%20Leave-In%20M%E1%BB%81m%20M%C6%B0%E1%BB%A3t%20V%C3%A0%20B%E1%BA%A3o%20V%E1%BB%87%20T%C3%B3c%2059ML.jpg",
