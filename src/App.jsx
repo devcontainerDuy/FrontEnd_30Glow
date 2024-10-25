@@ -24,9 +24,9 @@ function App() {
         <Route path="/gioi-thieu" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/gio-hang" element={<GioHang />} />
-        <Route path="/san-pham" element={<Product />} />
-        <Route path="/thuong-hieu" element={<Brand />} />
-        <Route path="/san-pham/:slug" element={<Detail />} />
+        <Route path="/san-pham" element={<Product />}/>
+        <Route path="/thuong-hieu" element={<Brand />}/>
+        <Route path="/san-pham/:slug" element={<Detail/>} />
         <Route path="/dich-vu" element={<Service />} />
         <Route path="/dich-vu/:slug" element={<Show />} />
         <Route path="/thanh-toan" element={<ThanhToan />} />
