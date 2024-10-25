@@ -72,7 +72,7 @@ function Header() {
             <Offcanvas.Body>
               <Nav className='me-auto text-uppercase fw-semibold gap-3' variant='underline'>
                 <Nav.Item>
-                  <Nav.Link href='#home'>Trang chủ</Nav.Link>
+                  <Nav.Link href='/'>Trang chủ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href='#link'>Thông tin</Nav.Link>
@@ -116,7 +116,7 @@ function Header() {
                   <NavDropdown.Item href='#action/3.2'>Another action</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <Nav.Link href='#lien-he'>Liên hệ</Nav.Link>
+                  <Nav.Link href='/contact'>Liên hệ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href='#tintuc'>Tin tức</Nav.Link>
