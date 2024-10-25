@@ -2,20 +2,18 @@
 import React, { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Notyf } from "notyf";
-import 'notyf/notyf.min.css'; // Import CSS của Notyf
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import "notyf/notyf.min.css"; // Import CSS của Notyf
 
 function Register() {
-  // Cấu hình vị trí của Notyf để hiển thị thông báo ở phía trên
   const notyf = new Notyf({
-    duration: 3000, // Thời gian hiển thị thông báo (ms)
-    position: {
-      x: 'center', // Căn giữa theo chiều ngang
-      y: 'top',    // Hiển thị phía trên cùng
-    },
-    dismissible: true, // Cho phép người dùng tắt thông báo thủ công
+    duration: 3000,
+    position: { x: "center", y: "top" },
+    dismissible: true,
   });
 
   const [formData, setFormData] = useState({
@@ -27,9 +25,11 @@ function Register() {
   });
 
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate(); // Khai báo useNavigate để điều hướng
+  const [showPassword, setShowPassword] = useState(false); // Ẩn/hiện mật khẩu
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ẩn/hiện mật khẩu xác nhận
+  const navigate = useNavigate();
 
-  // Hàm kiểm tra hợp lệ dữ liệu
+  // Kiểm tra hợp lệ dữ liệu
   const validate = () => {
     let newErrors = {};
 
@@ -61,22 +61,26 @@ function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Xử lý khi người dùng submit form
+  // Xử lý khi submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      notyf.success("Đăng ký thành công!"); // Hiển thị thông báo thành công
+      notyf.success("Đăng ký thành công!");
       setTimeout(() => navigate("/dang-nhap"), 2000); // Chuyển hướng sau 2 giây
     } else {
-      notyf.error("Vui lòng kiểm tra và điền đúng thông tin!"); // Thông báo lỗi
+      notyf.error("Vui lòng kiểm tra và điền đúng thông tin!");
     }
   };
 
-  // Cập nhật state khi người dùng nhập dữ liệu
+  // Cập nhật state khi nhập dữ liệu
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
+
+  // Đổi trạng thái ẩn/hiện mật khẩu
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
   return (
     <>
@@ -100,28 +104,68 @@ function Register() {
 
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="name">
-                  <Form.Control type="text" placeholder="Tên tài khoản" value={formData.name} onChange={handleChange} isInvalid={!!errors.name} />
+                  <Form.Control
+                    type="text"
+                    placeholder="Tên tài khoản"
+                    value={formData.name}
+                    onChange={handleChange}
+                    isInvalid={!!errors.name}
+                  />
                   <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="email">
-                  <Form.Control type="email" placeholder="Địa chỉ email" value={formData.email} onChange={handleChange} isInvalid={!!errors.email} />
+                  <Form.Control
+                    type="email"
+                    placeholder="Địa chỉ email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    isInvalid={!!errors.email}
+                  />
                   <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="phone">
-                  <Form.Control type="text" placeholder="Số điện thoại" value={formData.phone} onChange={handleChange} isInvalid={!!errors.phone} />
+                  <Form.Control
+                    type="text"
+                    placeholder="Số điện thoại"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    isInvalid={!!errors.phone}
+                  />
                   <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="password">
-                  <Form.Control type="password" placeholder="Nhập mật khẩu" value={formData.password} onChange={handleChange} isInvalid={!!errors.password} />
-                  <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                  <InputGroup>
+                    <Form.Control
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Nhập mật khẩu"
+                      value={formData.password}
+                      onChange={handleChange}
+                      isInvalid={!!errors.password}
+                    />
+                    <Button variant="outline-secondary rounded-end" onClick={togglePasswordVisibility}>
+                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </Button>
+                    <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                  </InputGroup>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="confirmPassword">
-                  <Form.Control type="password" placeholder="Xác nhận mật khẩu" value={formData.confirmPassword} onChange={handleChange} isInvalid={!!errors.confirmPassword} />
-                  <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
+                  <InputGroup>
+                    <Form.Control
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Xác nhận mật khẩu"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      isInvalid={!!errors.confirmPassword}
+                    />
+                    <Button variant="outline-secondary rounded-end" onClick={toggleConfirmPasswordVisibility}>
+                      <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                    </Button>
+                    <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
+                  </InputGroup>
                 </Form.Group>
 
                 <Link to="/dang-nhap" className="text-decoration-none text-primary-emphasis d-block mb-3 text-end">
