@@ -15,7 +15,6 @@ import GioHang from "./pages/Cart/gio-hang";
 import About from "./pages/Home/About";
 import Brand from "./pages/Brand/Index";
 import ThanhToan from "./pages/Cart/thanh-toan";
-=======
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import Forgot from "./pages/Auth/Forgot";
@@ -35,10 +34,11 @@ function App() {
         <Route path="/dich-vu" element={<Service />} />
         <Route path="/dich-vu/:slug" element={<Show />} />
         <Route path="/thanh-toan" element={<ThanhToan />} />
-=======
+        <Route path="/thanh-toan" element={<ThanhToan/>} />
         <Route path="/dang-ky" element={<Register />} />
         <Route path="/dang-nhap" element={<Login />} />
         <Route path="/quen-mat-khau" element={<Forgot />} />
+
       </Routes>
     </BrowserRouter>
   );
