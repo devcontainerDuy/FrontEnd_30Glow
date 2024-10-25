@@ -14,6 +14,7 @@ import Show from "./pages/Service/Show";
 import GioHang from "./pages/Cart/gio-hang";
 import About from "./pages/Home/About";
 import Brand from "./pages/Brand/Index";
+import ThanhToan from "./pages/Cart/thanh-toan";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/san-pham/:slug" element={<Detail />} />
         <Route path="/dich-vu" element={<Service />} />
         <Route path="/dich-vu/:slug" element={<Show />} />
+        <Route path="/thanh-toan" element={<ThanhToan/>} />
       </Routes>
     </BrowserRouter>
   );

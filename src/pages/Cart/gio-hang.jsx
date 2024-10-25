@@ -1,4 +1,4 @@
-/* eslint-disable*/ 
+/* eslint-disable*/
 import React, { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
@@ -31,9 +31,9 @@ function GioHang() {
       id: 2,
       name: "Serum dưỡng tóc",
       price: 1200000,
-      discount: 900000,
-      quantity: 2,
-      tong: 1800000,
+      discount: 900000, // giảm
+      quantity: 2, //số lượng
+      tong: 1800000, // giảm x sl
       image:
         "https://backend.codingfs.com/storage/products/X%E1%BB%8Bt%20D%C6%B0%E1%BB%A1ng%20T%C3%B3c%20It's%20A%2010%20Miracle%20Leave-In%20M%E1%BB%81m%20M%C6%B0%E1%BB%A3t%20V%C3%A0%20B%E1%BA%A3o%20V%E1%BB%87%20T%C3%B3c%2059ML.jpg",
       slug: "san-pham-2",
@@ -204,13 +204,15 @@ function GioHang() {
                     {Intl.NumberFormat("en-US").format(Number(tongHoaDon))}
                   </h4>
                   <div className="d-grid mt-4">
-                    <button
-                      type="button"
+                    <a
+                      href="/thanh-toan"
                       className="btn btn-dark btn-ecomm py-3 px-5"
-                      disabled={carts.length === 0} // Disable button if cart is empty
+                      style={{
+                        pointerEvents: carts.length === 0 ? "none" : "auto",
+                      }} // Vô hiệu hóa link nếu giỏ hàng trống
                     >
                       Thanh toán hóa đơn
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
