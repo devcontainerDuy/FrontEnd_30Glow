@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Home from "./pages/Home/Index";
 import Manager from "./pages/Manager/Staff";
+import Baocao from "./pages/Manager/Baocao";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/manager' element={<Manager />} />
+        <Route path='/baocao' element={<Baocao />} />
       </Routes>
     </BrowserRouter>
   );
