@@ -172,7 +172,7 @@ function Header() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="#login">
+              <Nav.Link href="/dang-nhap">
                 <i className="bi bi-person-circle" />
               </Nav.Link>
             </Nav.Item>
