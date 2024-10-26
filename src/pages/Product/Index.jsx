@@ -4,6 +4,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import Footers from "../../layouts/Footer";
 import Headers from "../../layouts/Header";
 import CardProduct from "../../components/CardProduct";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 
 function Index() {
   const [filter, setFilter] = useState("default");
@@ -54,7 +55,8 @@ function Index() {
   return (
     <>
       <Headers />
-      <Container className="my-5">
+      <BreadcrumbComponent props={[{ name: "Sản phẩm", url: "/san-pham" }]} children={null} />
+      <Container className="my-3">
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
             <div className="ms-2">

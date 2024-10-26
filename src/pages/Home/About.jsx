@@ -1,14 +1,16 @@
 import React from "react";
-import { Container, Row, Col, Card, Button, NavLink } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, NavLink, Breadcrumb } from "react-bootstrap";
 import Headers from "../../layouts/Header";
 import Footers from "../../layouts/Footer";
 import { Link } from "react-router-dom";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 
 function About() {
   return (
     <>
       <Headers />
-      <Container className="my-5">
+      <BreadcrumbComponent props={[{ name: "Giới thiệu", url: "/gioi-thieu" }]} children={null} />
+      <Container className="my-3">
         <Row className="mb-4">
           <Col>
             <h2 className="fw-bold text-uppercase text-center text-primary-emphasis">Giới thiệu về 30GLOW</h2>
@@ -68,27 +70,26 @@ function About() {
         </Row>
 
         <div className="container my-5">
-            <div class="row align-items-center">
+          <div class="row align-items-center">
             <div class="col-lg-6 text-center">
-                <img src="https://static.30shine.com/shop-web/banners/Banner3_2-T1023-6.jpg" alt="Sản phẩm chăm sóc" class="img-fluid rounded" />
-              </div>
-              <div class="col-lg-6">
-                <h3 class="text-primary-emphasis fw-bold">Sản phẩm chăm sóc tóc</h3>
-                <ul class="list-unstyled">
-                  <li class="border-bottom py-2 fs-5">Dầu gội và dầu xả cao cấp</li>
-                  <li class="border-bottom py-2 fs-5">Kem dưỡng và tinh chất phục hồi</li>
-                  <li class="py-2 fs-5">Sản phẩm tạo kiểu tóc</li>
-                </ul>
-
-                <h3 class="text-primary-emphasis fw-bold mt-4">Sản phẩm chăm sóc da</h3>
-                <ul class="list-unstyled">
-                  <li class="border-bottom py-2 fs-5">Sữa rửa mặt dịu nhẹ</li>
-                  <li class="border-bottom py-2 fs-5">Kem dưỡng ẩm hàng ngày</li>
-                  <li class="py-2 fs-5">Kem chống nắng bảo vệ da</li>
-                </ul>
-              </div>
-              
+              <img src="https://static.30shine.com/shop-web/banners/Banner3_2-T1023-6.jpg" alt="Sản phẩm chăm sóc" class="img-fluid rounded" />
             </div>
+            <div class="col-lg-6">
+              <h3 class="text-primary-emphasis fw-bold">Sản phẩm chăm sóc tóc</h3>
+              <ul class="list-unstyled">
+                <li class="border-bottom py-2 fs-5">Dầu gội và dầu xả cao cấp</li>
+                <li class="border-bottom py-2 fs-5">Kem dưỡng và tinh chất phục hồi</li>
+                <li class="py-2 fs-5">Sản phẩm tạo kiểu tóc</li>
+              </ul>
+
+              <h3 class="text-primary-emphasis fw-bold mt-4">Sản phẩm chăm sóc da</h3>
+              <ul class="list-unstyled">
+                <li class="border-bottom py-2 fs-5">Sữa rửa mặt dịu nhẹ</li>
+                <li class="border-bottom py-2 fs-5">Kem dưỡng ẩm hàng ngày</li>
+                <li class="py-2 fs-5">Kem chống nắng bảo vệ da</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <Row className="text-center my-5 p-4 rounded" style={{ backgroundImage: "url('https://dkdecor.vn/wp-content/uploads/2024/01/Screenshot-2024-01-16-163647.jpg')" }}>

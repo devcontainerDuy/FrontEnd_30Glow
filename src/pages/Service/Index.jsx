@@ -2,6 +2,7 @@ import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row } from "react-bootstrap";
 import CardService from "../../components/CardService";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 
 function Index() {
   const serviceList = [
@@ -37,7 +38,8 @@ function Index() {
   return (
     <>
       <Header />
-      <Container className='my-5'>
+      <BreadcrumbComponent props={[{ name: "Dịch vụ", url: "/dich-vu" }]} children={null} />
+      <Container className='my-3'>
         <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
           <div className='ms-2'>
             <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>Dịch vụ</h3>
