@@ -1,7 +1,8 @@
+/* eslint-disable*/ 
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import Header from "../../layouts/Header"; // Nhập đúng Header
-import Footer from "../../layouts/Footer"; // Nhập đúng Footer
+import Header from "../../layouts/Header"; 
+import Footer from "../../layouts/Footer"; 
 
 const Contact = () => {
   return (
