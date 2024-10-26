@@ -25,7 +25,6 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false); // State cho việc ẩn/hiện mật khẩu
   const navigate = useNavigate();
 
-  // Kiểm tra hợp lệ dữ liệu
   const validate = () => {
     let newErrors = {};
 
@@ -44,8 +43,6 @@ function Login() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  // Xử lý khi người dùng submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {

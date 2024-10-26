@@ -72,7 +72,6 @@ function Index() {
             </FormSelect>
           </div>
         </div>
-
         <Row className="row-cols-1 row-cols-lg-5 g-4">
           {productList.map((product) => (
             <CardProduct key={product.id} {...product} />
@@ -80,7 +79,6 @@ function Index() {
         </Row>
         <Paginated current={1} total={5} />
       </Container>
-
       <Container className="my-5">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
           <Col className="d-flex">

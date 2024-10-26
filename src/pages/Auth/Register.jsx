@@ -43,25 +43,20 @@ function Register() {
     if (formData.email && !emailRegex.test(formData.email)) {
       newErrors.email = "Email không hợp lệ!";
     }
-
     const phoneRegex = /^0\d{9}$/;
     if (formData.phone && !phoneRegex.test(formData.phone)) {
       newErrors.phone = "Số điện thoại phải có 10 số và bắt đầu bằng số 0!";
     }
-
     if (formData.password && formData.password.length < 8) {
       newErrors.password = "Mật khẩu phải có ít nhất 8 ký tự!";
     }
-
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Mật khẩu xác nhận không khớp!";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Xử lý khi submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
