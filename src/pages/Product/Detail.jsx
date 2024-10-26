@@ -3,10 +3,53 @@ import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button, Carousel, Badge } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import CardProduct from "../../components/CardProduct";
 
 function Show() {
   const { slug } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const productList = [
+    {
+      id: 1,
+      name: "Sửa rửa mặt Simple",
+      slug: "sua-rua-mat-simple",
+      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+      price: 618000,
+      discount: 494000,
+    },
+    {
+      id: 2,
+      name: "Dầu gội Dvinces",
+      slug: "dau-goi-davinces",
+      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+      price: 334000,
+      discount: 293000,
+    },
+    {
+      id: 3,
+      name: "Dầu xả Dvinces",
+      slug: "dau-xa-davinces",
+      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+      price: 364060,
+      discount: 320000,
+    },
+    {
+      id: 4,
+      name: "Kem dưỡng ẩm ATS",
+      slug: "kem-duong-ats",
+      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+      price: 691000,
+      discount: 549000,
+    },
+    {
+      id: 5,
+      name: "Kem chống nắng SkinAqua",
+      slug: "kem-chong-nang-skinaqua",
+      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+      price: 284570,
+      discount: 159000,
+    },
+  ];
   const [comments, setComments] = useState([
     {
       id: 1,
@@ -90,6 +133,12 @@ function Show() {
               <Carousel.Item>
                 <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
               </Carousel.Item>
+              <Carousel.Item>
+                <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
+              </Carousel.Item>
             </Carousel>
           </Col>
 
@@ -127,15 +176,19 @@ function Show() {
         <Row className="g-3">
           <Col>
             <h3 className="text-primary-emphasis">Mô tả</h3>
-            <p className="text-muted">Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm.</p>
+            <p className="text-muted">
+              Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy
+              cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da
+              nhạy cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa
+              cho da nhạy cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ,
+              dựa cho da nhạy cảm.
+            </p>
           </Col>
         </Row>
 
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3 mt-4">
           <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">
-              Bình luận
-            </h3>
+            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Bình luận</h3>
           </div>
         </div>
 
@@ -202,6 +255,16 @@ function Show() {
               </div>
             ))}
           </Col>
+        </Row>
+        <div className="text-start border-0 rounded-0 border-start border-primary border-5 mb-3 mt-4">
+          <div className="ms-2">
+            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Sản phẩm liên quan</h3>
+          </div>
+        </div>
+        <Row className="row-cols-1 row-cols-lg-5 g-4">
+          {productList.map((product) => (
+            <CardProduct key={product.id} {...product} />
+          ))}
         </Row>
       </Container>
       <Footer />

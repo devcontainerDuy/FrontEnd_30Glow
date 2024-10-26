@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Button } from "react-bootstrap"; // Import Alert
@@ -16,11 +17,10 @@ function Show() {
       <Header />
       <Container className="my-5 mb-6">
         <Row>
-          {/* Cột hiển thị thông tin dịch vụ */}
+          {/* Thông tin dịch vụ */}
           <Col md={6} className="d-flex flex-column align-items-center">
             <div className="text-center">
-              <img
-                src="https://i.pinimg.com/enabled_hi/564x/cd/b7/f7/cdb7f7b70b495b4c3aab2aa1504eef78.jpg"
+              <img src="https://i.pinimg.com/enabled_hi/564x/cd/b7/f7/cdb7f7b70b495b4c3aab2aa1504eef78.jpg"
                 alt="Hướng dẫn sử dụng"
                 style={{
                   maxWidth: "500px",
@@ -31,8 +31,7 @@ function Show() {
                 }}
               />
               <div className="d-flex justify-content-center mt-3">
-                <img
-                  src="https://i.pinimg.com/564x/4f/37/5a/4f375a167b7d13447bc64a97c133a565.jpg"
+                <img src="https://i.pinimg.com/564x/4f/37/5a/4f375a167b7d13447bc64a97c133a565.jpg"
                   alt="Hình 1"
                   style={{
                     width: "130px",
@@ -41,8 +40,7 @@ function Show() {
                     margin: "0 5px 5px 0",
                   }}
                 />
-                <img
-                  src="https://i.pinimg.com/564x/9b/83/31/9b833115dc1988e054d51fbf24788d83.jpg"
+                <img src="https://i.pinimg.com/564x/9b/83/31/9b833115dc1988e054d51fbf24788d83.jpg"
                   alt="Hình 2"
                   style={{
                     width: "130px",
@@ -51,8 +49,7 @@ function Show() {
                     margin: "0 15px 5px",
                   }}
                 />
-                <img
-                  src="https://i.pinimg.com/564x/21/e8/e4/21e8e4bd7da713468714a0f8947f7a57.jpg"
+                <img src="https://i.pinimg.com/564x/21/e8/e4/21e8e4bd7da713468714a0f8947f7a57.jpg"
                   alt="Hình 3"
                   style={{
                     width: "130px",
@@ -64,8 +61,8 @@ function Show() {
               </div>
             </div>
           </Col>
-
-          {/* Cột form đặt lịch */}
+-
+          {/* Form đặt lịch */}
           <Col md={5}>
             <div className="border p-2">
               <div className="d-flex justify-content-between align-items-center">
@@ -73,15 +70,13 @@ function Show() {
                   {convertSlugToTitle(slug)}
                 </h>
                 <Button variant="dark" type="submit">
-                  Đặt lịch hẹn ngay
+                  Đặt lịch 
                 </Button>
               </div>
-              {/* <h2 className="fw-bold mt-3">Đặt lịch</h2> */}
               <div className="d-flex justify-content-between">
                 <del className="text-muted">1520,000 ₫</del>
                 <p className="fw-bold text-danger">Tổng: 1200,000 ₫</p>
               </div>
-
               <h4 className="fw-bold text-start mt-2">Nội dung dịch vụ:</h4>
               <div className="text-start">
                 <strong>Tư vấn kiểu tóc:</strong>
