@@ -2,6 +2,7 @@ import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import CardService from "../../components/CardService";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
 
 function Index() {
@@ -42,6 +43,11 @@ function Index() {
   return (
     <>
       <Header />
+      <BreadcrumbComponent props={[{ name: "Dịch vụ", url: "/dich-vu" }]} children={null} />
+      <Container className='my-3'>
+        <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
+          <div className='ms-2'>
+            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>Dịch vụ</h3>
       <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
