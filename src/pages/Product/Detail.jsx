@@ -4,6 +4,7 @@ import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button, Carousel, Badge } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
+import { Helmet } from "react-helmet";
 
 function Show() {
   const { slug } = useParams();
@@ -119,6 +120,10 @@ function Show() {
 
   return (
     <>
+      <Helmet>
+        <title>Chi tiết sản phẩm - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
       <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">

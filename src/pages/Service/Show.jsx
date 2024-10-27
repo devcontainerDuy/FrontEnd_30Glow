@@ -4,6 +4,7 @@ import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Button } from "react-bootstrap"; // Import Alert
 import { useParams } from "react-router-dom";
 import { useState } from "react"; // Import useState
+import { Helmet } from "react-helmet";
 
 function Show() {
   const { slug } = useParams();
@@ -14,6 +15,10 @@ function Show() {
 
   return (
     <>
+      <Helmet>
+        <title>Chi tiết dịch vụ - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
       <Container className="my-5 mb-6">
         <Row>

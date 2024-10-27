@@ -4,10 +4,15 @@ import Headers from "../../layouts/Header";
 import Footers from "../../layouts/Footer";
 import { Link } from "react-router-dom";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import { Helmet } from "react-helmet";
 
 function About() {
   return (
     <>
+      <Helmet>
+        <title>Giới thiệu - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Headers />
       <BreadcrumbComponent props={[{ name: "Giới thiệu", url: "/gioi-thieu" }]} children={null} />
       <Container className="my-3">

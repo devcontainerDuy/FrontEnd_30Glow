@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
 import CardProduct from "../../components/CardProduct";
 import CardPost from "../../components/CardPost";
+import { Helmet } from "react-helmet";
 
 function Index() {
   const productList = [
@@ -78,8 +79,11 @@ function Index() {
   ];
   return (
     <>
+      <Helmet>
+        <title>Trang chủ - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
-
       {/* Start slider section */}
       <section className="p-0 m-0">
         <Swiper

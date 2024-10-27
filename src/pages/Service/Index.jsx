@@ -4,6 +4,7 @@ import { Card, Col, Container, Row } from "react-bootstrap";
 import CardService from "../../components/CardService";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
+import { Helmet } from "react-helmet";
 
 function Index() {
   const serviceList = [
@@ -38,9 +39,13 @@ function Index() {
   ];
   return (
     <>
+      <Helmet>
+        <title>Dịch vụ - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
       <BreadcrumbComponent props={[{ name: "Dịch vụ", url: "/dich-vu" }]} children={null} />
-      <Container className="my-5">
+      <Container className="my-3">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Dịch vụ</h3>

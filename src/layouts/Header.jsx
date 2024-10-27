@@ -63,7 +63,7 @@ function Header() {
       {/*start top header*/}
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <Image src="../src/assets/images/logo30GLOW.png" width={100} fluid />
           </Navbar.Brand>
 
@@ -81,9 +81,8 @@ function Header() {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
-                <Navbar.Brand href="#home">
+                <Navbar.Brand href="/">
                   <Image src="../src/assets/images/logo30GLOW.png" width={80} fluid />
-
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
@@ -147,7 +146,7 @@ function Header() {
                   <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <Nav.Link href="/contact">Liên hệ</Nav.Link>
+                  <Nav.Link href="/lien-he">Liên hệ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link to="#tintuc">Tin tức</Nav.Link>

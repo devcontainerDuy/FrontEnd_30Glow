@@ -11,6 +11,8 @@ import {
 } from "react-bootstrap";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
+import { Helmet } from "react-helmet";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 
 const ThanhToan = () => {
   const [formData, setFormData] = useState({
@@ -84,8 +86,13 @@ const ThanhToan = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Thanh toán - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
-      <div className="container mt-5">
+      <BreadcrumbComponent props={[{ name: "Thanh toán", url: "/thanh-toan" }]} />
+      <div className="container mt-3">
         <Row>
           <Col md={6}>
             <h4>Đơn đặt hàng</h4>

@@ -7,7 +7,7 @@ function BreadcrumbComponent({ props, children }) {
   const currentUrl = location.pathname;
 
   return (
-    <Container className="my-3">
+    <Container className="my-2">
       <div className="d-flex align-items-center rounded-3">
         <Breadcrumb aria-label="breadcrumb" className="mt-3 ms-3">
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
