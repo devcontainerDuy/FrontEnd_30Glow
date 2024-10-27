@@ -18,6 +18,10 @@ import ThanhToan from "./pages/Cart/thanh-toan";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import Forgot from "./pages/Auth/Forgot";
+import Manager from "./pages/Manager/components/Staff"
+import Managerbaocao from "./pages/Manager/components/Baocao"
+import Managercheckout from "./pages/Manager/components/Checkout"
+import Managerbill from "./pages/Manager/components/Bill"
 
 function App() {
   return (
@@ -38,6 +42,10 @@ function App() {
         <Route path="/dang-ky" element={<Register />} />
         <Route path="/dang-nhap" element={<Login />} />
         <Route path="/quen-mat-khau" element={<Forgot />} />
+        <Route path="/manager" element={<Manager />} />
+        <Route path="/baocao" element={<Managerbaocao />} />
+        <Route path="/checkout" element={<Managercheckout />} />
+        <Route path="/bill" element={<Managerbill />} />
       </Routes>
     </BrowserRouter>
   );
