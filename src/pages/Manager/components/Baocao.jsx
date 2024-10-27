@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Chart } from "react-google-charts";
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import './Staff.css';
+import Navbar from "../layouts/Navbar";
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28CFE', '#FF667F'];
 
@@ -24,14 +25,34 @@ const sampleDailyRevenueData = [
   ['01/07/2024', 50000],
   ['02/07/2024', 75000],
   ['03/07/2024', 100000],
+  ['04/07/2024', 360000],
+  ['05/07/2024', 460000],
+  ['06/07/2024', 560000],
+  ['07/07/2024', 660000],
+  ['08/07/2024', 760000],
+  ['09/07/2024', 860000],
+  ['10/07/2024', 960000],
+  ['11/07/2024', 610000],
+  ['12/07/2024', 62000],
+  ['13/07/2024', 63000],
 ];
 
 // Sample daily revenue data for services
 const sampleServiceDailyRevenueData = [
   ['Ngày', 'Doanh thu'],
   ['01/07/2024', 125000],
-  ['02/07/2024', 90000],
-  ['03/07/2024', 60000],
+  ['02/07/2024', 190000],
+  ['03/07/2024', 260000],
+  ['04/07/2024', 360000],
+  ['05/07/2024', 460000],
+  ['06/07/2024', 560000],
+  ['07/07/2024', 660000],
+  ['08/07/2024', 760000],
+  ['09/07/2024', 860000],
+  ['10/07/2024', 960000],
+  ['11/07/2024', 610000],
+  ['12/07/2024', 62000],
+  ['13/07/2024', 63000],
 ];
 
 function Baocao() {
@@ -78,6 +99,8 @@ function Baocao() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div style={{ fontFamily: 'Times New Roman' }} className="dashboard-container">
       <main className="main-content">
         <header className="main-header">
@@ -168,6 +191,8 @@ function Baocao() {
         </div>
       </main>
     </div>
+    </>
+    
   );
 }
 

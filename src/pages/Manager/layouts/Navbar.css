@@ -1,0 +1,33 @@
+.navbar-custom {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .navbar-custom .navbar-brand {
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .navbar-logo {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+  }
+  
+  .navbar-custom .nav-link,
+  .navbar-custom .navbar-brand,
+  .navbar-custom .dropdown-item {
+    color: #fff !important;
+  }
+  
+  .navbar-custom .dropdown-menu {
+    background-color: #003e7f;
+  }
+  
+  .navbar-custom .dropdown-item:hover {
+    background-color: #002952;
+    color: #fff;
+  }
+  
+
+  
