@@ -5,6 +5,7 @@ import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css"; // Import CSS của Notyf
+import { Helmet } from "react-helmet";
 
 function Forgot() {
   const notyf = new Notyf({
@@ -43,6 +44,10 @@ function Forgot() {
 
   return (
     <>
+      <Helmet>
+        <title>Quên mật khẩu - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
       <Container className="my-5">
         <Row className="border-rounded-10 shadow w-75 mx-auto">
@@ -61,13 +66,7 @@ function Forgot() {
               <h3 className="text-center mb-4 text-primary-emphasis">Quên mật khẩu</h3>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="email">
-                  <Form.Control
-                    type="email"
-                    placeholder="Địa chỉ email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    isInvalid={!!error}
-                  />
+                  <Form.Control type="email" placeholder="Địa chỉ email" value={email} onChange={(e) => setEmail(e.target.value)} isInvalid={!!error} />
                   <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
                 </Form.Group>
 

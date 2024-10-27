@@ -4,6 +4,8 @@ import Footer from "../../layouts/Footer";
 import { Container } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
 import CardProduct from "../../components/CardProduct";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import { Helmet } from "react-helmet";
 // import CardBrand from "../../components/CardBrand.jsx";
 
 function Index() {
@@ -51,8 +53,13 @@ function Index() {
   ];
   return (
     <>
+      <Helmet>
+        <title>Thương hiệu - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
-      <Container className="my-5">
+      <BreadcrumbComponent props={[{ name: "Thương hiệu", url: "/thuong-hieu" }]} />
+      <Container className="my-3">
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
             <div className="ms-2">

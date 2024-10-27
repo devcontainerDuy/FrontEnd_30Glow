@@ -3,15 +3,22 @@ import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Header from "../../layouts/Header"; 
 import Footer from "../../layouts/Footer"; 
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import { Helmet } from "react-helmet";
 
 const Contact = () => {
   return (
     <>
+      <Helmet>
+        <title>Liên hệ - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
-      <Container className="contact-content my-5">
-        <div className="breadcrumb mt-3 ">
+      <BreadcrumbComponent props={[{ name: "Liên hệ", url: "/lien-he" }]} />
+      <Container className="contact-content my-3">
+        {/* <div className="breadcrumb mt-3 ">
           <p>Home / Liên hệ</p>
-        </div>
+        </div> */}
         <Row>
           <Col md={6} className="contact-image">
             <img

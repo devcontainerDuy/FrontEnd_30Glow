@@ -13,6 +13,8 @@ import {
   Button,
   Form,
 } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 
 function GioHang() {
   const [carts, setCarts] = useState([
@@ -70,9 +72,14 @@ function GioHang() {
 
   return (
     <>
+      <Helmet>
+        <title>Giỏ hàng - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
+      <BreadcrumbComponent props={[{ name: "Giỏ hàng", url: "/gio-hang" }]} />
       <section className="section-padding">
-        <Container className="pt-5">
+        <Container className="pt-3c">
           <div className="d-flex align-items-center px-3 py-2 border mb-4">
             <h4 className="mb-0 h4 fw-bold">Giỏ hàng</h4>
             <a href="/" className="ms-auto btn btn-light btn-ecomm">

@@ -8,6 +8,7 @@ import { Notyf } from "notyf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "notyf/notyf.min.css"; // Import CSS của Notyf
+import { Helmet } from "react-helmet";
 
 function Register() {
   const notyf = new Notyf({
@@ -79,6 +80,10 @@ function Register() {
 
   return (
     <>
+      <Helmet>
+        <title>Đăng ký - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
       <Container className="my-5">
         <Row className="rounded-4 shadow-lg overflow-hidden w-75 mx-auto">

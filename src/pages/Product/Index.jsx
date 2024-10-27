@@ -6,6 +6,7 @@ import Headers from "../../layouts/Header";
 import CardProduct from "../../components/CardProduct";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
+import { Helmet } from "react-helmet";
 
 function Index() {
   const [filter, setFilter] = useState("default");
@@ -55,6 +56,10 @@ function Index() {
 
   return (
     <>
+      <Helmet>
+        <title>Sản phẩm - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Headers />
       <BreadcrumbComponent props={[{ name: "Sản phẩm", url: "/san-pham" }]} children={null} />
       <Container className="my-3">
