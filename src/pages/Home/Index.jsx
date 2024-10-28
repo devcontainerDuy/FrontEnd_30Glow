@@ -14,6 +14,7 @@ function Index() {
   const [serviceIndex, setServiceIndex] = useState([]);
 
   useEffect(() => {
+    // Call API Slides
     axios
       .get(import.meta.env.VITE_API_URL + "/slides")
       .then((res) => {
@@ -23,6 +24,7 @@ function Index() {
         console.log(err);
       });
 
+    // Call API Services
     axios
       .get(import.meta.env.VITE_API_URL + "/services/highlighted")
       .then((res) => {
