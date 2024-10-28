@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Footer from "../../layouts/Footer";
 import Header from "../../layouts/Header";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
@@ -5,8 +7,32 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
 import CardProduct from "../../components/CardProduct";
 import CardPost from "../../components/CardPost";
+import CardService from "../../components/CardService";
 
 function Index() {
+  const [slideIndex, setSlideIndex] = useState([]);
+  const [serviceIndex, setServiceIndex] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_API_URL + "/slides")
+      .then((res) => {
+        setSlideIndex(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get(import.meta.env.VITE_API_URL + "/services/highlighted")
+      .then((res) => {
+        setServiceIndex(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const productList = [
     {
       id: 1,
@@ -93,15 +119,16 @@ function Index() {
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
         >
-          <SwiperSlide>
-            <Image src='https://backend.codingfs.com/storage/slides/20240311_banner_dkp_w.jpeg' fluid className='w-100 height-100' alt='' />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src='https://backend.codingfs.com/storage/slides/240426_banner_1000_w.jpg' fluid className='w-100 height-100' alt='' />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src='https://backend.codingfs.com/storage/slides/240426_banner_binhan_w.jpg' fluid className='w-100 height-100' alt='' />
-          </SwiperSlide>
+          {slideIndex.length > 0 &&
+            slideIndex.map((item, index) => (
+              <>
+                <div key={index + 1}>
+                  <SwiperSlide>
+                    <Image src={import.meta.env.VITE_URL + item.desktop} fluid className='w-100 height-100' alt={item.name} />
+                  </SwiperSlide>
+                </div>
+              </>
+            ))}
         </Swiper>
       </section>
       {/* End slider section */}
@@ -157,6 +184,17 @@ function Index() {
         {/*end row*/}
       </Container>
       {/* End buy section */}
+
+      {/* Start service section */}
+      <Container className='my-5'>
+        <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
+          <div className='ms-2'>
+            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>SẢN PHẨM BÁN CHẠY</h3>
+          </div>
+        </div>
+        <Row className='row-cols-1 row-cols-lg-4 g-4'>{serviceIndex.length > 0 && serviceIndex.map((item) => <CardService key={item.id} {...item} />)}</Row>
+      </Container>
+      {/* End service section */}
 
       {/* Start product section */}
       <Container className='my-5'>
