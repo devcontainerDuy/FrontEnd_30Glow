@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 
 export default function CardProduct({ name, slug, gallery, price, discount }) {
   // Tính phần trăm giảm giá và làm tròn
-  // const sale = Math.round(((price - discount) / price) * 100);
   const sale = price - (price * (discount / 100));
   return (
     <>
       <Col>
-        <Card>
+        <Card className="card h-100">
           <div className='position-relative overflow-hidden'>
             {discount > 0 ? (
               <div className='d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0'>
