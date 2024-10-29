@@ -66,19 +66,13 @@ function Header() {
           <Navbar.Brand href="/">
             <Image src="../src/assets/images/logo30GLOW.png" width={100} fluid />
           </Navbar.Brand>
-
           {/* start header */}
-
+          
           {/* Button mobile */}
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           {/* Button mobile */}
 
-          <Navbar.Offcanvas
-            id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel"
-            placement="end"
-            className="bg-body-tertiary"
-          >
+          <Navbar.Offcanvas id='offcanvasNavbar' aria-labelledby='offcanvasNavbarLabel' placement='end' className='bg-body-tertiary'>
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand href="/">
@@ -92,7 +86,7 @@ function Header() {
                 variant="underline"
               >
                 <Nav.Item>
-                  <Nav.Link href="/">Trang chủ</Nav.Link>
+                  <Nav.Link href='/'>Trang chủ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href="/gioi-thieu">Giới thiệu</Nav.Link>
