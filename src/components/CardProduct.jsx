@@ -10,15 +10,17 @@ export default function CardProduct({ name, slug, image, price, discount }) {
       <Col>
         <Card>
           <div className='position-relative overflow-hidden'>
-            <div className='d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0'>
-              <p className='my-3 h6'>
-                <p className='text-bg-danger'>
-                  <span className='fw-bold m-2'>{sale}% OFF</span>
+            {discount > 0 ? (
+              <div className='d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0'>
+                <p className='my-3 h6'>
+                  <span className='text-bg-danger'>
+                    <span className='fw-bold m-2'>{sale}% OFF</span>
+                  </span>
                 </p>
-              </p>
-            </div>
-            <Link to={`/product/${slug}`}>
-              <Image src={image} width={100} className='card-img-top' fluid alt={slug} />
+              </div>
+            ) : null}
+            <Link to={`/san-pham/${slug}`}>
+              <Image src={image} width={100} height={300} className='card-img-top' fluid alt={slug} />
             </Link>
           </div>
           <Card.Body>
@@ -32,8 +34,29 @@ export default function CardProduct({ name, slug, image, price, discount }) {
                 <i className='bi bi-star-fill text-warning' />
               </div>
               <div className='d-flex'>
-                <p className='mb-0 h6'>{discount} ₫</p>
-                <del className='mb-0 h6 ms-2 text-muted'>{price} ₫</del>
+                {discount > 0 ? (
+                  <>
+                    <p className='me-3 text-decoration-line-through'>
+                      {price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </p>
+                    <p className='fw-bold text-danger'>
+                      {discount.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </p>
+                  </>
+                ) : (
+                  <p className='fw-bold'>
+                    {price.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </p>
+                )}
               </div>
             </div>
           </Card.Body>
@@ -48,5 +71,5 @@ CardProduct.propTypes = {
   slug: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  discount: PropTypes.number.isRequired,
+  discount: PropTypes.number,
 };

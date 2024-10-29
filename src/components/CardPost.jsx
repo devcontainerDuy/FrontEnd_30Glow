@@ -22,7 +22,7 @@ export default function CardPost({ name, slug, image, createdAt, author, content
             </div>
             <Card.Title className='card-title fw-bold mt-3 h5'>{name}</Card.Title>
             <p className='mb-0'>{content}</p>
-            <Link href={`/post/${slug}`} className='btn btn-outline-dark btn-ecomm mt-3'>
+            <Link href={`/bai-viet/${slug}`} className='btn btn-outline-dark btn-ecomm mt-3'>
               Xem thêm
             </Link>
           </Card.Body>
