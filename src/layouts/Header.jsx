@@ -55,6 +55,7 @@ function Header() {
             <Image src='./src/assets/images/logo30GLOW.png' width={100} fluid />
           </Navbar.Brand>
           {/* start header */}
+          
           {/* Button mobile */}
           <Navbar.Toggle aria-controls='offcanvasNavbar' />
           {/* Button mobile */}
