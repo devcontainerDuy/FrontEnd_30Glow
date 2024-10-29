@@ -109,11 +109,11 @@ function Index() {
     <>
       <Helmet>
         <title>Trang chủ - 30GLOW</title>
-        <meta name="description" content="meo meo meo" />
+        <meta name='description' content='meo meo meo' />
       </Helmet>
       <Header />
       {/* Start slider section */}
-      <section className="p-0 m-0">
+      <section className='p-0 m-0'>
         <Swiper
           style={{
             "--swiper-navigation-color": "#000000",
@@ -130,7 +130,7 @@ function Index() {
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
         >
-          {slideIndex.length > 0 &&
+          {slideIndex.length > 0 ? (
             slideIndex.map((item, index) => (
               <>
                 <div key={index + 1}>
@@ -139,55 +139,60 @@ function Index() {
                   </SwiperSlide>
                 </div>
               </>
-            ))}
+            ))
+          ) : (
+            <SwiperSlide>
+              <Image src='https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg' fluid className='w-100 height-100' alt='Slide 1' />
+            </SwiperSlide>
+          )}
         </Swiper>
       </section>
       {/* End slider section */}
 
       {/* Start buy section */}
-      <Container className="my-2">
-        <Row className="row-cols-1 row-cols-lg-4 g-4">
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-primary">
-                  <i className="bi bi-truck" />
+      <Container className='my-2'>
+        <Row className='row-cols-1 row-cols-lg-4 g-4'>
+          <Col className='d-flex'>
+            <Card className='border-0 rounded-0 border-bottom border-primary border-3 w-100'>
+              <Card.Body className='text-center'>
+                <div className='h1 fw-bold my-2 text-primary'>
+                  <i className='bi bi-truck' />
                 </div>
-                <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
-                <p className="mb-0">Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.</p>
+                <h5 className='fw-bold'>Giao hàng siêu tốc 2h</h5>
+                <p className='mb-0'>Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.</p>
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-danger border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-danger">
-                  <i className="bi bi-credit-card" />
+          <Col className='d-flex'>
+            <Card className='border-0 rounded-0 border-bottom border-danger border-3 w-100'>
+              <Card.Body className='text-center'>
+                <div className='h1 fw-bold my-2 text-danger'>
+                  <i className='bi bi-credit-card' />
                 </div>
-                <h5 className="fw-bold">Bảo hành 3 ngày</h5>
-                <p className="mb-0">Không hài lòng? Hoàn tiền 100%!</p>
+                <h5 className='fw-bold'>Bảo hành 3 ngày</h5>
+                <p className='mb-0'>Không hài lòng? Hoàn tiền 100%!</p>
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-success border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-success">
-                  <i className="bi bi-minecart-loaded" />
+          <Col className='d-flex'>
+            <Card className='border-0 rounded-0 border-bottom border-success border-3 w-100'>
+              <Card.Body className='text-center'>
+                <div className='h1 fw-bold my-2 text-success'>
+                  <i className='bi bi-minecart-loaded' />
                 </div>
-                <h5 className="fw-bold">Đổi trả tận nơi</h5>
-                <p className="mb-0">Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
+                <h5 className='fw-bold'>Đổi trả tận nơi</h5>
+                <p className='mb-0'>Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-warning border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-warning">
-                  <i className="bi bi-headset" />
+          <Col className='d-flex'>
+            <Card className='border-0 rounded-0 border-bottom border-warning border-3 w-100'>
+              <Card.Body className='text-center'>
+                <div className='h1 fw-bold my-2 text-warning'>
+                  <i className='bi bi-headset' />
                 </div>
-                <h5 className="fw-bold">Hỗ trợ 24/7</h5>
-                <p className="mb-0">Hỗ trợ khách hàng 24/7</p>
+                <h5 className='fw-bold'>Hỗ trợ 24/7</h5>
+                <p className='mb-0'>Hỗ trợ khách hàng 24/7</p>
               </Card.Body>
             </Card>
           </Col>
@@ -203,38 +208,30 @@ function Index() {
             <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>DỊCH VỤ HOT</h3>
           </div>
         </div>
-        <Row className='row-cols-1 row-cols-lg-4 g-4'>{serviceIndex.length > 0 && serviceIndex.map((item) => <CardService key={item.id} {...item} />)}</Row>
+        <Row className='row-cols-1 row-cols-lg-4 g-4'>{serviceIndex.length > 0 ? serviceIndex.map((item) => <CardService key={item.id} {...item} />) : <h3 className='text-center pt-3'>Không có dịch vụ</h3>}</Row>
       </Container>
       {/* End service section */}
 
       {/* Start product section */}
-      <Container className="my-5">
-        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
-          <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM BÁN CHẠY</h3>
+      <Container className='my-5'>
+        <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
+          <div className='ms-2'>
+            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {productList.map((product, index) => (
-            <CardProduct key={index} {...product} />
-          ))}
-        </Row>
+        <Row className='row-cols-1 row-cols-lg-5 g-4'>{productList.length > 0 ? productList.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className='text-center'>Không có sản phẩm</h3>}</Row>
       </Container>
       {/* End product section */}
 
       {/* Start Post */}
-      <Container className="my-5">
-        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
-          <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Tin tức mới nhất về 30Glow</h3>
+      <Container className='my-5'>
+        <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
+          <div className='ms-2'>
+            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>Tin tức mới nhất về 30Glow</h3>
           </div>
         </div>
 
-        <Row className="row-cols-1 row-cols-lg-3 g-4">
-          {postList.map((post, index) => (
-            <CardPost key={index} {...post} />
-          ))}
-        </Row>
+        <Row className='row-cols-1 row-cols-lg-3 g-4'>{postList.length > 0 ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className='text-center'>Không có bài đăng</h3>}</Row>
         {/*end row*/}
       </Container>
       {/* End Post */}
