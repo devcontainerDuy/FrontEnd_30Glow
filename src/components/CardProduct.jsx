@@ -2,13 +2,12 @@ import { Card, Col, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export default function CardProduct({ name, slug, gallery, price, discount }) {
-  // Tính phần trăm giảm giá và làm tròn
-  const sale = price - (price * (discount / 100));
+export default function CardProduct({ name, slug, price, discount, gallery }) {
+  const sale = price - price * (discount / 100);
   return (
     <>
       <Col>
-        <Card className="card h-100">
+        <Card className='card h-100'>
           <div className='position-relative overflow-hidden'>
             {discount > 0 ? (
               <div className='d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0'>
@@ -20,12 +19,16 @@ export default function CardProduct({ name, slug, gallery, price, discount }) {
               </div>
             ) : null}
             <Link to={`/san-pham/${slug}`}>
-              <Image src={import.meta.env.VITE_URL +"/" + gallery[0]['image']} width={100} height={300} className='card-img-top' fluid alt={slug} />
+              <Image src={import.meta.env.VITE_URL + "/" + gallery[0]["image"]} width={100} height={300} className='card-img-top' fluid alt={slug} />
             </Link>
           </div>
           <Card.Body>
             <div className='text-start'>
-              <h6 className='mb-1 fw-bold'>{name}</h6>
+              <Link to={`/san-pham/${slug}`} className='text-decoration-none link-underline-opacity-100-hover'>
+                <h6 className='mb-1 fw-bold text-truncate' title={name}>
+                  {name}
+                </h6>
+              </Link>
               <div className='ratings mb-1 h6'>
                 <i className='bi bi-star-fill text-warning' />
                 <i className='bi bi-star-fill text-warning' />
@@ -69,7 +72,7 @@ export default function CardProduct({ name, slug, gallery, price, discount }) {
 CardProduct.propTypes = {
   name: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
-  gallery: PropTypes.string.isRequired,
+  gallery: PropTypes.array.isRequired,
   price: PropTypes.number.isRequired,
-  discount: PropTypes.number,
+  discount: PropTypes.string.isRequired,
 };
