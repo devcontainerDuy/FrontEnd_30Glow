@@ -6,51 +6,51 @@ import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
 import { Helmet } from "react-helmet";
 
-function Show() {
+function Detail() {
   const { slug } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const productList = [
-    {
-      id: 1,
-      name: "Sửa rửa mặt Simple",
-      slug: "sua-rua-mat-simple",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 618000,
-      discount: 494000,
-    },
-    {
-      id: 2,
-      name: "Dầu gội Dvinces",
-      slug: "dau-goi-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 334000,
-      discount: 293000,
-    },
-    {
-      id: 3,
-      name: "Dầu xả Dvinces",
-      slug: "dau-xa-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 364060,
-      discount: 320000,
-    },
-    {
-      id: 4,
-      name: "Kem dưỡng ẩm ATS",
-      slug: "kem-duong-ats",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 691000,
-      discount: 549000,
-    },
-    {
-      id: 5,
-      name: "Kem chống nắng SkinAqua",
-      slug: "kem-chong-nang-skinaqua",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 284570,
-      discount: 159000,
-    },
-  ];
+  // const productList = [
+  //   {
+  //     id: 1,
+  //     name: "Sửa rửa mặt Simple",
+  //     slug: "sua-rua-mat-simple",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 618000,
+  //     discount: 494000,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Dầu gội Dvinces",
+  //     slug: "dau-goi-davinces",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 334000,
+  //     discount: 293000,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Dầu xả Dvinces",
+  //     slug: "dau-xa-davinces",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 364060,
+  //     discount: 320000,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Kem dưỡng ẩm ATS",
+  //     slug: "kem-duong-ats",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 691000,
+  //     discount: 549000,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Kem chống nắng SkinAqua",
+  //     slug: "kem-chong-nang-skinaqua",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 284570,
+  //     discount: 159000,
+  //   },
+  // ];
   const [comments, setComments] = useState([
     {
       id: 1,
@@ -277,4 +277,4 @@ function Show() {
   );
 }
 
-export default Show;
+export default Detail;

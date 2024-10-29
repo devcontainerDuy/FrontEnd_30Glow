@@ -16,15 +16,6 @@ function Index() {
   const [ productIndex, setProductIndex ] = useState([]);
 
   useEffect(() => {
-    // Call API Products
-    axios
-      .get(import.meta.env.VITE_API_URL + "/products")
-      .then((res) => {
-        setProductIndex(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     // Call API Slides
     axios
       .get(import.meta.env.VITE_API_URL + "/slides")
@@ -44,8 +35,15 @@ function Index() {
       .catch((err) => {
         console.log(err);
       });
-
     // Call API Products
+    axios
+    .get(import.meta.env.VITE_API_URL + "/products")
+    .then((res) => {
+      setProductIndex(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   // const productList = [
