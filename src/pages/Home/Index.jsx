@@ -13,7 +13,7 @@ import { Helmet } from "react-helmet";
 function Index() {
   const [slideIndex, setSlideIndex] = useState([]);
   const [serviceIndex, setServiceIndex] = useState([]);
-  const [ productIndex, setProductIndex ] = useState([]);
+  const [productIndex, setProductIndex] = useState([]);
 
   useEffect(() => {
     // Call API Slides
@@ -30,64 +30,21 @@ function Index() {
     axios
       .get(import.meta.env.VITE_API_URL + "/services/highlighted")
       .then((res) => {
-        setServiceIndex(res.data);
+        setServiceIndex(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
     // Call API Products
     axios
-    .get(import.meta.env.VITE_API_URL + "/products")
-    .then((res) => {
-      setProductIndex(res.data.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .get(import.meta.env.VITE_API_URL + "/products")
+      .then((res) => {
+        setProductIndex(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
-
-  // const productList = [
-  //   {
-  //     id: 1,
-  //     name: "Sửa rửa mặt Simple",
-  //     slug: "sua-rua-mat-simple",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 618000,
-  //     discount: 494000,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dầu gội Dvinces",
-  //     slug: "dau-goi-davinces",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 334000,
-  //     discount: 293000,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Dầu xả Dvinces",
-  //     slug: "dau-xa-davinces",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 364060,
-  //     discount: 320000,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Kem dưỡng ẩm ATS",
-  //     slug: "kem-duong-ats",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 691000,
-  //     discount: 549000,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Kem chống nắng SkinAqua",
-  //     slug: "kem-chong-nang-skinaqua",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 284570,
-  //     discount: 159000,
-  //   },
-  // ];
 
   const postList = [
     {
@@ -218,7 +175,7 @@ function Index() {
             <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>DỊCH VỤ HOT</h3>
           </div>
         </div>
-        <Row className='row-cols-1 row-cols-lg-4 g-4'>{serviceIndex.length > 0 ? serviceIndex.map((item, index) => <CardService key={index} {...item} />) : <h3 className='text-center pt-3'>Không có dịch vụ</h3>}</Row>
+        <Row className='row-cols-1 row-cols-lg-4 g-4'>{serviceIndex ? serviceIndex.map((item, index) => <CardService key={index} {...item} />) : <h3 className='text-center pt-3'>Không có dịch vụ</h3>}</Row>
       </Container>
       {/* End service section */}
 
@@ -229,7 +186,7 @@ function Index() {
             <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
-        <Row className='row-cols-1 row-cols-lg-5 g-4'>{productIndex.length > 0 ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className='text-center'>Không có sản phẩm</h3>}</Row>
+        <Row className='row-cols-1 row-cols-lg-5 g-4'>{productIndex ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className='text-center'>Không có sản phẩm</h3>}</Row>
       </Container>
       {/* End product section */}
 
@@ -241,7 +198,7 @@ function Index() {
           </div>
         </div>
 
-        <Row className='row-cols-1 row-cols-lg-3 g-4'>{postList.length > 0 ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className='text-center'>Không có bài đăng</h3>}</Row>
+        <Row className='row-cols-1 row-cols-lg-3 g-4'>{postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className='text-center'>Không có bài đăng</h3>}</Row>
         {/*end row*/}
       </Container>
       {/* End Post */}
