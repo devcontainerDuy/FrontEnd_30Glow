@@ -19,7 +19,7 @@ export default function CardProduct({ name, slug, price, discount, gallery }) {
               </div>
             ) : null}
             <Link to={`/san-pham/${slug}`}>
-              <Image src={import.meta.env.VITE_URL + "/" + gallery[0]["image"]} width={100} height={300} className='card-img-top' fluid alt={slug} />
+              <Image src={import.meta.env.VITE_URL + gallery[0]["image"]} width={100} height={300} className='card-img-top' fluid alt={slug} />
             </Link>
           </div>
           <Card.Body>
