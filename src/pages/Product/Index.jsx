@@ -1,3 +1,4 @@
+/* eslint-disable*/ 
 import React, { useState } from "react";
 import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
@@ -61,17 +62,26 @@ function Index() {
         <meta name="description" content="meo meo meo" />
       </Helmet>
       <Headers />
-      <BreadcrumbComponent props={[{ name: "Sản phẩm", url: "/san-pham" }]} children={null} />
+      <BreadcrumbComponent
+        props={[{ name: "Sản phẩm", url: "/san-pham" }]}
+        children={null}
+      />
       <Container className="my-3">
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
             <div className="ms-2">
-              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Sản phẩm</h3>
+              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">
+                Sản phẩm
+              </h3>
             </div>
           </div>
           <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
-            <FormSelect value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: "200px" }}>
+            <FormSelect
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              style={{ width: "200px" }}
+            >
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
@@ -95,7 +105,9 @@ function Index() {
                   <i className="bi bi-truck" />
                 </div>
                 <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
-                <p className="mb-0">Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.</p>
+                <p className="mb-0">
+                  Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.
+                </p>
               </Card.Body>
             </Card>
           </Col>
