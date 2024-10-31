@@ -1,5 +1,5 @@
-/* eslint-disable*/ 
-import React, { useState } from "react";
+/* eslint-disable*/
+import React, { useEffect, useState } from "react";
 import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
 import Footers from "../../layouts/Footer";
@@ -8,52 +8,49 @@ import CardProduct from "../../components/CardProduct";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 function Index() {
   const [filter, setFilter] = useState("default");
 
-  const productList = [
-    {
-      id: 1,
-      name: "Sửa rửa mặt Simple",
-      slug: "sua-rua-mat-simple",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 618000,
-      discount: 494000,
-    },
-    {
-      id: 2,
-      name: "Dầu gội Dvinces",
-      slug: "dau-goi-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 334000,
-      discount: 293000,
-    },
-    {
-      id: 3,
-      name: "Dầu xả Dvinces",
-      slug: "dau-xa-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 364060,
-      discount: 320000,
-    },
-    {
-      id: 4,
-      name: "Kem dưỡng ẩm ATS",
-      slug: "kem-duong-ats",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 691000,
-      discount: 549000,
-    },
-    {
-      id: 5,
-      name: "Kem chống nắng SkinAqua",
-      slug: "kem-chong-nang-skinaqua",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 284570,
-      discount: 159000,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  console.log(products);
+
+  const Product = async () => {
+    setLoading(true);
+    try {
+      await axios
+        .get(import.meta.env.VITE_API_URL + "/products?page=" + page)
+        .then((res) => {
+          setProducts(res.data.data.data);
+          setTotalPage(res.data.data.last_page);
+          setPage(res.data.data.current_page);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  useEffect(() => {
+    Product();
+  }, [page]);
 
   return (
     <>
@@ -62,26 +59,17 @@ function Index() {
         <meta name="description" content="meo meo meo" />
       </Helmet>
       <Headers />
-      <BreadcrumbComponent
-        props={[{ name: "Sản phẩm", url: "/san-pham" }]}
-        children={null}
-      />
+      <BreadcrumbComponent props={[{ name: "Sản phẩm", url: "/san-pham" }]} children={null} />
       <Container className="my-3">
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
             <div className="ms-2">
-              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">
-                Sản phẩm
-              </h3>
+              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Sản phẩm</h3>
             </div>
           </div>
           <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
-            <FormSelect
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              style={{ width: "200px" }}
-            >
+            <FormSelect value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: "200px" }}>
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
@@ -89,12 +77,14 @@ function Index() {
             </FormSelect>
           </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {productList.map((product) => (
-            <CardProduct key={product.id} {...product} />
-          ))}
-        </Row>
-        <Paginated current={1} total={5} />
+        {loading ? (
+          <p>Đang tải sản phẩm...</p>
+        ) : (
+          <Row className="row-cols-1 row-cols-lg-5 g-4">
+            {products.length > 0 ? products.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className="text-center">Không có sản phẩm</h3>}
+          </Row>
+        )}
+        <Paginated current={page} total={totalPage} handle={handlePageChange} />
       </Container>
       <Container className="my-5">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
@@ -105,9 +95,7 @@ function Index() {
                   <i className="bi bi-truck" />
                 </div>
                 <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
-                <p className="mb-0">
-                  Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.
-                </p>
+                <p className="mb-0">Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.</p>
               </Card.Body>
             </Card>
           </Col>

@@ -210,11 +210,7 @@ function Index() {
           </div>
         </div>
         <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {productIndex && Object.keys(productIndex).length > 0 ? (
-            Object.values(productIndex).map((product, index) => <CardProduct key={index} {...product} />)
-          ) : (
-            <h3 className="text-center">Không có sản phẩm</h3>
-          )}
+          {productIndex.length > 0 ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className="text-center">Không có sản phẩm</h3>}
         </Row>
       </Container>
       {/* End product section */}
