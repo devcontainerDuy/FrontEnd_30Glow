@@ -1,7 +1,16 @@
+/* eslint-disable*/ 
 import React, { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import { Container, Row, Col, Form, Button, Carousel, Badge } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Carousel,
+  Badge,
+} from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
 import { Helmet } from "react-helmet";
@@ -90,11 +99,27 @@ function Detail() {
   };
 
   const toggleLike = (id) => {
-    setComments(comments.map((comment) => (comment.id === id ? { ...comment, likes: comment.liked ? comment.likes - 1 : comment.likes + 1, liked: !comment.liked } : comment)));
+    setComments(
+      comments.map((comment) =>
+        comment.id === id
+          ? {
+              ...comment,
+              likes: comment.liked ? comment.likes - 1 : comment.likes + 1,
+              liked: !comment.liked,
+            }
+          : comment
+      )
+    );
   };
 
   const toggleReplyInput = (id) => {
-    setComments(comments.map((comment) => (comment.id === id ? { ...comment, showReplyInput: !comment.showReplyInput } : comment)));
+    setComments(
+      comments.map((comment) =>
+        comment.id === id
+          ? { ...comment, showReplyInput: !comment.showReplyInput }
+          : comment
+      )
+    );
   };
 
   const handleReply = (id) => {
@@ -105,7 +130,13 @@ function Detail() {
         comment.id === id
           ? {
               ...comment,
-              replies: [...comment.replies, { content: reply, date: new Date().toLocaleDateString("vi-VN") }],
+              replies: [
+                ...comment.replies,
+                {
+                  content: reply,
+                  date: new Date().toLocaleDateString("vi-VN"),
+                },
+              ],
               showReplyInput: false,
             }
           : comment
@@ -128,7 +159,9 @@ function Detail() {
       <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Chi tiết sản phẩm: {slug}</h3>
+            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">
+              Chi tiết sản phẩm: {slug}
+            </h3>
           </div>
         </div>
 
@@ -136,23 +169,41 @@ function Detail() {
           <Col lg={5}>
             <Carousel className="shadow rounded" interval={3000}>
               <Carousel.Item>
-                <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
+                <img
+                  className="d-block w-100 rounded"
+                  src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg"
+                  alt="First slide"
+                />
               </Carousel.Item>
               <Carousel.Item>
-                <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
+                <img
+                  className="d-block w-100 rounded"
+                  src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg"
+                  alt="First slide"
+                />
               </Carousel.Item>
               <Carousel.Item>
-                <img className="d-block w-100 rounded" src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg" alt="First slide" />
+                <img
+                  className="d-block w-100 rounded"
+                  src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg"
+                  alt="First slide"
+                />
               </Carousel.Item>
             </Carousel>
           </Col>
 
           <Col lg={7} className="d-flex flex-column gap-3">
-            <h2 className="text-primary-emphasis fw-bold">{slug.replace(/-/g, " ")}</h2>
-            <h4 className="fw-semibold text-muted">Sửa rửa mặt dịu nhẹ, dành cho da nhạy cảm</h4>
+            <h2 className="text-primary-emphasis fw-bold">
+              {slug.replace(/-/g, " ")}
+            </h2>
+            <h4 className="fw-semibold text-muted">
+              Sửa rửa mặt dịu nhẹ, dành cho da nhạy cảm
+            </h4>
 
             <div className="d-flex align-items-center gap-3">
-              <p className="fw-bold text-decoration-line-through text-muted mb-0">Giá gốc: 390.000 VND</p>
+              <p className="fw-bold text-decoration-line-through text-muted mb-0">
+                Giá gốc: 390.000 VND
+              </p>
               <Badge bg="success" className="p-2">
                 Giảm 10%
               </Badge>
@@ -162,15 +213,28 @@ function Detail() {
 
             <Form className="d-flex gap-3 mt-3">
               <div className="d-flex align-items-center border rounded">
-                <Button variant="light" onClick={() => handleQuantityChange(-1)}>
+                <Button
+                  variant="light"
+                  onClick={() => handleQuantityChange(-1)}
+                >
                   −
                 </Button>
-                <Form.Control type="text" value={quantity} readOnly className="text-center border-0" style={{ width: "60px" }} />
+                <Form.Control
+                  type="text"
+                  value={quantity}
+                  readOnly
+                  className="text-center border-0"
+                  style={{ width: "60px" }}
+                />
                 <Button variant="light" onClick={() => handleQuantityChange(1)}>
                   +
                 </Button>
               </div>
-              <Button variant="primary" type="submit" className="fw-bold flex-grow-1">
+              <Button
+                variant="primary"
+                type="submit"
+                className="fw-bold flex-grow-1"
+              >
                 Thêm vào giỏ hàng
               </Button>
             </Form>
@@ -182,11 +246,18 @@ function Detail() {
           <Col>
             <h3 className="text-primary-emphasis">Mô tả</h3>
             <p className="text-muted">
-              Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy
-              cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da
-              nhạy cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa
-              cho da nhạy cảm. Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ,
-              dựa cho da nhạy cảm.
+              Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho
+              da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ,
+              dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng
+              mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy
+              cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho
+              da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng mặt dịu
+              nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự
+              mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy
+              cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng mặt dịu nhẹ,
+              dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt
+              dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm.
+              Sự mặt dịu nhẹ, dựa cho da nhạy cảm.
             </p>
           </Col>
         </Row>
@@ -198,7 +269,13 @@ function Detail() {
         </div>
 
         <Form onSubmit={handleAddComment} className="d-flex mb-4 mt-4">
-          <Form.Control type="text" placeholder="Nhập bình luận của bạn..." value={newComment} onChange={(e) => setNewComment(e.target.value)} className="me-2" />
+          <Form.Control
+            type="text"
+            placeholder="Nhập bình luận của bạn..."
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            className="me-2"
+          />
           <Button className="col-2" type="submit" variant="primary">
             Gửi
           </Button>
@@ -209,7 +286,12 @@ function Detail() {
             {comments.map((comment) => (
               <div key={comment.id} className="mb-4">
                 <div className="d-flex align-items-start gap-3">
-                  <img src={comment.avatar} alt="Avatar" className="rounded-circle" style={{ width: "50px", height: "50px" }} />
+                  <img
+                    src={comment.avatar}
+                    alt="Avatar"
+                    className="rounded-circle"
+                    style={{ width: "50px", height: "50px" }}
+                  />
                   <div className="flex-grow-1">
                     <div className="d-flex justify-content-between align-items-center">
                       <h6 className="fw-bold mb-0">{comment.name}</h6>
@@ -217,20 +299,37 @@ function Detail() {
                     </div>
                     <p className="mb-1 text-muted">{comment.content}</p>
                     <div className="d-flex gap-3">
-                      <Button className="text-decoration-none bg-primary bg-opacity-25" variant="link" size="sm" onClick={() => toggleLike(comment.id)}>
+                      <Button
+                        className="text-decoration-none bg-primary bg-opacity-25"
+                        variant="link"
+                        size="sm"
+                        onClick={() => toggleLike(comment.id)}
+                      >
                         {comment.liked ? "Bỏ thích" : "Thích"} ({comment.likes})
                       </Button>
-                      <Button className="text-decoration-none" variant="link" size="sm" onClick={() => toggleReplyInput(comment.id)}>
+                      <Button
+                        className="text-decoration-none"
+                        variant="link"
+                        size="sm"
+                        onClick={() => toggleReplyInput(comment.id)}
+                      >
                         Trả lời
                       </Button>
-                      <Button className="text-danger text-decoration-none" variant="link" size="sm" onClick={() => handleDelete(comment.id)}>
+                      <Button
+                        className="text-danger text-decoration-none"
+                        variant="link"
+                        size="sm"
+                        onClick={() => handleDelete(comment.id)}
+                      >
                         Xóa
                       </Button>
                     </div>
 
                     {comment.replies.map((reply, index) => (
                       <div key={index} className="ms-4 mt-2">
-                        <small className="d-block fw-bold">{reply.content}</small>
+                        <small className="d-block fw-bold">
+                          {reply.content}
+                        </small>
                         <small className="text-muted">{reply.date}</small>
                       </div>
                     ))}
@@ -247,7 +346,12 @@ function Detail() {
                           type="text"
                           placeholder="Nhập trả lời..."
                           value={replyContent[comment.id] || ""}
-                          onChange={(e) => setReplyContent({ ...replyContent, [comment.id]: e.target.value })}
+                          onChange={(e) =>
+                            setReplyContent({
+                              ...replyContent,
+                              [comment.id]: e.target.value,
+                            })
+                          }
                           className="me-2"
                         />
                         <Button type="submit" size="sm" variant="secondary">
@@ -263,7 +367,9 @@ function Detail() {
         </Row>
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 mb-3 mt-4">
           <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Sản phẩm liên quan</h3>
+            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">
+              Sản phẩm liên quan
+            </h3>
           </div>
         </div>
         <Row className="row-cols-1 row-cols-lg-5 g-4">

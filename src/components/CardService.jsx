@@ -50,30 +50,19 @@ export default function CardService({
                 <i key={index} className="bi bi-star-fill text-warning" />
               ))}
             </div>
-            <div className="d-flex">
-              {price > 0 ? (
-                <>
-                  <p className="me-3 text-decoration-line-through">
-                    {compare_price.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </p>
-                  <p className="fw-bold text-danger">
-                    {price.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </p>
-                </>
-              ) : (
-                <p className="fw-bold">
-                  {discount.toLocaleString("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </p>
-              )}
+            <div className="d-flex justify-content-between align-items-center">
+              <p className="me-3 text-decoration-line-through mb-0">
+                {compare_price.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </p>
+              <p className="fw-bold text-danger mb-0">
+                {price.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </p>
             </div>
           </div>
         </Card.Body>
