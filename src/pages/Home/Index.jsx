@@ -3,29 +3,27 @@ import axios from "axios";
 import Footer from "../../layouts/Footer";
 import Header from "../../layouts/Header";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
 import CardProduct from "../../components/CardProduct";
 import CardPost from "../../components/CardPost";
 import CardService from "../../components/CardService";
 import { Helmet } from "react-helmet";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 function Index() {
   const [slideIndex, setSlideIndex] = useState([]);
   const [serviceIndex, setServiceIndex] = useState([]);
   const [ productIndex, setProductIndex ] = useState([]);
 
+  // Combined API call
   useEffect(() => {
-    // Call API Slides
-    axios
-      .get(import.meta.env.VITE_API_URL + "/slides")
-      .then((res) => {
-        setSlideIndex(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchData = async () => {
+      try {
+        const slideData = await axios.get(import.meta.env.VITE_API_URL + "/slides");
+        const serviceData = await axios.get(import.meta.env.VITE_API_URL + "/services/highlighted");
+        const productData = await axios.get(import.meta.env.VITE_API_URL + "/products/highlighted");
 
+<<<<<<< Updated upstream
     // Call API Services
     axios
       .get(import.meta.env.VITE_API_URL + "/services/highlighted")
@@ -44,6 +42,16 @@ function Index() {
     .catch((err) => {
       console.log(err);
     });
+=======
+        setSlideIndex(slideData.data.data);
+        setServiceIndex(serviceData.data.data);
+        setProductIndex(productData.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+>>>>>>> Stashed changes
   }, []);
 
   // const productList = [
@@ -119,11 +127,11 @@ function Index() {
     <>
       <Helmet>
         <title>Trang chủ - 30GLOW</title>
-        <meta name='description' content='meo meo meo' />
+        <meta name="description" content="meo meo meo" />
       </Helmet>
       <Header />
       {/* Start slider section */}
-      <section className='p-0 m-0'>
+      <section className="p-0 m-0">
         <Swiper
           style={{
             "--swiper-navigation-color": "#000000",
@@ -141,68 +149,65 @@ function Index() {
           scrollbar={{ draggable: true }}
         >
           {slideIndex.length > 0 ? (
-            slideIndex.map((item, index) => (
-              <>
-                <div key={index + 1}>
-                  <SwiperSlide>
-                    <Image src={import.meta.env.VITE_URL + item.desktop} fluid className='w-100 height-100' alt={item.name} />
-                  </SwiperSlide>
-                </div>
-              </>
+            slideIndex.map((item) => (
+              <SwiperSlide key={item.id}>
+                <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
+              </SwiperSlide>
             ))
           ) : (
             <SwiperSlide>
-              <Image src='https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg' fluid className='w-100 height-100' alt='Slide 1' />
+              <Image src="https://storage.30shine.com/banner/2024/20240821_banner_thuonggia_w.jpg" fluid className="w-100 height-100" alt="Slide 1" />
             </SwiperSlide>
           )}
         </Swiper>
       </section>
+
       {/* End slider section */}
 
       {/* Start buy section */}
-      <Container className='my-2'>
-        <Row className='row-cols-1 row-cols-lg-4 g-4'>
-          <Col className='d-flex'>
-            <Card className='border-0 rounded-0 border-bottom border-primary border-3 w-100'>
-              <Card.Body className='text-center'>
-                <div className='h1 fw-bold my-2 text-primary'>
-                  <i className='bi bi-truck' />
+      <Container className="my-2">
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-primary">
+                  <i className="bi bi-truck" />
                 </div>
-                <h5 className='fw-bold'>Giao hàng siêu tốc 2h</h5>
-                <p className='mb-0'>Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.</p>
+                <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
+                <p className="mb-0">Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.</p>
               </Card.Body>
             </Card>
           </Col>
-          <Col className='d-flex'>
-            <Card className='border-0 rounded-0 border-bottom border-danger border-3 w-100'>
-              <Card.Body className='text-center'>
-                <div className='h1 fw-bold my-2 text-danger'>
-                  <i className='bi bi-credit-card' />
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-danger border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-danger">
+                  <i className="bi bi-credit-card" />
                 </div>
-                <h5 className='fw-bold'>Bảo hành 3 ngày</h5>
-                <p className='mb-0'>Không hài lòng? Hoàn tiền 100%!</p>
+                <h5 className="fw-bold">Bảo hành 3 ngày</h5>
+                <p className="mb-0">Không hài lòng? Hoàn tiền 100%!</p>
               </Card.Body>
             </Card>
           </Col>
-          <Col className='d-flex'>
-            <Card className='border-0 rounded-0 border-bottom border-success border-3 w-100'>
-              <Card.Body className='text-center'>
-                <div className='h1 fw-bold my-2 text-success'>
-                  <i className='bi bi-minecart-loaded' />
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-success border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-success">
+                  <i className="bi bi-minecart-loaded" />
                 </div>
-                <h5 className='fw-bold'>Đổi trả tận nơi</h5>
-                <p className='mb-0'>Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
+                <h5 className="fw-bold">Đổi trả tận nơi</h5>
+                <p className="mb-0">Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
               </Card.Body>
             </Card>
           </Col>
-          <Col className='d-flex'>
-            <Card className='border-0 rounded-0 border-bottom border-warning border-3 w-100'>
-              <Card.Body className='text-center'>
-                <div className='h1 fw-bold my-2 text-warning'>
-                  <i className='bi bi-headset' />
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-warning border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-warning">
+                  <i className="bi bi-headset" />
                 </div>
-                <h5 className='fw-bold'>Hỗ trợ 24/7</h5>
-                <p className='mb-0'>Hỗ trợ khách hàng 24/7</p>
+                <h5 className="fw-bold">Hỗ trợ 24/7</h5>
+                <p className="mb-0">Hỗ trợ khách hàng 24/7</p>
               </Card.Body>
             </Card>
           </Col>
@@ -212,36 +217,60 @@ function Index() {
       {/* End buy section */}
 
       {/* Start service section */}
-      <Container className='my-5'>
-        <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
-          <div className='ms-2'>
-            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>DỊCH VỤ HOT</h3>
+      <Container className="my-5">
+        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+          <div className="ms-2">
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
           </div>
         </div>
+<<<<<<< Updated upstream
         <Row className='row-cols-1 row-cols-lg-4 g-4'>{serviceIndex.length > 0 ? serviceIndex.map((item, index) => <CardService key={index} {...item} />) : <h3 className='text-center pt-3'>Không có dịch vụ</h3>}</Row>
+=======
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          {serviceIndex && Object.keys(serviceIndex).length > 0 ? (
+            Object.values(serviceIndex).map((item, index) => <CardService key={index} {...item} />)
+          ) : (
+            <h3 className="text-center pt-3">Không có dịch vụ</h3>
+          )}
+        </Row>
+>>>>>>> Stashed changes
       </Container>
       {/* End service section */}
 
       {/* Start product section */}
-      <Container className='my-5'>
-        <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
-          <div className='ms-2'>
-            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>SẢN PHẨM BÁN CHẠY</h3>
+      <Container className="my-5">
+        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+          <div className="ms-2">
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
+<<<<<<< Updated upstream
         <Row className='row-cols-1 row-cols-lg-5 g-4'>{productIndex.length > 0 ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className='text-center'>Không có sản phẩm</h3>}</Row>
+=======
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          {productIndex && Object.keys(productIndex).length > 0 ? (
+            Object.values(productIndex).map((item, index) => <CardProduct key={index} {...item} />)
+          ) : (
+            <h3 className="text-center">Không có sản phẩm</h3>
+          )}
+        </Row>
+>>>>>>> Stashed changes
       </Container>
       {/* End product section */}
 
       {/* Start Post */}
-      <Container className='my-5'>
-        <div className='text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3'>
-          <div className='ms-2'>
-            <h3 className='mb-0 h3 fw-bold text-uppercase text-primary-emphasis'>Tin tức mới nhất về 30Glow</h3>
+      <Container className="my-5">
+        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+          <div className="ms-2">
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Tin tức mới nhất về 30Glow</h3>
           </div>
         </div>
 
+<<<<<<< Updated upstream
         <Row className='row-cols-1 row-cols-lg-3 g-4'>{postList.length > 0 ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className='text-center'>Không có bài đăng</h3>}</Row>
+=======
+        <Row className="row-cols-1 row-cols-lg-3 g-4">{postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className="text-center">Không có bài đăng</h3>}</Row>
+>>>>>>> Stashed changes
         {/*end row*/}
       </Container>
       {/* End Post */}
