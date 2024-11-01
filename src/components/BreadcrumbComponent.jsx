@@ -2,7 +2,7 @@ import { Container, Breadcrumb } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 
-function BreadcrumbComponent({ props, children }) {
+function BreadcrumbComponent({ props }) {
   const location = useLocation();
   const currentUrl = location.pathname;
 
@@ -29,8 +29,6 @@ function BreadcrumbComponent({ props, children }) {
               </Breadcrumb.Item>
             ))}
         </Breadcrumb>
-
-        <div className="me-3">{children}</div>
       </div>
     </Container>
   );
@@ -43,7 +41,6 @@ BreadcrumbComponent.propTypes = {
       url: PropTypes.string.isRequired,
     })
   ),
-  children: PropTypes.node,
 };
 
 export default BreadcrumbComponent;
