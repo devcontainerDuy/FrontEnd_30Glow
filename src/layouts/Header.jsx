@@ -157,18 +157,10 @@ function Header() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link className="position-relative me-1" href="/gio-hang">
-                <i className="bi bi-calendar-check" />
+              <Nav.Link className="position-relative" href="/gio-hang">
+                <i className="bi bi-bag" />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   8
-                </span>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link className="position-relative" href="/gio-hang-san-pham">
-                <i className="bi bi-basket3" />
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  5
                 </span>
               </Nav.Link>
             </Nav.Item>
