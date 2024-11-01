@@ -91,7 +91,7 @@ function Index() {
         )}
         <Paginated current={page} total={totalPage} handle={handlePageChange} />
       </Container>
-      <Container className="my-5">
+     <Container className="my-2">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
           <Col className="d-flex">
             <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
@@ -106,8 +106,41 @@ function Index() {
               </Card.Body>
             </Card>
           </Col>
-          {/* Các Card khác... */}
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-danger border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-danger">
+                  <i className="bi bi-credit-card" />
+                </div>
+                <h5 className="fw-bold">Bảo hành 3 ngày</h5>
+                <p className="mb-0">Không hài lòng? Hoàn tiền 100%!</p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-success border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-success">
+                  <i className="bi bi-minecart-loaded" />
+                </div>
+                <h5 className="fw-bold">Đổi trả tận nơi</h5>
+                <p className="mb-0">Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex">
+            <Card className="border-0 rounded-0 border-bottom border-warning border-3 w-100">
+              <Card.Body className="text-center">
+                <div className="h1 fw-bold my-2 text-warning">
+                  <i className="bi bi-headset" />
+                </div>
+                <h5 className="fw-bold">Hỗ trợ 24/7</h5>
+                <p className="mb-0">Hỗ trợ khách hàng 24/7</p>
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
+        {/*end row*/}
       </Container>
       <Footers />
     </>
