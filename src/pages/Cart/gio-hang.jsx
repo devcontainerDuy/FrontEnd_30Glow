@@ -7,7 +7,6 @@ import {
   Button,
   Table,
   Alert,
-  Card,
 } from "react-bootstrap";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
@@ -18,24 +17,47 @@ function GioHang() {
   const [total, setTotal] = useState(0);
   const TonPhiGH = 30000;
   const MienPhiGH = 1000000;
+
   useEffect(() => {
+    // Load cart data from localStorage and calculate total price
     const storedCarts = localStorage.getItem("cart");
     const cartData = storedCarts ? JSON.parse(storedCarts) : [];
-    setCarts(cartData);
 
-    // Tính tổng tiền
-    const ThanhTien = cartData.reduce((acc, item) => acc + item.price, 0);
-    setTotal(ThanhTien);
+    // Kiểm tra dữ liệu giỏ hàng sau khi parse
+    if (!Array.isArray(cartData)) {
+      console.error("Dữ liệu giỏ hàng không phải là mảng:", cartData);
+      return;
+    }
+
+    setCarts(cartData);
+    calculateTotal(cartData);
   }, []);
 
-  const deleteItem = (id) => {
-    const updatedCarts = carts.filter((item) => item.id !== id);
-    setCarts(updatedCarts);
-    localStorage.setItem("cart", JSON.stringify(updatedCarts));
+  const calculateTotal = (cart) => {
+    const ThanhTien = cart.reduce((acc, item) => acc + item.price, 0);
+    setTotal(ThanhTien);
+  };
 
-    // Cập nhật lại tổng tiền
-    const newTotal = updatedCarts.reduce((acc, item) => acc + item.price, 0);
-    setTotal(newTotal);
+  const handleCheckout = () => {
+  // Lưu giỏ hàng vào localStorage để xử lý thanh toán
+  localStorage.setItem("checkoutCart", JSON.stringify(carts));
+
+  // Xóa giỏ hàng khỏi localStorage
+  localStorage.removeItem("cart");
+  
+  // Cập nhật trạng thái giỏ hàng
+  setCarts([]);
+  
+  // Chuyển hướng sang trang thanh toán
+  window.location.href = "/thanh-toan";
+};
+  const deleteItem = (id) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")) {
+      const updatedCarts = carts.filter((item) => item.id !== id);
+      setCarts(updatedCarts);
+      localStorage.setItem("cart", JSON.stringify(updatedCarts));
+      calculateTotal(updatedCarts); // Cập nhật lại tổng tiền
+    }
   };
 
   const PhiGH = total > 0 && total < MienPhiGH ? TonPhiGH : 0;
@@ -66,7 +88,7 @@ function GioHang() {
                 <tbody>
                   {carts.map((item, index) => (
                     <tr key={index}>
-                      <td className=" d-flex justify-content-center align-items-center">
+                      <td className="d-flex justify-content-center align-items-center">
                         <img
                           src={
                             item.image
@@ -78,11 +100,11 @@ function GioHang() {
                             height: "100px",
                             objectFit: "cover",
                           }}
-                          alt={item.name} // Thêm thuộc tính alt cho hình ảnh
+                          alt={item.name}
                         />
                       </td>
                       <td>
-                        {item.name} <br></br>
+                        {item.name} <br />
                         <del>
                           <span className="text-decoration-line-through pe-2 text-muted">
                             {Intl.NumberFormat("en-US").format(
@@ -90,18 +112,14 @@ function GioHang() {
                             )}
                           </span>
                         </del>
-                        {/* <span className="text-danger me-auto fw-bold ">
-                          {Intl.NumberFormat("en-US").format(item.price)}
-                        </span> */}
                       </td>
-
                       <td>
                         <Button
                           variant="outline-danger"
                           onClick={() => deleteItem(item.id)}
                           className="ms-3"
                         >
-                          <i className="bi bi-trash "></i>
+                          <i className="bi bi-trash" />
                         </Button>
                       </td>
                       <td>
@@ -119,7 +137,6 @@ function GioHang() {
                 <span style={{ color: "green" }}> miễn phí giao hàng</span>
               </h4>
             </Col>
-
             <Col md={4}>
               <div className="summary-box">
                 <h6>
@@ -154,71 +171,21 @@ function GioHang() {
                   </Alert>
                 )}
                 <div className="d-grid mt-4">
-                  <a
-                    href="/thanh-toan"
-                    className="btn btn-dark btn-ecomm py-3 px-5"
+                  <Button
+                    variant="dark"
+                    className="btn-ecomm py-3 px-5"
+                    onClick={handleCheckout}
                     style={{
                       pointerEvents: carts.length === 0 ? "none" : "auto",
-                    }} // Vô hiệu hóa link nếu giỏ hàng trống
+                    }}
                   >
                     Thanh toán hóa đơn
-                  </a>
+                  </Button>
                 </div>
               </div>
             </Col>
           </Row>
         )}
-      </Container>
-      <Container className="my-2">
-        <Row className="row-cols-1 row-cols-lg-4 g-4">
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-primary">
-                  <i className="bi bi-truck" />
-                </div>
-                <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
-                <p className="mb-0">
-                  Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-danger border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-danger">
-                  <i className="bi bi-credit-card" />
-                </div>
-                <h5 className="fw-bold">Bảo hành 3 ngày</h5>
-                <p className="mb-0">Không hài lòng? Hoàn tiền 100%!</p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-success border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-success">
-                  <i className="bi bi-minecart-loaded" />
-                </div>
-                <h5 className="fw-bold">Đổi trả tận nơi</h5>
-                <p className="mb-0">Đổi trả miễn phí, tận nơi. Dễ dàng!</p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col className="d-flex">
-            <Card className="border-0 rounded-0 border-bottom border-warning border-3 w-100">
-              <Card.Body className="text-center">
-                <div className="h1 fw-bold my-2 text-warning">
-                  <i className="bi bi-headset" />
-                </div>
-                <h5 className="fw-bold">Hỗ trợ 24/7</h5>
-                <p className="mb-0">Hỗ trợ khách hàng 24/7</p>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        {/*end row*/}
       </Container>
       <Footer />
     </>
