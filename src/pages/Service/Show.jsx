@@ -1,113 +1,169 @@
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
+import axios from "axios";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 
 function Show() {
   const { slug } = useParams();
+  const navigate = useNavigate();
+  const [ChiTietDV, setChiTietDV] = useState(null);
+  const [cart, setCart] = useState([]);
+
+  // Khởi tạo Notyf
+  const notyf = new Notyf({
+    position: {
+      x: "right",
+      y: "top",
+    },
+  });
+
+  useEffect(() => {
+    const fetchChiTietDV = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/services/${slug}`
+        );
+
+        if (response.data.check) {
+          setChiTietDV(response.data.data);
+        } else {
+          console.error("Dữ liệu không hợp lệ");
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    };
+
+    fetchChiTietDV();
+  }, [slug]);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
+  const addToCart = () => {
+    if (!ChiTietDV) {
+      console.log("ChiTietDV chưa có dữ liệu.");
+      return;
+    }
+
+    const existingItem = cart.find((item) => item.id === ChiTietDV.id);
+    let updatedCart;
+
+    if (existingItem) {
+      updatedCart = cart.map((item) =>
+        item.id === ChiTietDV.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      updatedCart = [...cart, { ...ChiTietDV, quantity: 1 }];
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    notyf.success("Đã thêm vào giỏ hàng!");
+
+    console.log("Giỏ hàng hiện tại:", updatedCart);
+  };
+
+  const handleDatLich = () => {
+    addToCart();
+  };
+
   return (
     <>
+      <Helmet>
+        <title>
+          {ChiTietDV ? ChiTietDV.name : "Chi tiết dịch vụ"} - 30GLOW
+        </title>
+        <meta name="description" content={ChiTietDV?.summary} />
+      </Helmet>
       <Header />
       <Container className="my-5 mb-6">
         <Row>
-          {/* Cột nội dung dịch vụ */}
-          <Col md={6}>
-            <h2 className="text-danger fw-bold">{slug.replace(/-/g, " ")}</h2>
-            <h2 className="fw-bold">Nội dung dịch vụ:</h2>
-            <ol>
-              <li>
-                <strong>Tư vấn kiểu tóc:</strong>
-                <ul>
-                  <li>
-                    Thợ làm tóc sẽ tư vấn về kiểu tóc phù hợp với bạn dựa trên
-                    khuôn mặt, tình trạng tóc và mong muốn của bạn. Bạn có thể
-                    chọn từ các kiểu tóc ngắn, dài, uốn xoăn, thẳng, hay bất kỳ
-                    kiểu tóc nào khác.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Cắt tóc:</strong>
-                <ul>
-                  <li>
-                    Thợ sẽ tiến hành cắt tóc theo kiểu bạn đã chọn. Chúng tôi sử
-                    dụng các công cụ và kỹ thuật hiện đại để đảm bảo tóc của bạn
-                    được cắt đều và đẹp.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Tạo kiểu:</strong>
-                <ul>
-                  <li>
-                    Sau khi cắt tóc, thợ sẽ tạo kiểu tóc cho bạn. Tùy thuộc vào
-                    sở thích, bạn có thể chọn tạo kiểu tóc bồng bềnh, lọn sóng,
-                    hoặc gọn gàng.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Chăm sóc tóc:</strong>
-                <ul>
-                  <li>
-                    Chúng tôi sẽ sử dụng sản phẩm chăm sóc tóc chất lượng để giữ
-                    cho mái tóc của bạn luôn khỏe mạnh và bóng mượt.
-                  </li>
-                </ul>
-              </li>
-            </ol>
-            <p>
-              Hãy đến salon của chúng tôi để trải nghiệm dịch vụ chuyên nghiệp
-              và thư giãn! Nếu bạn cần thêm thông tin hoặc muốn đặt lịch hẹn,
-              hãy liên hệ với chúng tôi.
-            </p>
+          <Col md={6} className="d-flex flex-column align-items-center">
+            <div className="text-center">
+              <img
+                src={
+                  ChiTietDV?.image
+                    ? `${import.meta.env.VITE_API_URL}${ChiTietDV.image}`
+                    : "path/to/default-image.jpg"
+                }
+                alt="Hình ảnh"
+                style={{
+                  maxWidth: "500px",
+                  height: "auto",
+                  maxHeight: "500px",
+                  objectFit: "contain",
+                  marginBottom: "3px",
+                }}
+                className="mx-auto"
+              />
+              {/* <div className="d-flex justify-content-center mt-3">
+                {ChiTietDV?.gallery?.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`Hình ${index + 1}`}
+                    style={{
+                      width: "130px",
+                      height: "127px",
+                      objectFit: "cover",
+                      margin: "0 5px",
+                    }}
+                    className="mx-auto"
+                  />
+                ))}
+              </div> */}
+            </div>
           </Col>
 
-          {/* Cột form đặt lịch */}
           <Col md={5}>
             <div className="border p-2">
-              <h4 className="fw-bold">Đặt lịch</h4>
-              <div className="d-flex justify-content-between">
-                <del className="text-muted">152,000 ₫</del>
-                <p className="fw-bold text-danger">120,000 ₫</p>
-              </div>
-              <Form>
-                <Form.Group className="mb-3">
-                  <Form.Label>Tên người đặt lịch</Form.Label>
-                  <Form.Control type="text" placeholder="Nhập tên của bạn..." />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Số điện thoại</Form.Label>
-                  <Form.Control
-                    type="tel"
-                    placeholder="Nhập số điện thoại..."
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Nhập địa chỉ email..."
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Thời gian đến</Form.Label>
-                  <Form.Control type="time" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Ngày đến</Form.Label>
-                  <Form.Control type="date" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                  <Form.Check
-                    type="checkbox"
-                    label="Tôi đã đọc kĩ điều khoản và chính sách"
-                  />
-                </Form.Group>
-                <Button variant="dark" type="submit" className="w-100">
-                  Đặt lịch hẹn ngay!
+              <div className="d-flex justify-content-between align-items-center">
+                <h4 className="text-danger fw-bold mb-0">
+                  {ChiTietDV ? ChiTietDV.name : "Tên dịch vụ"}
+                </h4>
+                <Button variant="dark" onClick={handleDatLich}>
+                  Đặt lịch
                 </Button>
-              </Form>
+              </div>
+              <div className="d-flex justify-content-between">
+                <p className="me-3 text-decoration-line-through">
+                  {ChiTietDV
+                    ? ChiTietDV.compare_price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : "..."}
+                </p>
+                <p className="fw-bold text-danger">
+                  Tổng:{" "}
+                  {ChiTietDV
+                    ? ChiTietDV.price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : "..."}
+                </p>
+              </div>
+              <h4 className="fw-bold text-start mt-2">Nội dung dịch vụ:</h4>
+              <div className="text-start">
+                {ChiTietDV ? (
+                  <p dangerouslySetInnerHTML={{ __html: ChiTietDV.content }} />
+                ) : (
+                  <p>Đang tải nội dung dịch vụ...</p>
+                )}
+              </div>
             </div>
           </Col>
         </Row>
