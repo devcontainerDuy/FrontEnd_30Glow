@@ -1,5 +1,5 @@
 /* eslint-disable*/ 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import {
@@ -14,6 +14,11 @@ import {
 import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
 import { Helmet } from "react-helmet";
+import axios from "axios";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 
 function Detail() {
   const { slug } = useParams();
@@ -75,6 +80,40 @@ function Detail() {
   ]);
   const [newComment, setNewComment] = useState("");
   const [replyContent, setReplyContent] = useState({});
+  const [productDetail, setProductDetail] = useState({});
+  const [productIndex, setProductIndex] = useState([]);
+
+    useEffect(() => {
+    // Call API Products
+    const Product = async () => {
+      try {
+        await axios
+          .get(import.meta.env.VITE_API_URL + "/products/highlighted")
+          .then((res) => {
+            setProductIndex(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    Product();
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/products/${slug}`)
+      .then((res) => {
+        console.log(res.data.data); // Kiểm tra dữ liệu trả về từ API
+        setProductDetail(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [slug]);
+  
 
   const handleQuantityChange = (value) => {
     if (quantity + value > 0) setQuantity(quantity + value);
@@ -156,60 +195,63 @@ function Detail() {
         <meta name="description" content="meo meo meo" />
       </Helmet>
       <Header />
+      <BreadcrumbComponent props={[{ name: "Sản phẩm", url: "/san-pham" }, { name: productDetail.name, url: "/san-pham/" + productDetail.slug}]}/>
       <Container className="my-5">
-        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+        {/* <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
             <h3 className="mb-0 h3 fw-bold text-primary-emphasis">
-              Chi tiết sản phẩm: {slug}
+              Chi tiết sản phẩm
             </h3>
           </div>
-        </div>
+        </div> */}
 
         <Row className="g-4">
           <Col lg={5}>
-            <Carousel className="shadow rounded" interval={3000}>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100 rounded"
-                  src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100 rounded"
-                  src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100 rounded"
-                  src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-            </Carousel>
+          <Swiper spaceBetween={10} slidesPerView={1} className="shadow rounded">
+              {productDetail.gallery?.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    className="d-block w-100 rounded"
+                    src={`${import.meta.env.VITE_URL}${image.image}`}
+                    alt={`Slide ${index + 1}`}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
           </Col>
 
           <Col lg={7} className="d-flex flex-column gap-3">
-            <h2 className="text-primary-emphasis fw-bold">
-              {slug.replace(/-/g, " ")}
-            </h2>
-            <h4 className="fw-semibold text-muted">
-              Sửa rửa mặt dịu nhẹ, dành cho da nhạy cảm
-            </h4>
+            <h3 className="text-primary-emphasis fw-bold">
+              {productDetail.name}
+            </h3>
+            <h5 className="fw-semibold text-muted" dangerouslySetInnerHTML={{__html: productDetail.content?.slice(55, 250)}}>
+              
+            </h5>
 
             <div className="d-flex align-items-center gap-3">
-              <p className="fw-bold text-decoration-line-through text-muted mb-0">
-                Giá gốc: 390.000 VND
+              <h4 className="text-danger fw-bold">{productDetail.price?.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}</h4>
+              <p className="fw-bold text-decoration-line-through text-muted mb-0 fs-5">
+                {productDetail.price?.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
               </p>
               <Badge bg="success" className="p-2">
-                Giảm 10%
-              </Badge>
+                {productDetail.discount}%
+              </Badge>             
             </div>
 
-            <h4 className="text-danger fw-bold">Giá giảm: 350.000 VND</h4>
+            <div className="align-items-center gap-3">
+              <p className="fw-semibold text-secondary">Danh mục: {productDetail.category?.name}</p>
+            </div>
+
+            <div className="align-items-center gap-3">
+              <p className="fw-semibold text-secondary">Thương hiệu: {productDetail.brand?.name}</p>
+            </div>
 
             <Form className="d-flex gap-3 mt-3">
               <div className="d-flex align-items-center border rounded">
@@ -246,18 +288,7 @@ function Detail() {
           <Col>
             <h3 className="text-primary-emphasis">Mô tả</h3>
             <p className="text-muted">
-              Sửa rờng mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho
-              da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ,
-              dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng
-              mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy
-              cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho
-              da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng mặt dịu
-              nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự
-              mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy
-              cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sửa rờng mặt dịu nhẹ,
-              dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm. Sự mặt
-              dịu nhẹ, dựa cho da nhạy cảm. Sự mặt dịu nhẹ, dựa cho da nhạy cảm.
-              Sự mặt dịu nhẹ, dựa cho da nhạy cảm.
+            <p dangerouslySetInnerHTML={{ __html: productDetail.content }} />
             </p>
           </Col>
         </Row>
@@ -373,8 +404,8 @@ function Detail() {
           </div>
         </div>
         <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {productList.map((product) => (
-            <CardProduct key={product.id} {...product} />
+          {productIndex.map((product, index) => (
+            <CardProduct key={index} {...product} />
           ))}
         </Row>
       </Container>

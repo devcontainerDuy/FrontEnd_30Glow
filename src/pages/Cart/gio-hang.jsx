@@ -19,11 +19,9 @@ function GioHang() {
   const MienPhiGH = 1000000;
 
   useEffect(() => {
-    // Load cart data from localStorage and calculate total price
     const storedCarts = localStorage.getItem("cart");
     const cartData = storedCarts ? JSON.parse(storedCarts) : [];
 
-    // Kiểm tra dữ liệu giỏ hàng sau khi parse
     if (!Array.isArray(cartData)) {
       console.error("Dữ liệu giỏ hàng không phải là mảng:", cartData);
       return;
