@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Notyf } from "notyf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import "notyf/notyf.min.css"; // Import CSS của Notyf
+import "notyf/notyf.min.css";
 import { Helmet } from "react-helmet";
 
 function Register() {
@@ -62,7 +62,7 @@ function Register() {
     e.preventDefault();
     if (validate()) {
       notyf.success("Đăng ký thành công!");
-      setTimeout(() => navigate("/dang-nhap"), 2000); // Chuyển hướng sau 2 giây
+      setTimeout(() => navigate("/dang-nhap"), 2000); 
     } else {
       notyf.error("Vui lòng kiểm tra và điền đúng thông tin!");
     }
