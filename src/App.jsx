@@ -20,6 +20,7 @@ import Login from "./pages/Auth/Login";
 import Forgot from "./pages/Auth/Forgot";
 import ProductCart from "./pages/Cart/ProductCart";
 import ProductPayment from "./pages/Cart/ProductPayment";
+import ResetPass from "./pages/Auth/ResetPass";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path='/dang-ky' element={<Register />} />
         <Route path='/dang-nhap' element={<Login />} />
         <Route path='/quen-mat-khau' element={<Forgot />} />
+        <Route path='/doi-mat-khau' element={<ResetPass />} />
       </Routes>
     </BrowserRouter>
   );
