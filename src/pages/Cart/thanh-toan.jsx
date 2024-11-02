@@ -1,179 +1,267 @@
-/* eslint-disable */
-import React, { useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useState } from "react";
 import {
-  Form,
-  Button,
+  Container,
   Row,
   Col,
-  Card,
-  ListGroup,
+  Table,
+  Button,
+  Form,
   Alert,
+  Card,
 } from "react-bootstrap";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Helmet } from "react-helmet";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import axios from "axios";
 
-const ThanhToan = () => {
+const TonPhiGH = 30000;
+const MienPhiGH = 1000000;
+
+function ThanhToan() {
+  const [checkoutCart, setCheckoutCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
-    phone: "",
-    email: "",
-    note: "",
     city: "",
     district: "",
     ward: "",
-    paymentMethod: "",
+    phone: "",
+    email: "",
+    note: "",
   });
-
-  const [carts, setCarts] = useState([
-    {
-      id: 1,
-      name: "Xịt dưỡng tóc",
-      price: 1000000,
-      discount: 800000,
-      quantity: 1,
-      tong: 800000,
-      image:
-        "https://backend.codingfs.com/storage/products/Gel%20r%E1%BB%ADa%20m%E1%BA%B7t%20cho%20da%20d%E1%BA%A7u%20m%E1%BB%A5n%20Dr.%20For%20Skin%20Acsys%20Plus2.jpg",
-      slug: "san-pham-1",
-    },
-    {
-      id: 2,
-      name: "Serum dưỡng tóc",
-      price: 1200000,
-      discount: 900000, // giảm
-      quantity: 2, //số lượng sp
-      tong: 1800000, // giảm x sl
-      image:
-        "https://backend.codingfs.com/storage/products/X%E1%BB%8Bt%20D%C6%B0%E1%BB%A1ng%20T%C3%B3c%20It's%20A%2010%20Miracle%20Leave-In%20M%E1%BB%81m%20M%C6%B0%E1%BB%A3t%20V%C3%A0%20B%E1%BA%A3o%20V%E1%BB%87%20T%C3%B3c%2059ML.jpg",
-      slug: "san-pham-2",
-    },
-  ]);
-
-  const tong = carts.reduce((acc, item) => acc + item.tong, 0);
-  const PhiGH = tong > 0 && tong < 1000000 ? 30000 : 0;
-  const tongHoaDon = carts.length === 0 ? 0 : tong + PhiGH;
-
-  const [showSuccess, setShowSuccess] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    const storedCart = localStorage.getItem("checkoutCart");
+    if (storedCart) {
+      const parsedCart = JSON.parse(storedCart);
+      setCheckoutCart(parsedCart);
+      calculateTotal(parsedCart);
+    }
+    fetchProvinces();
+  }, []);
+
+  const calculateTotal = (cart) => {
+    const total = cart.reduce((acc, item) => acc + item.price, 0);
+    setTotalPrice(total);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Kiểm tra tính hợp lệ của form
-    const isValid = Object.values(formData).every(
-      (value) => value.trim() !== ""
-    );
-
-    if (!isValid) {
-      alert("Vui lòng nhập đầy đủ thông tin");
-      return;
+  const fetchProvinces = async () => {
+    try {
+      const response = await axios.get(
+        "https://provinces.open-api.vn/api/?depth=2"
+      );
+      setProvinces(response.data);
+    } catch (error) {
+      console.error("Error fetching provinces:", error);
     }
+  };
 
-    console.log(formData);
-    setShowSuccess(true);
+  const fetchDistricts = async (city) => {
+    try {
+      const response = await axios.get(
+        `https://provinces.open-api.vn/api/p/${city}?depth=2`
+      );
+      setDistricts(response.data.districts);
+      setWards([]); // Reset wards when a new city is selected
+    } catch (error) {
+      console.error("Error fetching districts:", error);
+    }
+  };
+
+  const fetchWards = async (district) => {
+    try {
+      const response = await axios.get(
+        `https://provinces.open-api.vn/api/d/${district}?depth=2`
+      );
+      setWards(response.data.wards);
+    } catch (error) {
+      console.error("Error fetching wards:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Fetch districts when city is selected
+    if (name === "city") {
+      fetchDistricts(value);
+      setFormData((prev) => ({ ...prev, district: "", ward: "", address: "" })); // Reset district, ward and address
+    }
+    // Fetch wards when district is selected
+    else if (name === "district") {
+      fetchWards(value);
+      setFormData((prev) => ({ ...prev, ward: "", address: "" })); // Reset ward and address
+    }
+    // Update full address when ward is selected
+    else if (name === "ward") {
+      const selectedWard = wards.find((ward) => ward.code === value);
+      const selectedDistrict = districts.find(
+        (district) => district.code === formData.district
+      );
+      const selectedCity = provinces.find(
+        (province) => province.code === formData.city
+      );
+
+      // Update address only if all are selected
+      if (selectedWard && selectedDistrict && selectedCity) {
+        const fullAddress = `${selectedWard.name}, ${selectedDistrict.name}, ${selectedCity.name}`;
+        setFormData((prev) => ({ ...prev, address: fullAddress }));
+      }
+    }
   };
 
   const handleAddressClick = () => {
     setShowAddressForm(true);
   };
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const PhiGH = totalPrice > 0 && totalPrice < MienPhiGH ? TonPhiGH : 0;
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    // Kiểm tra độ dài tên
+    if (formData.fullName.length < 5) {
+      alert("Tên phải có ít nhất 5 ký tự.");
+      return; // Ngừng thực hiện nếu kiểm tra không hợp lệ
+    }
+
+    // Kiểm tra định dạng số điện thoại
+    const phoneRegex = /^[0-9]{10,12}$/; // Chỉ cho phép số và từ 10-12 ký tự
+    if (!phoneRegex.test(formData.phone)) {
+      alert("Số điện thoại phải từ 10 đến 12 chữ số.");
+      return; // Ngừng thực hiện nếu kiểm tra không hợp lệ
+    }
+
+    // Kiểm tra tính hợp lệ của email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Kiểm tra email có chứa ký tự @
+    if (!emailRegex.test(formData.email)) {
+      alert("Email không hợp lệ. Vui lòng nhập email đúng định dạng.");
+      return; // Ngừng thực hiện nếu kiểm tra không hợp lệ
+    }
+
+    // Kiểm tra phương thức thanh toán đã được chọn chưa
+    if (!paymentMethod) {
+      alert("Vui lòng chọn phương thức thanh toán.");
+      return; // Ngừng thực hiện nếu không chọn phương thức thanh toán
+    }
+
+    // Nếu tất cả kiểm tra đều hợp lệ, tiến hành xử lý đơn hàng
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+      // Xóa giỏ hàng
+      localStorage.removeItem("checkoutCart");
+      setCheckoutCart([]); // Cập nhật trạng thái giỏ hàng về rỗng
+      setFormData({
+        fullName: "",
+        address: "",
+        city: "",
+        district: "",
+        ward: "",
+        phone: "",
+        email: "",
+        note: "",
+      });
+      setTotalPrice(0);
+      setPaymentMethod("");
+    }, 1000); //time reset
+  };
   return (
     <>
       <Helmet>
         <title>Thanh toán - 30GLOW</title>
-        <meta name="description" content="meo meo meo" />
+        <meta name="description" content="Trang thanh toán" />
       </Helmet>
       <Header />
-      <BreadcrumbComponent props={[{ name: "Thanh toán", url: "/thanh-toan" }]} />
-      <div className="container mt-3">
+      <Container className="my-5">
         <Row>
-          <Col md={6}>
+          <Col md={7}>
             <h4>Đơn đặt hàng</h4>
-            <Card>
-              <Card.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <strong>Sản phẩm</strong>
-                  </ListGroup.Item>
-                  {carts.map((item, index) => (
-                    <ListGroup.Item
-                      key={index}
-                      className="d-flex align-items-center justify-content-between"
-                    >
-                      <div className="d-flex align-items-center">
+            {checkoutCart.length === 0 ? (
+              <h4 className="text-danger text-center">Giỏ hàng trống.</h4>
+            ) : (
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th className="text-center">Hình ảnh</th>
+                    <th>Sản phẩm</th>
+                    <th>Thành tiền</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {checkoutCart.map((item, index) => (
+                    <tr key={index}>
+                      <td className="text-center">
                         <img
-                          src={item.image}
-                          alt={item.name}
+                          src={
+                            item.image
+                              ? `${import.meta.env.VITE_URL}${item.image}`
+                              : "path/to/default-image.jpg"
+                          }
                           style={{
-                            width: "80px",
-                            height: "80px",
-                            marginRight: "10px",
+                            width: "60px",
+                            height: "60px",
+                            objectFit: "cover",
                           }}
+                          alt={item.name}
                         />
-                        {/* tên sp */}
-                        {item.name}
-                      </div>
-                      {/* giá */}
-                      <span>
-                        {Intl.NumberFormat("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        }).format(item.tong)}
-                      </span>
-                    </ListGroup.Item>
+                      </td>
+                      <td>{item.name}</td>
+                      <td>{Intl.NumberFormat("vi-VN").format(item.price)} đ</td>
+                    </tr>
                   ))}
-                  {/* Form nhập mã giảm giá */}
-                  <ListGroup.Item>
-                    <Form className="d-flex">
-                      <Form.Control
-                        type="text"
-                        placeholder="Nhập mã giảm giá"
-                        className="me-2"
-                        style={{ flex: 1 }}
-                      />
-                      <Button variant="success">Áp dụng</Button>
-                    </Form>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <strong>Tạm tính:</strong>
-                    <span className="float-end">
-                      {Intl.NumberFormat("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      }).format(tong)}
-                    </span>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <strong>Giao hàng:</strong>
-                    <span className="float-end">
-                      {PhiGH === 0
-                        ? "Miễn phí"
-                        : Intl.NumberFormat("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          }).format(PhiGH)}
-                    </span>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <strong>Tổng cộng:</strong>
-                    <span className="float-end">
-                      {Intl.NumberFormat("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      }).format(tongHoaDon)}
-                    </span>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Card.Body>
+                </tbody>
+              </Table>
+            )}
+            <Form>
+              <Form.Group controlId="discountCode">
+                <Form.Label>Nhập mã giảm giá</Form.Label>
+                <Form className="d-flex">
+                  <Form.Control
+                    type="text"
+                    placeholder="Nhập mã giảm giá"
+                    className="me-2"
+                    style={{ flex: 1, height: "48px" }}
+                  />
+                  <Button variant="success" style={{ height: "48px" }}>
+                    Áp dụng
+                  </Button>
+                </Form>
+              </Form.Group>
+            </Form>
+            <Card className="mt-3 p-3">
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <strong>Tạm tính:</strong>
+                <span>{Intl.NumberFormat("vi-VN").format(totalPrice)} đ</span>
+              </div>
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <strong>Phí giao hàng:</strong>
+                <span>
+                  {PhiGH.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
+              </div>
+              <div className="d-flex justify-content-between align-items-center text-danger fw-bold">
+                <h5 className="mb-0">Tổng cộng:</h5>
+                <span>
+                  {Intl.NumberFormat("vi-VN").format(totalPrice + PhiGH)} đ
+                </span>
+              </div>
             </Card>
-            {/* Phương thức thanh toán */}
+
             <Card className="mt-3 mb-4">
               <Card.Body>
                 <h5>Phương thức thanh toán</h5>
@@ -182,7 +270,7 @@ const ThanhToan = () => {
                   label="Online"
                   name="paymentMethod"
                   value="Online"
-                  onChange={handleChange}
+                  onChange={(e) => setPaymentMethod(e.target.value)} // Cập nhật paymentMethod
                   required
                 />
                 <Form.Check
@@ -190,13 +278,14 @@ const ThanhToan = () => {
                   label="Trực tiếp"
                   name="paymentMethod"
                   value="Trực tiếp"
-                  onChange={handleChange}
+                  onChange={(e) => setPaymentMethod(e.target.value)} // Cập nhật paymentMethod
                   required
                 />
               </Card.Body>
             </Card>
           </Col>
-          <Col md={5} style={{ marginLeft: "20px" }}>
+
+          <Col md={5}>
             <h4>Thông tin thanh toán</h4>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
@@ -217,7 +306,7 @@ const ThanhToan = () => {
                   type="text"
                   name="address"
                   placeholder="Nhập địa chỉ"
-                  value={formData.address}
+                  value={formData.address} // Hiển thị địa chỉ đã chọn
                   onChange={handleChange}
                   onClick={handleAddressClick}
                   required
@@ -228,50 +317,56 @@ const ThanhToan = () => {
                 <>
                   <Form.Group className="mb-3">
                     <Form.Label>Tỉnh/Thành phố</Form.Label>
-                    <Form.Control
-                      as="select"
+                    <select
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
                       required
+                      className="form-control"
                     >
                       <option value="">Vui lòng chọn</option>
-                      <option>Hà Nội</option>
-                      <option>Hồ Chí Minh</option>
-                      <option>Đà Nẵng</option>
-                    </Form.Control>
+                      {provinces.map((province) => (
+                        <option key={province.code} value={province.code}>
+                          {province.name}
+                        </option>
+                      ))}
+                    </select>
                   </Form.Group>
 
                   <Form.Group className="mb-3">
                     <Form.Label>Quận/Huyện</Form.Label>
-                    <Form.Control
-                      as="select"
+                    <select
                       name="district"
                       value={formData.district}
                       onChange={handleChange}
                       required
+                      className="form-control"
                     >
                       <option value="">Vui lòng chọn</option>
-                      <option>Quận 1</option>
-                      <option>Quận 2</option>
-                      <option>Quận 3</option>
-                    </Form.Control>
+                      {districts.map((district) => (
+                        <option key={district.code} value={district.code}>
+                          {district.name}
+                        </option>
+                      ))}
+                    </select>
                   </Form.Group>
 
                   <Form.Group className="mb-3">
                     <Form.Label>Phường/Xã</Form.Label>
-                    <Form.Control
-                      as="select"
+                    <select
                       name="ward"
                       value={formData.ward}
                       onChange={handleChange}
                       required
+                      className="form-control"
                     >
                       <option value="">Vui lòng chọn</option>
-                      <option>Phường 1</option>
-                      <option>Phường 2</option>
-                      <option>Phường 3</option>
-                    </Form.Control>
+                      {wards.map((ward) => (
+                        <option key={ward.code} value={ward.code}>
+                          {ward.name}
+                        </option>
+                      ))}
+                    </select>
                   </Form.Group>
                 </>
               )}
@@ -314,7 +409,6 @@ const ThanhToan = () => {
 
               <Button
                 type="submit"
-                // variant="primary"
                 style={{
                   width: "100%",
                   marginBottom: "50px",
@@ -333,10 +427,10 @@ const ThanhToan = () => {
             )}
           </Col>
         </Row>
-      </div>
+      </Container>
       <Footer />
     </>
   );
-};
+}
 
 export default ThanhToan;

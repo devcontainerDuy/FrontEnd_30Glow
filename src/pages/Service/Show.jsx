@@ -1,7 +1,7 @@
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -10,7 +10,6 @@ import "notyf/notyf.min.css";
 
 function Show() {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const [ChiTietDV, setChiTietDV] = useState(null);
   const [cart, setCart] = useState([]);
 
@@ -29,13 +28,15 @@ function Show() {
           `${import.meta.env.VITE_API_URL}/services/${slug}`
         );
 
-        if (response.data.check) {
+        if (response.data && response.data.check) {
           setChiTietDV(response.data.data);
         } else {
           console.error("Dữ liệu không hợp lệ");
+          notyf.error("Dữ liệu không hợp lệ");
         }
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
+        notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
       }
     };
 
@@ -51,7 +52,7 @@ function Show() {
 
   const addToCart = () => {
     if (!ChiTietDV) {
-      console.log("ChiTietDV chưa có dữ liệu.");
+      // console.log("ChiTietDV chưa có dữ liệu.");
       return;
     }
 
@@ -78,6 +79,7 @@ function Show() {
   const handleDatLich = () => {
     addToCart();
   };
+  console.log(ChiTietDV?.image);
 
   return (
     <>
@@ -95,13 +97,13 @@ function Show() {
               <img
                 src={
                   ChiTietDV?.image
-                    ? `${import.meta.env.VITE_API_URL}${ChiTietDV.image}`
+                    ? `${import.meta.env.VITE_URL}/${ChiTietDV.image}`
                     : "path/to/default-image.jpg"
                 }
                 alt="Hình ảnh"
                 style={{
                   maxWidth: "500px",
-                  height: "auto",
+                  height: "1500px",
                   maxHeight: "500px",
                   objectFit: "contain",
                   marginBottom: "3px",
