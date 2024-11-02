@@ -81,26 +81,28 @@ function Detail() {
   const [newComment, setNewComment] = useState("");
   const [replyContent, setReplyContent] = useState({});
   const [productDetail, setProductDetail] = useState({});
-  const [productIndex, setProductIndex] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  // const [productIndex, setProductIndex] = useState([]);
 
-    useEffect(() => {
-    // Call API Products
-    const Product = async () => {
-      try {
-        await axios
-          .get(import.meta.env.VITE_API_URL + "/products/highlighted")
-          .then((res) => {
-            setProductIndex(res.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    Product();
-  }, []);
+  //   useEffect(() => {
+  //   // Call API Products
+  //   const Product = async () => {
+  //     try {
+  //       await axios
+  //         .get(import.meta.env.VITE_API_URL + "/products/highlighted")
+  //         .then((res) => {
+  //           setProductIndex(res.data.data);
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //         });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   Product();
+  // }, []);
+console.log(relatedProducts);
 
   useEffect(() => {
     axios
@@ -108,6 +110,7 @@ function Detail() {
       .then((res) => {
         console.log(res.data.data); // Kiểm tra dữ liệu trả về từ API
         setProductDetail(res.data.data);
+        setRelatedProducts(res.data.data.related_products);
       })
       .catch((err) => {
         console.log(err);
@@ -404,7 +407,7 @@ function Detail() {
           </div>
         </div>
         <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {productIndex.map((product, index) => (
+          {relatedProducts.map((product, index) => (
             <CardProduct key={index} {...product} />
           ))}
         </Row>
