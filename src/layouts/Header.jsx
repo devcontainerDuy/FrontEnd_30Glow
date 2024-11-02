@@ -156,15 +156,23 @@ function Header() {
                 <i className="bi bi-search" />
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
-              <Nav.Link className="position-relative" href="/gio-hang">
-                <i className="bi bi-bag" />
+            <Nav.Item title="Đặt lịch">
+              <Nav.Link className="position-relative me-1" href="/gio-hang">
+                <i className="bi bi-calendar-check" />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   8
                 </span>
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item title="Giỏ hàng">
+              <Nav.Link className="position-relative" href="/gio-hang-san-pham">
+                <i className="bi bi-basket2" />
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  8
+                </span>
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item title="Đăng nhập">
               <Nav.Link href="/dang-nhap">
                 <i className="bi bi-person-circle" />
               </Nav.Link>
