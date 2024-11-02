@@ -18,7 +18,8 @@ import ThanhToan from "./pages/Cart/thanh-toan";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import Forgot from "./pages/Auth/Forgot";
-import ProductCard from "./pages/Cart/ProductCard";
+import ProductCart from "./pages/Cart/ProductCart";
+import ProductPayment from "./pages/Cart/ProductPayment";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
         <Route path='/gioi-thieu' element={<About />} />
         <Route path='/lien-he' element={<Contact />} />
         <Route path='/gio-hang' element={<GioHang />} />
-        <Route path='/gio-hang-san-pham' element={<ProductCard />} />
+        <Route path='/gio-hang-san-pham' element={<ProductCart />} />
+        <Route path='/thanh-toan-san-pham' element={<ProductPayment />} />
         <Route path='/san-pham' element={<Product />} />
         <Route path='/thuong-hieu' element={<Brand />} />
         <Route path='/san-pham/:slug' element={<Detail />} />
