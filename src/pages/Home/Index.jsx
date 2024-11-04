@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Footer from "../../layouts/Footer";
 import Header from "../../layouts/Header";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
@@ -5,50 +7,65 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
 import CardProduct from "../../components/CardProduct";
 import CardPost from "../../components/CardPost";
+import CardService from "../../components/CardService";
+import { Helmet } from "react-helmet";
 
 function Index() {
-  const productList = [
-    {
-      id: 1,
-      name: "Sửa rửa mặt Simple",
-      slug: "sua-rua-mat-simple",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 618000,
-      discount: 494000,
-    },
-    {
-      id: 2,
-      name: "Dầu gội Dvinces",
-      slug: "dau-goi-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 334000,
-      discount: 293000,
-    },
-    {
-      id: 3,
-      name: "Dầu xả Dvinces",
-      slug: "dau-xa-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 364060,
-      discount: 320000,
-    },
-    {
-      id: 4,
-      name: "Kem dưỡng ẩm ATS",
-      slug: "kem-duong-ats",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 691000,
-      discount: 549000,
-    },
-    {
-      id: 5,
-      name: "Kem chống nắng SkinAqua",
-      slug: "kem-chong-nang-skinaqua",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 284570,
-      discount: 159000,
-    },
-  ];
+  const [slideIndex, setSlideIndex] = useState([]);
+  const [serviceIndex, setServiceIndex] = useState([]);
+  const [productIndex, setProductIndex] = useState([]);
+
+  useEffect(() => {
+    // Call API Slides
+    const Slide = async () => {
+      try {
+        await axios
+          .get(import.meta.env.VITE_API_URL + "/slides")
+          .then((res) => {
+            setSlideIndex(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    // Call API Services
+    const Service = async () => {
+      try {
+        await axios
+          .get(import.meta.env.VITE_API_URL + "/services/highlighted")
+          .then((res) => {
+            setServiceIndex(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    // Call API Products
+    const Product = async () => {
+      try {
+        await axios
+          .get(import.meta.env.VITE_API_URL + "/products/highlighted")
+          .then((res) => {
+            setProductIndex(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    Slide();
+    Service();
+    Product();
+  }, []);
 
   const postList = [
     {
@@ -78,8 +95,11 @@ function Index() {
   ];
   return (
     <>
+      <Helmet>
+        <title>Trang chủ - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
-
       {/* Start slider section */}
       <section className="p-0 m-0">
         <Swiper
@@ -98,15 +118,21 @@ function Index() {
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
         >
-          <SwiperSlide>
-            <Image src="https://backend.codingfs.com/storage/slides/20240311_banner_dkp_w.jpeg" fluid className="w-100 height-100" alt="" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src="https://backend.codingfs.com/storage/slides/240426_banner_1000_w.jpg" fluid className="w-100 height-100" alt="" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src="https://backend.codingfs.com/storage/slides/240426_banner_binhan_w.jpg" fluid className="w-100 height-100" alt="" />
-          </SwiperSlide>
+          {slideIndex.length > 0 ? (
+            slideIndex.map((item, index) => (
+              <>
+                <div key={index + 1}>
+                  <SwiperSlide>
+                    <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
+                  </SwiperSlide>
+                </div>
+              </>
+            ))
+          ) : (
+            <SwiperSlide>
+              <Image src="https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg" fluid className="w-100 height-100" alt="Slide 1" />
+            </SwiperSlide>
+          )}
         </Swiper>
       </section>
       {/* End slider section */}
@@ -163,6 +189,19 @@ function Index() {
       </Container>
       {/* End buy section */}
 
+      {/* Start service section */}
+      <Container className="my-5">
+        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+          <div className="ms-2">
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
+          </div>
+        </div>
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          {serviceIndex && serviceIndex.length > 0 ? serviceIndex.map((item, index) => <CardService key={index} {...item} />) : <h3 className="text-center pt-3">Không có dịch vụ</h3>}
+        </Row>
+      </Container>
+      {/* End service section */}
+
       {/* Start product section */}
       <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
@@ -171,9 +210,7 @@ function Index() {
           </div>
         </div>
         <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {productList.map((product, index) => (
-            <CardProduct key={index} {...product} />
-          ))}
+          {productIndex.length > 0 ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className="text-center">Không có sản phẩm</h3>}
         </Row>
       </Container>
       {/* End product section */}
@@ -186,11 +223,7 @@ function Index() {
           </div>
         </div>
 
-        <Row className="row-cols-1 row-cols-lg-3 g-4">
-          {postList.map((post, index) => (
-            <CardPost key={index} {...post} />
-          ))}
-        </Row>
+        <Row className="row-cols-1 row-cols-lg-3 g-4">{postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className="text-center">Không có bài đăng</h3>}</Row>
         {/*end row*/}
       </Container>
       {/* End Post */}

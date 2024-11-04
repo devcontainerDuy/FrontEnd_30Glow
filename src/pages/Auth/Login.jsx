@@ -8,6 +8,7 @@ import { Notyf } from "notyf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "notyf/notyf.min.css";
+import { Helmet } from "react-helmet";
 
 function Login() {
   const notyf = new Notyf({
@@ -25,7 +26,6 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false); // State cho việc ẩn/hiện mật khẩu
   const navigate = useNavigate();
 
-  // Kiểm tra hợp lệ dữ liệu
   const validate = () => {
     let newErrors = {};
 
@@ -44,8 +44,6 @@ function Login() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  // Xử lý khi người dùng submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
@@ -69,6 +67,10 @@ function Login() {
 
   return (
     <>
+      <Helmet>
+        <title>Đăng nhập - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
       <Container className="my-5">
         <Row className="border-rounded-10 shadow w-75 mx-auto">

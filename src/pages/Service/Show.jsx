@@ -1,126 +1,170 @@
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import { Container, Row, Col, Button } from "react-bootstrap"; // Import Alert
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { useState } from "react"; // Import useState
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
+import axios from "axios";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 
 function Show() {
   const { slug } = useParams();
+  const [ChiTietDV, setChiTietDV] = useState(null);
+  const [cart, setCart] = useState([]);
 
-  const convertSlugToTitle = (slug) => {
-    return slug.replace(/-/g, " ");
+  // Khởi tạo Notyf
+  const notyf = new Notyf({
+    position: {
+      x: "right",
+      y: "top",
+    },
+  });
+
+  useEffect(() => {
+    const fetchChiTietDV = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/services/${slug}`
+        );
+
+        if (response.data && response.data.check) {
+          setChiTietDV(response.data.data);
+        } else {
+          console.error("Dữ liệu không hợp lệ");
+          notyf.error("Dữ liệu không hợp lệ");
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+        notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+      }
+    };
+
+    fetchChiTietDV();
+  }, [slug]);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
+  const addToCart = () => {
+    if (!ChiTietDV) {
+      // console.log("ChiTietDV chưa có dữ liệu.");
+      return;
+    }
+
+    const existingItem = cart.find((item) => item.id === ChiTietDV.id);
+    let updatedCart;
+
+    if (existingItem) {
+      updatedCart = cart.map((item) =>
+        item.id === ChiTietDV.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      updatedCart = [...cart, { ...ChiTietDV, quantity: 1 }];
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    notyf.success("Đã thêm vào giỏ hàng!");
+
+    console.log("Giỏ hàng hiện tại:", updatedCart);
   };
+
+  const handleDatLich = () => {
+    addToCart();
+  };
+  console.log(ChiTietDV?.image);
 
   return (
     <>
+      <Helmet>
+        <title>
+          {ChiTietDV ? ChiTietDV.name : "Chi tiết dịch vụ"} - 30GLOW
+        </title>
+        <meta name="description" content={ChiTietDV?.summary} />
+      </Helmet>
       <Header />
       <Container className="my-5 mb-6">
         <Row>
-          {/* Cột hiển thị thông tin dịch vụ */}
           <Col md={6} className="d-flex flex-column align-items-center">
             <div className="text-center">
               <img
-                src="https://i.pinimg.com/enabled_hi/564x/cd/b7/f7/cdb7f7b70b495b4c3aab2aa1504eef78.jpg"
-                alt="Hướng dẫn sử dụng"
+                src={
+                  ChiTietDV?.image
+                    ? `${import.meta.env.VITE_URL}/${ChiTietDV.image}`
+                    : "path/to/default-image.jpg"
+                }
+                alt="Hình ảnh"
                 style={{
                   maxWidth: "500px",
-                  height: "auto",
+                  height: "1500px",
                   maxHeight: "500px",
                   objectFit: "contain",
                   marginBottom: "3px",
                 }}
+                className="mx-auto"
               />
-              <div className="d-flex justify-content-center mt-3">
-                <img
-                  src="https://i.pinimg.com/564x/4f/37/5a/4f375a167b7d13447bc64a97c133a565.jpg"
-                  alt="Hình 1"
-                  style={{
-                    width: "130px",
-                    height: "127px",
-                    objectFit: "cover",
-                    margin: "0 5px 5px 0",
-                  }}
-                />
-                <img
-                  src="https://i.pinimg.com/564x/9b/83/31/9b833115dc1988e054d51fbf24788d83.jpg"
-                  alt="Hình 2"
-                  style={{
-                    width: "130px",
-                    height: "127px",
-                    objectFit: "cover",
-                    margin: "0 15px 5px",
-                  }}
-                />
-                <img
-                  src="https://i.pinimg.com/564x/21/e8/e4/21e8e4bd7da713468714a0f8947f7a57.jpg"
-                  alt="Hình 3"
-                  style={{
-                    width: "130px",
-                    height: "127px",
-                    objectFit: "cover",
-                    margin: "0 5px",
-                  }}
-                />
-              </div>
+              {/* <div className="d-flex justify-content-center mt-3">
+                {ChiTietDV?.gallery?.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`Hình ${index + 1}`}
+                    style={{
+                      width: "130px",
+                      height: "127px",
+                      objectFit: "cover",
+                      margin: "0 5px",
+                    }}
+                    className="mx-auto"
+                  />
+                ))}
+              </div> */}
             </div>
           </Col>
 
-          {/* Cột form đặt lịch */}
           <Col md={5}>
             <div className="border p-2">
               <div className="d-flex justify-content-between align-items-center">
-                <h className="text-danger fw-bold mb-0">
-                  {convertSlugToTitle(slug)}
-                </h>
-                <Button variant="dark" type="submit">
-                  Đặt lịch hẹn ngay
+                <h4 className="text-danger fw-bold mb-0">
+                  {ChiTietDV ? ChiTietDV.name : "Tên dịch vụ"}
+                </h4>
+                <Button variant="dark" onClick={handleDatLich}>
+                  Đặt lịch
                 </Button>
               </div>
-              {/* <h2 className="fw-bold mt-3">Đặt lịch</h2> */}
               <div className="d-flex justify-content-between">
-                <del className="text-muted">1520,000 ₫</del>
-                <p className="fw-bold text-danger">Tổng: 1200,000 ₫</p>
+                <p className="me-3 text-decoration-line-through">
+                  {ChiTietDV
+                    ? ChiTietDV.compare_price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : "..."}
+                </p>
+                <p className="fw-bold text-danger">
+                  Tổng:{" "}
+                  {ChiTietDV
+                    ? ChiTietDV.price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : "..."}
+                </p>
               </div>
-
               <h4 className="fw-bold text-start mt-2">Nội dung dịch vụ:</h4>
               <div className="text-start">
-                <strong>Tư vấn kiểu tóc:</strong>
-                <p>
-                  Thợ làm tóc sẽ tư vấn về kiểu tóc phù hợp với bạn dựa trên
-                  khuôn mặt, tình trạng tóc và mong muốn của bạn.Bạn có thể chọn
-                  từ các kiểu tóc ngắn, dài, uốn xoăn, thẳng, hay bất kỳ kiểu
-                  tóc nào khác......
-                </p>
-                <li>
-                  <strong>Cắt tóc:</strong>
-                  <p>
-                    Thợ sẽ tiến hành cắt tóc theo kiểu bạn đã chọn. Chúng tôi sử
-                    dụng các công cụ và kỹ thuật hiện đại để đảm bảo tóc của bạn
-                    được cắt đều và đẹp.
-                  </p>
-                </li>
-
-                <li>
-                  <strong>Tạo kiểu:</strong>
-                  <p>
-                    Sau khi cắt tóc, thợ sẽ tạo kiểu tóc cho bạn. Tùy thuộc vào
-                    sở thích, bạn có thể chọn tạo kiểu tóc bồng bềnh, lọn sóng,
-                    hoặc gọn gàng.
-                  </p>
-                </li>
-
-                <li>
-                  <strong>Chăm sóc tóc:</strong>
-                  <p>
-                    Chúng tôi sẽ sử dụng sản phẩm chăm sóc tóc chất lượng để giữ
-                    cho mái tóc của bạn luôn khỏe mạnh và bóng mượt.
-                  </p>
-                </li>
-                <p className="text-center">
-                  Hãy đến salon của chúng tôi để trải nghiệm dịch vụ chuyên
-                  nghiệp và thư giãn! Nếu bạn cần thêm thông tin hoặc muốn đặt
-                  lịch hẹn, hãy liên hệ với chúng tôi.
-                </p>
+                {ChiTietDV ? (
+                  <p dangerouslySetInnerHTML={{ __html: ChiTietDV.content }} />
+                ) : (
+                  <p>Đang tải nội dung dịch vụ...</p>
+                )}
               </div>
             </div>
           </Col>

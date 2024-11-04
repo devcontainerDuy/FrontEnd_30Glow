@@ -4,55 +4,62 @@ import Footer from "../../layouts/Footer";
 import { Container } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
 import CardProduct from "../../components/CardProduct";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import { Helmet } from "react-helmet";
 // import CardBrand from "../../components/CardBrand.jsx";
 
 function Index() {
-  const productList = [
-    {
-      id: 1,
-      name: "Sửa rửa mặt Simple",
-      slug: "sua-rua-mat-simple",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 618000,
-      discount: 494000,
-    },
-    {
-      id: 2,
-      name: "Dầu gội Dvinces",
-      slug: "dau-goi-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 334000,
-      discount: 293000,
-    },
-    {
-      id: 3,
-      name: "Dầu xả Dvinces",
-      slug: "dau-xa-davinces",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 364060,
-      discount: 320000,
-    },
-    {
-      id: 4,
-      name: "Kem dưỡng ẩm ATS",
-      slug: "kem-duong-ats",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 691000,
-      discount: 549000,
-    },
-    {
-      id: 5,
-      name: "Kem chống nắng SkinAqua",
-      slug: "kem-chong-nang-skinaqua",
-      image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      price: 284570,
-      discount: 159000,
-    },
-  ];
+  // const productList = [
+  //   {
+  //     id: 1,
+  //     name: "Sửa rửa mặt Simple",
+  //     slug: "sua-rua-mat-simple",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 618000,
+  //     discount: 494000,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Dầu gội Dvinces",
+  //     slug: "dau-goi-davinces",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 334000,
+  //     discount: 293000,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Dầu xả Dvinces",
+  //     slug: "dau-xa-davinces",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 364060,
+  //     discount: 320000,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Kem dưỡng ẩm ATS",
+  //     slug: "kem-duong-ats",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 691000,
+  //     discount: 549000,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Kem chống nắng SkinAqua",
+  //     slug: "kem-chong-nang-skinaqua",
+  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+  //     price: 284570,
+  //     discount: 159000,
+  //   },
+  // ];
   return (
     <>
+      <Helmet>
+        <title>Thương hiệu - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
-      <Container className="my-5">
+      <BreadcrumbComponent props={[{ name: "Thương hiệu", url: "/thuong-hieu" }]} />
+      <Container className="my-3">
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
             <div className="ms-2">

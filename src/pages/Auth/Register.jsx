@@ -7,7 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Notyf } from "notyf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import "notyf/notyf.min.css"; // Import CSS của Notyf
+import "notyf/notyf.min.css";
+import { Helmet } from "react-helmet";
 
 function Register() {
   const notyf = new Notyf({
@@ -43,30 +44,25 @@ function Register() {
     if (formData.email && !emailRegex.test(formData.email)) {
       newErrors.email = "Email không hợp lệ!";
     }
-
     const phoneRegex = /^0\d{9}$/;
     if (formData.phone && !phoneRegex.test(formData.phone)) {
       newErrors.phone = "Số điện thoại phải có 10 số và bắt đầu bằng số 0!";
     }
-
     if (formData.password && formData.password.length < 8) {
       newErrors.password = "Mật khẩu phải có ít nhất 8 ký tự!";
     }
-
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Mật khẩu xác nhận không khớp!";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Xử lý khi submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
       notyf.success("Đăng ký thành công!");
-      setTimeout(() => navigate("/dang-nhap"), 2000); // Chuyển hướng sau 2 giây
+      setTimeout(() => navigate("/dang-nhap"), 2000); 
     } else {
       notyf.error("Vui lòng kiểm tra và điền đúng thông tin!");
     }
@@ -84,6 +80,10 @@ function Register() {
 
   return (
     <>
+      <Helmet>
+        <title>Đăng ký - 30GLOW</title>
+        <meta name="description" content="meo meo meo" />
+      </Helmet>
       <Header />
       <Container className="my-5">
         <Row className="rounded-4 shadow-lg overflow-hidden w-75 mx-auto">
