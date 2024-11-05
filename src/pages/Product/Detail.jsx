@@ -65,6 +65,7 @@ function Detail() {
   //     discount: 159000,
   //   },
   // ];
+  
   const [comments, setComments] = useState([
     {
       id: 1,
