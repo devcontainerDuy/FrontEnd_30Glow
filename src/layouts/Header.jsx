@@ -1,23 +1,39 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
 import { Notyf } from "notyf";
-import Modal from "react-bootstrap/Modal";
 import {
-  Col,
   Container,
-  Dropdown,
   Image,
   Nav,
   Navbar,
-  NavbarBrand,
   NavDropdown,
-  NavLink,
   Offcanvas,
-  Row,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("Phan Thị Minh Thư");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUsername = localStorage.getItem("username");
+    if (token && storedUsername) {
+      setIsLoggedIn(true);
+      setUsername(storedUsername);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    navigate("/", { replace: true });
+};
+
   const notyf = new Notyf({
     duration: 1000,
     position: {
@@ -57,7 +73,7 @@ function Header() {
       },
     ],
   });
-
+  
   return (
     <>
       {/*start top header*/}
@@ -172,11 +188,45 @@ function Header() {
                 </span>
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item title="Đăng nhập">
-              <Nav.Link href="/dang-nhap">
-                <i className="bi bi-person-circle" />
-              </Nav.Link>
-            </Nav.Item>
+            <Navbar expand="lg" className="bg-body-tertiary sticky-top">
+              <Container>
+                <Navbar.Toggle aria-controls="navbar-nav" />
+                <Navbar.Collapse id="navbar-nav" className="justify-content-end gap-3 fs-5">
+                  <Nav className="align-items-center">
+                    {isLoggedIn ? (
+                      <NavDropdown
+                        title={<span>Hi, {username || "Khách hàng"}</span>}
+                        id="profile-dropdown"
+                        className="fs-6"
+                        align="end"
+                      >
+                        <NavDropdown.Item href="/tai-khoan">
+                          <i className="bi bi-person-circle me-2" />
+                          Tài khoản
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/hoa-don">
+                          <i className="bi bi-box me-2" />
+                          Hóa đơn
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/dat-lich">
+                          <i className="bi bi-calendar-check me-2" />
+                          Đặt lịch
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item onClick={handleLogout}>
+                          <i className="bi bi-box-arrow-right me-2" />
+                          Đăng xuất
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                    ) : (
+                      <Nav.Link href="/dang-nhap">
+                        <i className="bi bi-person-circle fs-4" title="Đăng nhập" />
+                      </Nav.Link>
+                    )}
+                  </Nav>
+                </Navbar.Collapse>
+              </Container>
+            </Navbar>
           </Navbar.Collapse>
         </Container>
       </Navbar>
