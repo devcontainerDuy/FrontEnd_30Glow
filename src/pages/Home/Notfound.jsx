@@ -29,7 +29,7 @@ function Notfound() {
               <div editable="rich">
                 <p className="rfs-11 fw-light">
                   {" "}
-                  Không tìm thấy trang
+                  Trang bạn đang tìm kiếm đã được di chuyển, xóa hoặc có thể không còn tồn tại.
                 </p>
               </div>
             </div>
