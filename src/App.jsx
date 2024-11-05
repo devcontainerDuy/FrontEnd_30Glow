@@ -21,6 +21,8 @@ import Forgot from "./pages/Auth/Forgot";
 import ProductCart from "./pages/Cart/ProductCart";
 import ProductPayment from "./pages/Cart/ProductPayment";
 import ResetPass from "./pages/Auth/ResetPass";
+import Account from "./pages/Home/Account";
+import Notfound from "./pages/Home/Notfound";
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
         <Route path='/dang-nhap' element={<Login />} />
         <Route path='/quen-mat-khau' element={<Forgot />} />
         <Route path='/doi-mat-khau' element={<ResetPass />} />
+        <Route path='/tai-khoan' element={<Account />} />
+        <Route path='/*' element={<Notfound />} />
       </Routes>
     </BrowserRouter>
   );

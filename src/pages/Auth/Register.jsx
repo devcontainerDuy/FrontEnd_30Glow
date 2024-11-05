@@ -13,7 +13,7 @@ import { Helmet } from "react-helmet";
 function Register() {
   const notyf = new Notyf({
     duration: 3000,
-    position: { x: "center", y: "top" },
+    position: { x: "right", y: "top" },
     dismissible: true,
   });
 
@@ -26,8 +26,8 @@ function Register() {
   });
 
   const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState(false); // Ẩn/hiện mật khẩu
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ẩn/hiện mật khẩu xác nhận
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   // Kiểm tra hợp lệ dữ liệu
@@ -58,23 +58,44 @@ function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  // Xử lý gửi dữ liệu đăng ký
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      notyf.success("Đăng ký thành công!");
-      setTimeout(() => navigate("/dang-nhap"), 2000); 
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password,
+            password_confirmation: formData.confirmPassword,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          notyf.success("Đăng ký thành công!");
+          setTimeout(() => navigate("/dang-nhap"), 2000);
+        } else {
+          notyf.error(result.message || "Đã xảy ra lỗi khi đăng ký!");
+        }
+      } catch (error) {
+        notyf.error("Đã xảy ra lỗi kết nối!");
+      }
     } else {
-      notyf.error("Vui lòng kiểm tra và điền đúng thông tin!");
+      notyf.error("Vui lòng kiểm tra và điền đầy đủ thông tin!");
     }
   };
 
-  // Cập nhật state khi nhập dữ liệu
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
-  // Đổi trạng thái ẩn/hiện mật khẩu
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 

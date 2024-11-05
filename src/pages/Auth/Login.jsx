@@ -1,5 +1,5 @@
 // Login.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
@@ -13,7 +13,7 @@ import { Helmet } from "react-helmet";
 function Login() {
   const notyf = new Notyf({
     duration: 3000,
-    position: { x: "center", y: "top" },
+    position: { x: "right", y: "top" },
     dismissible: true,
   });
 
@@ -23,44 +23,74 @@ function Login() {
   });
 
   const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState(false); // State cho việc ẩn/hiện mật khẩu
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem("rememberedEmail");
+    if (rememberedEmail) {
+      setFormData((prev) => ({ ...prev, email: rememberedEmail }));
+      setRememberMe(true);
+    }
+  }, []);
 
   const validate = () => {
     let newErrors = {};
-
     if (!formData.email.trim()) newErrors.email = "Email không được để trống!";
     if (!formData.password.trim()) newErrors.password = "Mật khẩu không được để trống!";
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.email && !emailRegex.test(formData.email)) {
       newErrors.email = "Email không hợp lệ!";
     }
-
     if (formData.password && formData.password.length < 8) {
       newErrors.password = "Mật khẩu phải có ít nhất 8 ký tự!";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      notyf.success("Đăng nhập thành công!");
-      setTimeout(() => navigate("/"), 2000); // Chuyển hướng sau 2 giây
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json(); // Giả sử API trả về thông tin người dùng
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("username", data.username); // Lưu tên người dùng
+          notyf.success("Đăng nhập thành công!");
+  
+          // Điều hướng tới trang chủ
+          navigate("/");
+          window.location.reload(); // Tải lại để cập nhật giao diện
+        } else {
+          notyf.error("Thông tin đăng nhập không chính xác!");
+        }
+      } catch (error) {
+        notyf.error("Đã xảy ra lỗi khi kết nối với máy chủ.");
+      }
     } else {
       notyf.error("Vui lòng kiểm tra thông tin đăng nhập!");
     }
   };
+  
 
-  // Cập nhật state khi người dùng nhập dữ liệu
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
-  // Đổi trạng thái ẩn/hiện mật khẩu
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -106,7 +136,12 @@ function Login() {
                 </Form.Group>
 
                 <Form.Group className="mb-2" controlId="formCheckbox">
-                  <Form.Check type="checkbox" label="Ghi nhớ" />
+                  <Form.Check
+                    type="checkbox"
+                    label="Ghi nhớ"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
                 </Form.Group>
 
                 <Link to="/quen-mat-khau" className="text-decoration-none text-danger me-2">
