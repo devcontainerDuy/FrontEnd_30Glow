@@ -57,9 +57,9 @@ function Account() {
       <Header />
       <BreadcrumbComponent props={[{ name: 'Tài khoản', url: '/tai-khoan' }]} />
       <Container className="pb-5">
-        <Row className="mt-4">
+        <Row className="mt-2">
+        <h4>Thông tin tài khoản</h4>
           <Col md={6}>
-            <h4>Thông tin tài khoản</h4>
             <Form onSubmit={handleSave}>
               <Form.Group controlId="name" className="mb-3">
                 <Form.Label>Tên</Form.Label>
@@ -105,7 +105,6 @@ function Account() {
             </Form>
           </Col>
           <Col md={6}>
-            <h4>Đổi mật khẩu</h4>
             <Form>
               <Form.Group controlId="currentPassword" className="mb-3">
                 <Form.Label>Mật khẩu hiện tại</Form.Label>
