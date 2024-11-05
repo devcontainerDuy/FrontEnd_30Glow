@@ -159,7 +159,7 @@ function Header() {
                   <Nav.Link href="/lien-he">Liên hệ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link to="#tintuc">Tin tức</Nav.Link>
+                  <Nav.Link href="/tin-tuc">Tin tức</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Offcanvas.Body>
