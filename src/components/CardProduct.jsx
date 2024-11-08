@@ -36,10 +36,10 @@ export default function CardProduct({ name, slug, price, discount, gallery }) {
                 <i className="bi bi-star-fill text-warning" />
                 <i className="bi bi-star-fill text-warning" />
               </div>
-              <div className="d-flex">
+              <div className="d-md-flex">
                 {discount > 0 ? (
                   <>
-                    <p className="me-3 text-decoration-line-through">
+                    <p className="me-md-2 mb-0 text-decoration-line-through">
                       {price.toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",

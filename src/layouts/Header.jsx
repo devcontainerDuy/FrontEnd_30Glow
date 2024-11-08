@@ -1,10 +1,9 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
 import { Notyf } from "notyf";
-import { Container, Dropdown, Image, Nav, Navbar, NavDropdown, Offcanvas } from "react-bootstrap";
+import { Button, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { he } from "@faker-js/faker";
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,71 +22,33 @@ function Header() {
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await axios
-        .post(
-          import.meta.env.VITE_API_URL + "/logout",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((response) => {
-          if (response.data.check === true) {
-            localStorage.removeItem("token");
-            setIsLoggedIn(false);
-            notyf.success(response.data.message);
-            setTimeout(() => navigate("/dang-nhap", { replace: true }), 2000);
-          } else {
-            notyf.error(response.data.message);
-          }
-        });
-    } catch (error) {
-      console.error(error);
+    if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+      try {
+        await axios
+          .post(
+            import.meta.env.VITE_API_URL + "/logout",
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((response) => {
+            if (response.data.check === true) {
+              localStorage.removeItem("token");
+              setIsLoggedIn(false);
+              window.notyf.success(response.data.message);
+              setTimeout(() => navigate("/dang-nhap", { replace: true }), 2000);
+            } else {
+              window.notyf.error(response.data.message);
+            }
+          });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
-
-  const notyf = new Notyf({
-    duration: 1000,
-    position: {
-      x: "right",
-      y: "top",
-    },
-    types: [
-      {
-        type: "warning",
-        background: "orange",
-        icon: {
-          className: "material-icons",
-          tagName: "i",
-          text: "warning",
-        },
-      },
-      {
-        type: "error",
-        background: "indianred",
-        duration: 2000,
-        dismissible: true,
-      },
-      {
-        type: "success",
-        background: "green",
-        color: "white",
-        duration: 2000,
-        dismissible: true,
-      },
-      {
-        type: "info",
-        background: "#24b3f0",
-        color: "white",
-        duration: 1500,
-        dismissible: false,
-        icon: '<i className="bi bi-bag-check"></i>',
-      },
-    ],
-  });
 
   return (
     <>
@@ -185,49 +146,97 @@ function Header() {
                     Tin tức
                   </Nav.Link>
                 </Nav.Item>
+                <Nav.Item className="d-block d-lg-none">
+                  <Nav.Link as={Link} to="/tai-khoan">
+                    Tài khoản
+                  </Nav.Link>
+                </Nav.Item>
               </Nav>
 
               {/* end header */}
+              <Navbar.Collapse className="justify-content-center">
+                <Form className="d-flex mt-3 d-block d-lg-none">
+                  <Form.Control type="search" placeholder="Tìm kiếm gì đó..." className="me-2" aria-label="Search" />
+                  <Button variant="outline-success">
+                    <i className="bi bi-search"></i>
+                  </Button>
+                </Form>
+                <div className="d-flex gap-1 mt-3">
+                  <Nav.Link as={Link} to="/dat-lich" className="col-6 d-md-none">
+                    <Button variant="outline-primary" className="w-100">
+                      <span className="me-2">Đặt lịch</span>
+                      <span class="badge text-bg-danger">4</span>
+                    </Button>
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/gio-hang" className="col-6 d-md-none">
+                    <Button variant="outline-primary" className="w-100">
+                      <span className="me-2">Giỏ hàng</span>
+                      <span class="badge text-bg-danger">4</span>
+                    </Button>
+                  </Nav.Link>
+                </div>
+              </Navbar.Collapse>
 
-              <Navbar.Collapse className="justify-content-end mx-auto text-uppercase fw-semibold gap-3">
+              <Navbar.Collapse className="justify-content-end mx-auto text-uppercase fw-semibold gap-3 d-none d-lg-block">
                 <Nav.Link as={Link} to={"#"}>
                   <i className="bi bi-search position-relative fs-5"></i>
                 </Nav.Link>
-                <Nav.Link as={Link} to="#" className="ms-1">
-                  <i className="bi bi-bookmark-check position-relative fs-5" title="Lịch đã đặt">
+                <Nav.Link as={Link} to="/dat-lich" className="ms-1">
+                  <i className="bi bi-calendar-check position-relative fs-5" title="Lịch đã đặt">
                     <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">9</span>
                   </i>
                 </Nav.Link>
                 <Nav.Link as={Link} to="/gio-hang" className="ms-1" title="Giỏ hàng">
-                  <i className="bi bi-cart3 position-relative fs-5">
+                  <i className="bi bi-cart2 position-relative fs-5">
                     <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">9</span>
                   </i>
                 </Nav.Link>
-
                 {isLoggedIn ? (
                   <>
-                    <Dropdown autoClose="outside" className="d-none d-lg-block ms-1">
-                      <Dropdown.Toggle as={Nav.Link} variant="link" id="dropdown-basic">
-                        <span>Xin chèo:</span>{" "}
-                        <Link to="#login" className="text-decoration-none text-dark ms-1">
-                          Người dùng
-                        </Link>
+                    <Dropdown autoClose="outside" className="ms-1">
+                      <Dropdown.Toggle as={Nav.Link} variant="link" id="dropdown-basic1" title={"Khách hàng"} className="dropdown-user">
+                        <i className="bi bi-person-circle fs-4 ms-2"></i>
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu align="end">
-                        <Dropdown.Item href="#">Cài đặt</Dropdown.Item>
-                        <Dropdown.Item href="#">Thông tin cá nhân</Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/tai-khoan">
+                          <i className="bi bi-person-circle me-2" />
+                          Tài khoản
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/hoa-don">
+                          <i className="bi bi-box me-2" />
+                          Hóa đơn
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/dat-lich">
+                          <i className="bi bi-calendar-check me-2" />
+                          Đặt lịch
+                        </Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item href="#" role="button" onClick={handleLogout}>
+                          <i className="bi bi-box-arrow-right me-2" />
                           Đăng xuất
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </>
                 ) : (
-                  <Nav.Link as={Link} to="/dang-nhap">
-                    Đăng nhập
-                  </Nav.Link>
+                  <>
+                    <Dropdown autoClose="outside" className="ms-1">
+                      <Dropdown.Toggle as={Nav.Link} variant="link" id="dropdown-basic" title="Tài khoản" className="dropdown-user">
+                        <i className="bi bi-person-circle fs-4 me-2"></i>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu align="end">
+                        <Dropdown.Item as={Link} to="/dang-nhap">
+                          <i className="bi bi bi-door-open me-2"></i> Đăng nhập
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item as={Link} to="/dang-ky">
+                          <i className="bi bi-person-add me-2"></i> Đăng ký
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </>
                 )}
               </Navbar.Collapse>
             </Offcanvas.Body>
