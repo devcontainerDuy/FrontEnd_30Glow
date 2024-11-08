@@ -1,22 +1,14 @@
-// Login.js
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Notyf } from "notyf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import "notyf/notyf.min.css";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 function Login() {
-  const notyf = new Notyf({
-    duration: 3000,
-    position: { x: "right", y: "top" },
-    dismissible: true,
-  });
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -53,38 +45,23 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
+      await axios
+        .post(`${import.meta.env.VITE_API_URL}/login`, { email: formData.email, password: formData.password, remember_token: rememberMe })
+        .then((response) => {
+          if (response.data.check === true) {
+            localStorage.setItem("token", response.data.token);
+            window.notyf.success("Đăng nhập thành công!");
+            setTimeout(() => navigate("/"), 2000);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          window.notyf.error(error.response.data.message);
         });
-  
-        if (response.ok) {
-          const data = await response.json(); // Giả sử API trả về thông tin người dùng
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("username", data.username); // Lưu tên người dùng
-          notyf.success("Đăng nhập thành công!");
-  
-          // Điều hướng tới trang chủ
-          navigate("/");
-          window.location.reload(); // Tải lại để cập nhật giao diện
-        } else {
-          notyf.error("Thông tin đăng nhập không chính xác!");
-        }
-      } catch (error) {
-        notyf.error("Đã xảy ra lỗi khi kết nối với máy chủ.");
-      }
     } else {
-      notyf.error("Vui lòng kiểm tra thông tin đăng nhập!");
+      window.notyf.error("Vui lòng kiểm tra thông tin đăng nhập!");
     }
   };
-  
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -109,39 +86,22 @@ function Login() {
               <h3 className="text-center mb-4 text-primary-emphasis">Đăng nhập</h3>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="email">
-                  <Form.Control
-                    type="email"
-                    placeholder="Địa chỉ email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    isInvalid={!!errors.email}
-                  />
+                  <Form.Control type="email" placeholder="Địa chỉ email" value={formData.email} onChange={handleChange} isInvalid={!!errors.email} />
                   <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="password">
                   <InputGroup>
-                    <Form.Control
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Nhập mật khẩu"
-                      value={formData.password}
-                      onChange={handleChange}
-                      isInvalid={!!errors.password}
-                    />
+                    <Form.Control type={showPassword ? "text" : "password"} placeholder="Nhập mật khẩu" value={formData.password} onChange={handleChange} isInvalid={!!errors.password} />
                     <Button variant="outline-secondary rounded-end" onClick={togglePasswordVisibility}>
-                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}/>
+                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                     </Button>
                     <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
 
                 <Form.Group className="mb-2" controlId="formCheckbox">
-                  <Form.Check
-                    type="checkbox"
-                    label="Ghi nhớ"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                  />
+                  <Form.Check type="checkbox" label="Ghi nhớ" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 </Form.Group>
 
                 <Link to="/quen-mat-khau" className="text-decoration-none text-danger me-2">
