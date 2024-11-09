@@ -1,13 +1,15 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
 import { Notyf } from "notyf";
-import { Button, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("Phan Thị Minh Thư");
+  const [categories, setCategories] = useState([]);
+  const [groupedCategories, setGroupedCategories] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,6 +52,34 @@ function Header() {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/categories");
+      return setCategories(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  useEffect(() => {
+    const tempGroupedCategories = {};
+    categories.forEach((category) => {
+      const parent = category.parent;
+      if (!tempGroupedCategories[parent.id]) {
+        tempGroupedCategories[parent.id] = {
+          parent: parent,
+          children: [],
+        };
+      }
+      tempGroupedCategories[parent.id].children.push(category);
+    });
+    setGroupedCategories(tempGroupedCategories);
+  }, [categories]);
+
   return (
     <>
       {/*start top header*/}
@@ -90,44 +120,42 @@ function Header() {
                   </Nav.Link>
                 </Nav.Item>
                 {/* start dropdown */}
-                {/* <NavDropdown title='Dịch vụ' id='service-dropdown' className='d-none d-lg-block' data-bs-popper='static'>
+                <NavDropdown title="Sản phẩm" id="product-dropdown" data-bs-popper="static">
                   <Container fluid style={{ width: "532px" }}>
-                    <Row>
-                      <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
-                        <Dropdown.Header as={Link} className='text-decoration-none' to='/dich-vu'>
-                          Dưỡng tóc
-                        </Dropdown.Header>
-                        <Dropdown.Item as={Link} to='/'>
-                          Phục hồi tóc
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to='/'>
-                          Dưỡng phục hồi Robo Nano
-                        </Dropdown.Item>
-                      </Col>
-                      <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
-                        <Dropdown.Header as={Link} className='text-decoration-none' to='/'>
-                          Combo
-                        </Dropdown.Header>
-                        <Dropdown.Item as={Link} to='/'>
-                          Combo cắt và tạo kiểu
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to='/'>
-                          Combo cắt và uốn
-                        </Dropdown.Item>
-                      </Col>
+                    <Row className="g-0 row-cols-1 row-cols-lg-2">
+                      {Object.values(groupedCategories).map((group, index) => (
+                        <Col key={index}>
+                          <Dropdown.Header as={Link} className="text-decoration-none" to={`/danh-muc/${group.parent.slug}`}>
+                            {group.parent.name}
+                          </Dropdown.Header>
+                          {/* <div style={{ marginLeft: "20px" }}> */}
+                          {group.children.map((child) => (
+                            <Dropdown.Item key={child.id} as={Link} to={`/danh-muc/${child.slug}`}>
+                              {child.name}
+                            </Dropdown.Item>
+                          ))}
+                          {/* </div> */}
+                        </Col>
+                      ))}
                     </Row>
+
+                    <div className="w-100 d-flex justify-content-center">
+                      <Link to={"/san-pham"} className="text-decoration-none btn btn-primary mt-2 ">
+                        Xem tất cả sản phẩm
+                      </Link>
+                    </div>
                   </Container>
-                </NavDropdown> */}
+                </NavDropdown>
                 {/* end dropdown */}
 
-                <NavDropdown title="Sản phẩm" id="product-dropdown" className="d-none d-lg-block">
+                {/* <NavDropdown title="Sản phẩm" id="product-dropdown" className="d-none d-lg-block">
                   <NavDropdown.Item as={Link} to="/san-pham">
                     Sản phẩm
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="#action/3.2">
                     Another action
                   </NavDropdown.Item>
-                </NavDropdown>
+                </NavDropdown> */}
                 <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
                   <NavDropdown.Item as={Link} to="/thuong-hieu">
                     Thương hiệu
