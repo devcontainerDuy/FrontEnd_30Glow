@@ -121,7 +121,7 @@ function Header() {
                 </Nav.Item>
                 {/* start dropdown */}
                 <NavDropdown title="Sản phẩm" id="product-dropdown" data-bs-popper="static">
-                  <Container fluid style={{ width: "532px" }}>
+                  <Container fluid style={{ width: "24rem" }}>
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
                       {Object.values(groupedCategories).map((group, index) => (
                         <Col key={index}>
@@ -137,13 +137,12 @@ function Header() {
                           {/* </div> */}
                         </Col>
                       ))}
+                      <Col className="m-0 p-0">
+                        <Dropdown.Header as={Link} className="text-decoration-none" to={"/san-pham"}>
+                          Xem tất cả sản phẩm
+                        </Dropdown.Header>
+                      </Col>
                     </Row>
-
-                    <div className="w-100 d-flex justify-content-center">
-                      <Link to={"/san-pham"} className="text-decoration-none btn btn-primary mt-2 ">
-                        Xem tất cả sản phẩm
-                      </Link>
-                    </div>
                   </Container>
                 </NavDropdown>
                 {/* end dropdown */}
