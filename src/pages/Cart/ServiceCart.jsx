@@ -35,22 +35,7 @@ function ServiceCart() {
     const cartData = storedCarts ? JSON.parse(storedCarts) : [];
     setCarts(cartData);
     TongTien(cartData);
-
-    // Lấy dữ liệu và set id_user
-    fetch("https://project1.trungthanhzone.com/api/")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("K nhận api nha cô em ");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCarts(data);
-        TongTien(data);
-      })
-      .catch((error) => {
-        console.error("Lỗi rồi gái ơi", error);
-      });
+    GetAllStaff();
   }, []);
 
   const TongTien = (cart) => {
@@ -126,6 +111,18 @@ function ServiceCart() {
     setTime2(`${hours}:${minutes}:${currentSeconds}`);
   };
 
+  const GetAllStaff = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/staff`);
+      setArrayUser(response?.data?.data);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+      notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+    }
+  };
+  const handleSelectChange = (event) => {
+    setId_user(event.target.value);
+  };
   const AddNewOrder = async (DataOrder) => {
     console.log(DataOrder);
     try {
@@ -316,6 +313,8 @@ function ServiceCart() {
                       <Form.Select
                         aria-label="Chọn kĩ thuật viên"
                         placeholder="Yêu cầu kĩ thuật viên"
+                        value={id_user}
+                        onChange={handleSelectChange}
                       >
                         <optgroup label="Thợ tóc tiệm đề xuất">
                           <option value="Tiệm Đề Xuất">
@@ -323,11 +322,15 @@ function ServiceCart() {
                           </option>
                         </optgroup>
                         <optgroup label="Thợ tóc">
-                          <option value="Huy">Huy</option>
-                          <option value="Minh Thư">Minh Thư</option>
-                          <option value="Anh Thư">Anh Thư</option>
-                          <option value="Duy">Duy</option>
-                          <option value="Tâm">Tâm</option>
+                          {Array.isArray(ArrayUser) && ArrayUser.length > 0 ? (
+                            ArrayUser.map((staffItem, i) => (
+                              <option key={i} value={staffItem?.uid}>
+                                {staffItem?.name}
+                              </option>
+                            ))
+                          ) : (
+                            <option disabled>Không có dữ liệu</option>
+                          )}
                         </optgroup>
                       </Form.Select>
                     </Form.Group>
