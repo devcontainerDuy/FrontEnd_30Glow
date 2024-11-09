@@ -128,18 +128,16 @@ function Header() {
                           <Dropdown.Header as={Link} className="text-decoration-none" to={`/danh-muc/${group.parent.slug}`}>
                             {group.parent.name}
                           </Dropdown.Header>
-                          {/* <div style={{ marginLeft: "20px" }}> */}
                           {group.children.map((child) => (
                             <Dropdown.Item key={child.id} as={Link} to={`/danh-muc/${child.slug}`}>
                               {child.name}
                             </Dropdown.Item>
                           ))}
-                          {/* </div> */}
                         </Col>
                       ))}
                       <Col className="m-0 p-0">
                         <Dropdown.Header as={Link} className="text-decoration-none" to={"/san-pham"}>
-                          Xem tất cả sản phẩm
+                          Tất cả sản phẩm
                         </Dropdown.Header>
                       </Col>
                     </Row>
