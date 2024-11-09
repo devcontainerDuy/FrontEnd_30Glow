@@ -32,7 +32,7 @@ function Header() {
     localStorage.removeItem("username");
     setIsLoggedIn(false);
     navigate("/", { replace: true });
-};
+  };
 
   const notyf = new Notyf({
     duration: 1000,
@@ -73,26 +73,39 @@ function Header() {
       },
     ],
   });
-  
+
   return (
     <>
       {/*start top header*/}
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
           <Navbar.Brand href="/">
-            <Image src="../src/assets/images/logo30GLOW.png" width={100} fluid />
+            <Image
+              src="../src/assets/images/logo30GLOW.png"
+              width={100}
+              fluid
+            />
           </Navbar.Brand>
           {/* start header */}
-          
+
           {/* Button mobile */}
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           {/* Button mobile */}
 
-          <Navbar.Offcanvas id='offcanvasNavbar' aria-labelledby='offcanvasNavbarLabel' placement='end' className='bg-body-tertiary'>
+          <Navbar.Offcanvas
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
+            placement="end"
+            className="bg-body-tertiary"
+          >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand href="/">
-                  <Image src="../src/assets/images/logo30GLOW.png" width={80} fluid />
+                  <Image
+                    src="../src/assets/images/logo30GLOW.png"
+                    width={80}
+                    fluid
+                  />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
@@ -102,14 +115,30 @@ function Header() {
                 variant="underline"
               >
                 <Nav.Item>
-                  <Nav.Link href='/'>Trang chủ</Nav.Link>
+                  <Nav.Link href="/">Trang chủ</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href="/gioi-thieu">Giới thiệu</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                {/* <Nav.Item>
                   <Nav.Link href="/dich-vu">Dịch vụ</Nav.Link>
-                </Nav.Item>
+                </Nav.Item> */}
+                <NavDropdown
+                  title="Dịch vụ"
+                  id="service-dropdown"
+                  className="d-none d-lg-block"
+                >
+                  <NavDropdown.Item href="/dich-vu">Dịch vụ</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    Combo Cắt & uốn
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    Combo Cắt & Nhuộm
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    Combo Cắt & tạo kiểu
+                  </NavDropdown.Item>
+                </NavDropdown>
                 {/* start dropdown */}
                 {/* <NavDropdown title='Dịch vụ' id='service-dropdown' className='d-none d-lg-block' data-bs-popper='static'>
                   <Container fluid style={{ width: "532px" }}>
@@ -151,9 +180,17 @@ function Header() {
                     Another action
                   </NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
-                  <NavDropdown.Item href="/thuong-hieu">Thương hiệu</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                <NavDropdown
+                  title="Thương hiệu"
+                  id="brand-dropdown"
+                  className="d-none d-lg-block"
+                >
+                  <NavDropdown.Item href="/thuong-hieu">
+                    Thương hiệu
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    Another action
+                  </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
                   <Nav.Link href="/lien-he">Liên hệ</Nav.Link>
@@ -176,7 +213,7 @@ function Header() {
               <Nav.Link className="position-relative me-1" href="/gio-hang">
                 <i className="bi bi-calendar-check" />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  8
+                  1
                 </span>
               </Nav.Link>
             </Nav.Item>
@@ -184,14 +221,17 @@ function Header() {
               <Nav.Link className="position-relative" href="/gio-hang-san-pham">
                 <i className="bi bi-basket2" />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  8
+                  2
                 </span>
               </Nav.Link>
             </Nav.Item>
             <Navbar expand="lg" className="bg-body-tertiary sticky-top">
               <Container>
                 <Navbar.Toggle aria-controls="navbar-nav" />
-                <Navbar.Collapse id="navbar-nav" className="justify-content-end gap-3 fs-5">
+                <Navbar.Collapse
+                  id="navbar-nav"
+                  className="justify-content-end gap-3 fs-5"
+                >
                   <Nav className="align-items-center">
                     {isLoggedIn ? (
                       <NavDropdown
@@ -220,7 +260,10 @@ function Header() {
                       </NavDropdown>
                     ) : (
                       <Nav.Link href="/dang-nhap">
-                        <i className="bi bi-person-circle fs-4" title="Đăng nhập" />
+                        <i
+                          className="bi bi-person-circle fs-4"
+                          title="Đăng nhập"
+                        />
                       </Nav.Link>
                     )}
                   </Nav>

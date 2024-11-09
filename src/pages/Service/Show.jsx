@@ -110,22 +110,6 @@ function Show() {
                 }}
                 className="mx-auto"
               />
-              {/* <div className="d-flex justify-content-center mt-3">
-                {ChiTietDV?.gallery?.map((img, index) => (
-                  <img
-                    key={index}
-                    src={img}
-                    alt={`Hình ${index + 1}`}
-                    style={{
-                      width: "130px",
-                      height: "127px",
-                      objectFit: "cover",
-                      margin: "0 5px",
-                    }}
-                    className="mx-auto"
-                  />
-                ))}
-              </div> */}
             </div>
           </Col>
 
