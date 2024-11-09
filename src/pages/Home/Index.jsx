@@ -22,7 +22,8 @@ function Index() {
         await axios
           .get(import.meta.env.VITE_API_URL + "/slides")
           .then((res) => {
-            setSlideIndex(res.data);
+            setSlideIndex(res.data.data);
+            console.log("data", res.data.data);
           })
           .catch((err) => {
             console.log(err);
@@ -121,11 +122,9 @@ function Index() {
           {slideIndex.length > 0 ? (
             slideIndex.map((item, index) => (
               <>
-                <div key={index + 1}>
-                  <SwiperSlide>
-                    <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
-                  </SwiperSlide>
-                </div>
+                <SwiperSlide key={index}>
+                  <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
+                </SwiperSlide>
               </>
             ))
           ) : (
@@ -196,7 +195,7 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
           </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-4 g-4">
+        <Row className="row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 row-cols-xl-5 g-4">
           {serviceIndex && serviceIndex.length > 0 ? serviceIndex.map((item, index) => <CardService key={index} {...item} />) : <h3 className="text-center pt-3">Không có dịch vụ</h3>}
         </Row>
       </Container>
@@ -209,7 +208,7 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-5 g-4">
+        <Row className="row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 row-cols-xl-5 g-4">
           {productIndex.length > 0 ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className="text-center">Không có sản phẩm</h3>}
         </Row>
       </Container>
@@ -223,7 +222,9 @@ function Index() {
           </div>
         </div>
 
-        <Row className="row-cols-1 row-cols-lg-3 g-4">{postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className="text-center">Không có bài đăng</h3>}</Row>
+        <Row className="row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
+          {postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className="text-center">Không có bài đăng</h3>}
+        </Row>
         {/*end row*/}
       </Container>
       {/* End Post */}

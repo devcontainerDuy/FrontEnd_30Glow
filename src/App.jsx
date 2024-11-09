@@ -23,6 +23,7 @@ import ProductPayment from "./pages/Cart/ProductPayment";
 import ResetPass from "./pages/Auth/ResetPass";
 import Account from "./pages/Home/Account";
 import Notfound from "./pages/Home/Notfound";
+import CategoryProducts from "./pages/Product/CategoryProducts";
 
 function App() {
   return (
@@ -36,6 +37,12 @@ function App() {
         <Route path="/thanh-toan-san-pham" element={<ProductPayment />} />
         <Route path="/san-pham" element={<Product />} />
         <Route path="/thuong-hieu" element={<Brand />} />
+        <Route path="/dat-lich" element={<GioHang />} />
+        <Route path="/gio-hang" element={<ProductCart />} />
+        <Route path="/thanh-toan-san-pham" element={<ProductPayment />} />
+        <Route path="/san-pham" element={<Product />} />
+        <Route path="/thuong-hieu" element={<Brand />} />
+        <Route path="/danh-muc/:slug" element={<CategoryProducts />} />
         <Route path="/san-pham/:slug" element={<Detail />} />
         <Route path="/dich-vu" element={<Service />} />
         <Route path="/dich-vu/:slug" element={<Show />} />

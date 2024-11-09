@@ -1,22 +1,16 @@
 // Register.js
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Notyf } from "notyf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "notyf/notyf.min.css";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 function Register() {
-  const notyf = new Notyf({
-    duration: 3000,
-    position: { x: "right", y: "top" },
-    dismissible: true,
-  });
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -58,36 +52,29 @@ function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Xử lý gửi dữ liệu đăng ký
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            password: formData.password,
-            password_confirmation: formData.confirmPassword,
-          }),
+      await axios
+        .post(`${import.meta.env.VITE_API_URL}/register`, {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          password_confirmation: formData.confirmPassword,
+        })
+        .then((response) => {
+          if (response.data.check === true) {
+            window.notyf.success("Đăng ký thành công!");
+            setFormData({ name: "", email: "", phone: "", password: "", confirmPassword: "" });
+            setTimeout(() => navigate("/dang-nhap"), 2000);
+          }
+        })
+        .catch((error) => {
+          window.notyf.error(error.response.data.message);
         });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          notyf.success("Đăng ký thành công!");
-          setTimeout(() => navigate("/dang-nhap"), 2000);
-        } else {
-          notyf.error(result.message || "Đã xảy ra lỗi khi đăng ký!");
-        }
-      } catch (error) {
-        notyf.error("Đã xảy ra lỗi kết nối!");
-      }
     } else {
-      notyf.error("Vui lòng kiểm tra và điền đầy đủ thông tin!");
+      window.notyf.error("Vui lòng kiểm tra và điền đầy đủ thông tin!");
     }
   };
 
@@ -125,35 +112,17 @@ function Register() {
 
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="name">
-                  <Form.Control
-                    type="text"
-                    placeholder="Tên tài khoản"
-                    value={formData.name}
-                    onChange={handleChange}
-                    isInvalid={!!errors.name}
-                  />
+                  <Form.Control type="text" placeholder="Tên tài khoản" value={formData.name} onChange={handleChange} isInvalid={!!errors.name} />
                   <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="email">
-                  <Form.Control
-                    type="email"
-                    placeholder="Địa chỉ email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    isInvalid={!!errors.email}
-                  />
+                  <Form.Control type="email" placeholder="Địa chỉ email" value={formData.email} onChange={handleChange} isInvalid={!!errors.email} />
                   <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="phone">
-                  <Form.Control
-                    type="text"
-                    placeholder="Số điện thoại"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    isInvalid={!!errors.phone}
-                  />
+                  <Form.Control type="text" placeholder="Số điện thoại" value={formData.phone} onChange={handleChange} isInvalid={!!errors.phone} />
                   <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
                 </Form.Group>
 
@@ -165,6 +134,7 @@ function Register() {
                       value={formData.password}
                       onChange={handleChange}
                       isInvalid={!!errors.password}
+                      autoComplete={"off"}
                     />
                     <Button variant="outline-secondary rounded-end" onClick={togglePasswordVisibility}>
                       <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
