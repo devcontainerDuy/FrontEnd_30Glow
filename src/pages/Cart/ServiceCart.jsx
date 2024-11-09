@@ -36,6 +36,7 @@ function ServiceCart() {
     setCarts(cartData);
     TongTien(cartData);
     GetAllStaff();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const TongTien = (cart) => {
