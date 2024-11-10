@@ -34,6 +34,6 @@ jobs:
     
     - name: 🚀 Deploy via SSH
       run: |
-        rsync -avz --no-perms --omit-dir-times  ./ ${{ secrets.USER }}@${{ secrets.SERVER }}:/home/iddemomorin/htdocs/demo.morin.id.vn
+        rsync -avz --no-perms --omit-dir-times dist/ ${{ secrets.USER }}@${{ secrets.SERVER }}:/home/iddemomorin/htdocs/demo.morin.id.vn
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
