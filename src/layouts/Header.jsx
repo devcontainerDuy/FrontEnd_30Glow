@@ -1,8 +1,7 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
-import { Notyf } from "notyf";
 import { Button, Col, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas, Row } from "react-bootstrap";
-import { Link, NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Header() {
