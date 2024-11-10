@@ -11,7 +11,7 @@ import Detail from "./pages/Product/Detail";
 import Product from "./pages/Product/Index";
 import Service from "./pages/Service/Index";
 import Show from "./pages/Service/Show";
-import GioHang from "./pages/Cart/gio-hang";
+import GioHang from "./pages/Cart/ServiceCart";
 import About from "./pages/Home/About";
 import Brand from "./pages/Brand/Index";
 import ThanhToan from "./pages/Cart/thanh-toan";
