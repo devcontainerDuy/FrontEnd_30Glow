@@ -71,6 +71,7 @@ function Header() {
 
   useEffect(() => {
     const tempGroupedCategories = {};
+
     categories.forEach((category) => {
       const parent = category.parent;
       if (!tempGroupedCategories[parent.id]) {
@@ -81,6 +82,7 @@ function Header() {
       }
       tempGroupedCategories[parent.id].children.push(category);
     });
+
     setGroupedCategories(tempGroupedCategories);
   }, [categories]);
 
