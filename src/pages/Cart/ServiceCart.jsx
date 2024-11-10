@@ -124,30 +124,24 @@ function ServiceCart() {
   const AddNewOrder = async (DataOrder) => {
     console.log(DataOrder);
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        notyf.error("Bạn cần đăng nhập trước khi đặt lịch!");
-        return;
-      }
-
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/bookings`, DataOrder, {
         headers: {
-          Authorization: `bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
       console.log(response);
+      notyf.success("Đặt lịch hẹn thành công!");
+      setCarts([]);
+      localStorage.removeItem("cart");
+      setTimeout(() => {
+        navigate("/");
+      }, 9000);
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
       notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
     }
-    notyf.success("Đặt lịch hẹn thành công!");
-    setCarts([]);
-    localStorage.removeItem("cart");
-    setTimeout(() => {
-      navigate("/");
-    }, 9000);
   };
+
 
   return (
     <>
