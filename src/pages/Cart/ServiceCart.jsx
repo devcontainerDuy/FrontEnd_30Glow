@@ -9,7 +9,7 @@ import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import axios from "axios";
 
-function GioHang() {
+function ServiceCart() {
   const notyf = new Notyf({
     position: {
       x: "right",
@@ -22,6 +22,7 @@ function GioHang() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [id_user, setId_user] = useState(null);
+  const [ArrayUser, setArrayUser] = useState(null);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
@@ -34,21 +35,8 @@ function GioHang() {
     const cartData = storedCarts ? JSON.parse(storedCarts) : [];
     setCarts(cartData);
     TongTien(cartData);
-    // Lấy vữ liệu
-    fetch("https://project1.trungthanhzone.com/api/")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("K nhận api nha cô em ");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCarts(data);
-        TongTien(data);
-      })
-      .catch((error) => {
-        console.error("Lỗi rồi gái ơi", error);
-      });
+    GetAllStaff();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const TongTien = (cart) => {
@@ -121,6 +109,18 @@ function GioHang() {
     setTime2(`${hours}:${minutes}:${currentSeconds}`);
   };
 
+  const GetAllStaff = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/staff`);
+      setArrayUser(response?.data?.data);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+      notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+    }
+  };
+  const handleSelectChange = (event) => {
+    setId_user(event.target.value);
+  };
   const AddNewOrder = async (DataOrder) => {
     console.log(DataOrder);
     try {
@@ -252,16 +252,20 @@ function GioHang() {
                     </Col>
                     <Form.Group className="mb-3">
                       <Form.Label>Yêu cầu kĩ thuật viên *</Form.Label>
-                      <Form.Select aria-label="Chọn kĩ thuật viên" placeholder="Yêu cầu kĩ thuật viên">
+                      <Form.Select aria-label="Chọn kĩ thuật viên" placeholder="Yêu cầu kĩ thuật viên" value={id_user} onChange={handleSelectChange}>
                         <optgroup label="Thợ tóc tiệm đề xuất">
                           <option value="Tiệm Đề Xuất">Tiệm Đề Xuất Thợ Cho Bạn</option>
                         </optgroup>
                         <optgroup label="Thợ tóc">
-                          <option value="Huy">Huy</option>
-                          <option value="Minh Thư">Minh Thư</option>
-                          <option value="Anh Thư">Anh Thư</option>
-                          <option value="Duy">Duy</option>
-                          <option value="Tâm">Tâm</option>
+                          {Array.isArray(ArrayUser) && ArrayUser.length > 0 ? (
+                            ArrayUser.map((staffItem, i) => (
+                              <option key={i} value={staffItem?.uid}>
+                                {staffItem?.name}
+                              </option>
+                            ))
+                          ) : (
+                            <option disabled>Không có dữ liệu</option>
+                          )}
                         </optgroup>
                       </Form.Select>
                     </Form.Group>
@@ -280,4 +284,4 @@ function GioHang() {
   );
 }
 
-export default GioHang;
+export default ServiceCart;
