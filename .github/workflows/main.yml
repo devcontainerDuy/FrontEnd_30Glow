@@ -31,6 +31,12 @@ jobs:
         
     - name: 🛠️ Add server to known_hosts
       run: ssh-keyscan -H ${{ secrets.SERVER }} >> ~/.ssh/known_hosts
+
+    - name: 🗑️ Remove old files on server
+      run: |
+        ssh ${{ secrets.USER }}@${{ secrets.SERVER }} "rm -rf /home/iddemomorin/htdocs/demo.morin.id.vn/*"
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     
     - name: 🚀 Deploy via SSH
       run: |
