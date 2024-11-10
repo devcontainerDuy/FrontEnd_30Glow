@@ -1,0 +1,44 @@
+name: 🚀 Deploy on push to main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+
+    - name: 📝 Set environment variables
+      run: |
+        echo "REACT_APP_API_URL=${{ secrets.API }}" >> .env
+        echo "REACT_APP_IMG_URL=${{ secrets.IMG }}" >> .env
+        echo "REACT_APP_OPEN_AI_KEY=${{ secrets.APIKEY }}" >> .env
+        echo "REACT_APP_GG_KEY=${{ secrets.GOOGLE }}" >> .env
+
+    - name: 🔧 Install dependencies and build
+      run: |
+        npm install
+        npm run build
+
+    - name: List output files
+      run: find build/ -print
+
+    - name: 📂 Set up SSH key for deployment
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: 🛠️ Add server to known_hosts
+      run: ssh-keyscan -H ${{ secrets.SERVER }} >> ~/.ssh/known_hosts
+    
+    - name: 🚀 Deploy via SSH
+      run: |
+        rsync -avz --no-perms --omit-dir-times --delete build/ ${{ secrets.USER }}@${{ secrets.SERVER }}:{{ secrets.DIRECTION }}
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
