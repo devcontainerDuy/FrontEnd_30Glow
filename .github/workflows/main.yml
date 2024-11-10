@@ -16,11 +16,9 @@ jobs:
 
     - name: 📝 Set environment variables
       run: |
-        echo "REACT_APP_API_URL=${{ secrets.API }}" >> .env
-        echo "REACT_APP_IMG_URL=${{ secrets.IMG }}" >> .env
-        echo "REACT_APP_OPEN_AI_KEY=${{ secrets.APIKEY }}" >> .env
-        echo "REACT_APP_GG_KEY=${{ secrets.GOOGLE }}" >> .env
-
+        echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
+        echo "VITE_URL=${{ secrets.VITE_URL }}" >> .env
+        
     - name: 🔧 Install dependencies and build
       run: |
         npm install
@@ -39,6 +37,6 @@ jobs:
     
     - name: 🚀 Deploy via SSH
       run: |
-        rsync -avz --no-perms --omit-dir-times --delete build/ ${{ secrets.USER }}@${{ secrets.SERVER }}:{{ secrets.DIRECTION }}
+        rsync -avz --no-perms --omit-dir-times  ./ ${{ secrets.USER }}@${{ secrets.SERVER }}:{{ secrets.DIRECTION }}
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
