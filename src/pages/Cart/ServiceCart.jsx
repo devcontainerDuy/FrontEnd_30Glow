@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
 import Header from "../../layouts/Header";
+import { useNavigate } from "react-router-dom";
 import Footer from "../../layouts/Footer";
 import { Helmet } from "react-helmet";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
+import axios from "axios";
+
 function GioHang() {
   const notyf = new Notyf({
     position: {
@@ -13,25 +16,25 @@ function GioHang() {
       y: "top",
     },
   });
+
   const [carts, setCarts] = useState([]);
   const [total, setTotal] = useState(0);
-
+  const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [id_user, setId_user] = useState(null);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
-  const [appointmentTime, setAppointmentTime] = useState("");
-
+  const [time, setTime] = useState("");
+  const [time2, setTime2] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    // Load cart from localStorage
     const storedCarts = localStorage.getItem("cart");
     const cartData = storedCarts ? JSON.parse(storedCarts) : [];
     setCarts(cartData);
     TongTien(cartData);
-
-    // Fetch data from API
+    // Lấy vữ liệu
     fetch("https://project1.trungthanhzone.com/api/")
       .then((response) => {
         if (!response.ok) {
@@ -65,14 +68,19 @@ function GioHang() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (name.trim().length < 3) newErrors.name = "Tên phải từ 3 ký tự trở lên.";
-    if (!/^\d{10,12}$/.test(phone))
-      newErrors.phone = "Số điện thoại phải có 10-12 số.";
+    if (name.trim().length < 3) newErrors.name = "Chưa nhập đúng thông tin..";
+    if (!/^0\d{9,11}$/.test(phone)) {
+      newErrors.phone = "Chưa nhập đúng thông tin.";
+    }
     if (!email.includes("@")) newErrors.email = "Email phải chứa ký tự '@'.";
-    if (appointmentDate && new Date(appointmentDate) < new Date()) {
+    if (!appointmentDate) {
+      newErrors.appointmentDate = "Vui lòng chọn ngày đến.";
+    } else if (new Date(appointmentDate) < new Date()) {
       newErrors.appointmentDate = "Ngày đến không được ở trong quá khứ.";
     }
-
+    if (!time) {
+      newErrors.time = "Vui lòng chọn giờ đến.";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -80,15 +88,65 @@ function GioHang() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      notyf.success("Đặt lịch hẹn thành công!"); // Hiển thị thông báo Notyf
-      // Xóa giỏ hàng
-      setCarts([]); // Cập nhật trạng thái giỏ hàng
-      localStorage.removeItem("cart");
-      // Về trang chủ
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 3000);
+      // Lưu thông tin lịch hẹn vào localStorage
+      const appointment = {
+        id_user,
+        name,
+        phone,
+        email,
+        time,
+      };
+      localStorage.setItem("appointment", JSON.stringify(appointment));
+
+      let ids = JSON.parse(localStorage.getItem("cart")).map((item) => item.id);
+      AddNewOrder(
+        Object.assign(JSON.parse(localStorage.getItem("appointment")), {
+          service: ids,
+        })
+      );
     }
+  };
+
+  useEffect(() => {
+    if (appointmentDate && time2) {
+      const formattedDateTime = new Date(`${appointmentDate} ${time2}`).toISOString().slice(0, 19).replace("T", " ");
+      setTime(formattedDateTime);
+    }
+  }, [appointmentDate, time2]);
+  const focusTime = (e) => {
+    const selectedTime = e.target.value;
+    const currentSeconds = new Date().getSeconds().toString().padStart(2, "0");
+    const [hours, minutes] = selectedTime.split(":");
+
+    setTime2(`${hours}:${minutes}:${currentSeconds}`);
+  };
+
+  const AddNewOrder = async (DataOrder) => {
+    console.log(DataOrder);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        notyf.error("Bạn cần đăng nhập trước khi đặt lịch!");
+        return;
+      }
+
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/bookings`, DataOrder, {
+        headers: {
+          Authorization: `bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+      notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+    }
+    notyf.success("Đặt lịch hẹn thành công!");
+    setCarts([]);
+    localStorage.removeItem("cart");
+    setTimeout(() => {
+      navigate("/");
+    }, 9000);
   };
 
   return (
@@ -99,9 +157,9 @@ function GioHang() {
       </Helmet>
       <Header />
       <Container className="my-5 mb-5">
-        <h4 className="mb-4">Giỏ hàng của bạn</h4>
+        <h4 className="mb-4">Đặt lịch của bạn</h4>
         {carts.length === 0 ? (
-          <h4 className="text-danger text-center">Giỏ hàng hiện đang trống.</h4>
+          <h4 className="text-danger text-center">Bạn chưa có lịch hẹn nào </h4>
         ) : (
           <Row>
             <Col md={7}>
@@ -119,11 +177,7 @@ function GioHang() {
                     <tr key={index}>
                       <td className="d-flex justify-content-center align-items-center">
                         <img
-                          src={
-                            item.image
-                              ? `${import.meta.env.VITE_URL}${item.image}`
-                              : "path/to/default-image.jpg"
-                          }
+                          src={item.image ? `${import.meta.env.VITE_URL}${item.image}` : "path/to/default-image.jpg"}
                           style={{
                             width: "100px",
                             height: "100px",
@@ -134,34 +188,24 @@ function GioHang() {
                       </td>
                       <td>{item.name}</td>
                       <td>
-                        <Button
-                          variant="outline-danger"
-                          onClick={() => deleteItem(item.id)}
-                          className="ms-3"
-                        >
+                        <Button variant="outline-danger" onClick={() => deleteItem(item.id)} className="ms-3">
                           <i className="bi bi-trash" />
                         </Button>
                       </td>
                       <td>
-                        <span className="fw-bold">
-                          {Intl.NumberFormat("en-US").format(item.price)}
-                        </span>
+                        <span className="fw-bold">{Intl.NumberFormat("en-US").format(item.price)}</span>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
               <h4>
-                <strong style={{ color: "red" }}> Khi đặt lịch trước</strong>{" "}
-                bạn sẽ được tặng
+                <strong style={{ color: "red" }}> Khi đặt lịch trước</strong> bạn sẽ được tặng
                 <span style={{ color: "green" }}> xịt dưỡng tóc Loreal</span>
               </h4>
             </Col>
             <Col md={5}>
-              <div
-                className="border"
-                style={{ padding: "20px", borderRadius: "5px", width: "100%" }}
-              >
+              <div className="border" style={{ padding: "20px", borderRadius: "5px", width: "100%" }}>
                 <h4 className="bold text-danger fw-bold">
                   Tổng cộng:{" "}
                   {total.toLocaleString("vi-VN", {
@@ -172,46 +216,22 @@ function GioHang() {
                 <Form onSubmit={handleFormSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Tên người đặt lịch</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Nhập tên của bạn..."
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      isInvalid={!!errors.name}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.name}
-                    </Form.Control.Feedback>
+                    <Form.Control type="text" placeholder="Nhập tên của bạn..." value={name} onChange={(e) => setName(e.target.value)} isInvalid={!!errors.name} />
+                    <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                   </Form.Group>
                   <Row className="align-items-center">
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Số điện thoại</Form.Label>
-                        <Form.Control
-                          type="tel"
-                          placeholder="Nhập số điện thoại..."
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          isInvalid={!!errors.phone}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.phone}
-                        </Form.Control.Feedback>
+                        <Form.Control type="tel" placeholder="Nhập số điện thoại..." value={phone} onChange={(e) => setPhone(e.target.value)} isInvalid={!!errors.phone} />
+                        <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control
-                          type="email"
-                          placeholder="Nhập địa chỉ email..."
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          isInvalid={!!errors.email}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.email}
-                        </Form.Control.Feedback>
+                        <Form.Control type="email" placeholder="Nhập địa chỉ email..." value={email} onChange={(e) => setEmail(e.target.value)} isInvalid={!!errors.email} />
+                        <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
@@ -219,27 +239,32 @@ function GioHang() {
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Thời gian đến</Form.Label>
-                        <Form.Control
-                          type="time"
-                          value={appointmentTime}
-                          onChange={(e) => setAppointmentTime(e.target.value)}
-                        />
+                        <Form.Control type="time" value={time2} onChange={(e) => focusTime(e)} isInvalid={!!errors.time2} />
+                        <Form.Control.Feedback type="invalid">{errors.time}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Ngày đến</Form.Label>
-                        <Form.Control
-                          type="date"
-                          value={appointmentDate}
-                          onChange={(e) => setAppointmentDate(e.target.value)}
-                          isInvalid={!!errors.appointmentDate}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.appointmentDate}
-                        </Form.Control.Feedback>
+                        <Form.Control type="date" value={appointmentDate} onChange={(e) => setAppointmentDate(e.target.value)} isInvalid={!!errors.appointmentDate} />
+                        <Form.Control.Feedback type="invalid">{errors.appointmentDate}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Yêu cầu kĩ thuật viên *</Form.Label>
+                      <Form.Select aria-label="Chọn kĩ thuật viên" placeholder="Yêu cầu kĩ thuật viên">
+                        <optgroup label="Thợ tóc tiệm đề xuất">
+                          <option value="Tiệm Đề Xuất">Tiệm Đề Xuất Thợ Cho Bạn</option>
+                        </optgroup>
+                        <optgroup label="Thợ tóc">
+                          <option value="Huy">Huy</option>
+                          <option value="Minh Thư">Minh Thư</option>
+                          <option value="Anh Thư">Anh Thư</option>
+                          <option value="Duy">Duy</option>
+                          <option value="Tâm">Tâm</option>
+                        </optgroup>
+                      </Form.Select>
+                    </Form.Group>
                   </Row>
                   <Button variant="dark" type="submit" className="w-100">
                     Đặt lịch hẹn ngay!
