@@ -24,9 +24,6 @@ jobs:
         npm install
         npm run build
 
-    - name: List output files
-      run: find build/ -print
-
     - name: 📂 Set up SSH key for deployment
       uses: webfactory/ssh-agent@v0.5.3
       with:
