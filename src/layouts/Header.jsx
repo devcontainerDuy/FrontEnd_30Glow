@@ -1,15 +1,17 @@
 /* eslint-disable*/
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas, Row } from "react-bootstrap";
 import { NavLink, useLocation } from "react-router-dom";
-import { AuthenContext } from "../context/AuthenContext";
 import axios from "axios";
+import useAuthenContext from "../context/AuthenContext";
+import { useSelector } from "react-redux";
 
 function Header() {
   const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [groupedCategories, setGroupedCategories] = useState({});
-  const { user, logout } = useContext(AuthenContext);
+  const { user, logout } = useAuthenContext();
+  const shoppingCart = useSelector((state) => state.shoppingCart.items);
 
   const isActive = (path) => location.pathname === path;
 
@@ -146,7 +148,7 @@ function Header() {
                   <Nav.Link as={NavLink} to="/gio-hang" className="col-6 d-md-none">
                     <Button variant="outline-primary" className="w-100">
                       <span className="me-2">Giỏ hàng</span>
-                      <span class="badge text-bg-danger">4</span>
+                      <span class="badge text-bg-danger">{shoppingCart ? shoppingCart.length : 0}</span>
                     </Button>
                   </Nav.Link>
                 </div>
@@ -163,7 +165,7 @@ function Header() {
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/gio-hang" className="ms-1" title="Giỏ hàng">
                   <i className="bi bi-cart2 position-relative fs-5">
-                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">9</span>
+                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{shoppingCart ? shoppingCart.length : 0}</span>
                   </i>
                 </Nav.Link>
                 {user ? (
@@ -203,6 +205,7 @@ function Header() {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu align="end">
+                        <Dropdown.Header className="fw-semibold">Tài khoản</Dropdown.Header>
                         <Dropdown.Item as={NavLink} to="/dang-nhap">
                           <i className="bi bi bi-door-open me-2"></i> Đăng nhập
                         </Dropdown.Item>
