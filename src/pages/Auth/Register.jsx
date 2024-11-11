@@ -11,13 +11,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 
 function Register() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "", confirmPassword: "" });
 
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +24,7 @@ function Register() {
 
     if (!formData.name.trim()) newErrors.name = "Tên tài khoản không được để trống!";
     if (!formData.email.trim()) newErrors.email = "Email không được để trống!";
-    if (!formData.phone.trim()) newErrors.phone = "Số điện thoại không được để trống!";
+    if (!formData.phone.trim()) newErrors.phone = "SĐT không được để trống!";
     if (!formData.password.trim()) newErrors.password = "Mật khẩu không được để trống!";
     if (!formData.confirmPassword.trim()) newErrors.confirmPassword = "Xác nhận mật khẩu không được để trống!";
 
@@ -40,7 +34,7 @@ function Register() {
     }
     const phoneRegex = /^0\d{9}$/;
     if (formData.phone && !phoneRegex.test(formData.phone)) {
-      newErrors.phone = "Số điện thoại phải có 10 số và bắt đầu bằng số 0!";
+      newErrors.phone = "SĐT phải có 10 số và bắt đầu bằng số 0!";
     }
     if (formData.password && formData.password.length < 8) {
       newErrors.password = "Mật khẩu phải có ít nhất 8 ký tự!";

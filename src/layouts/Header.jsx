@@ -1,61 +1,17 @@
 /* eslint-disable*/
-import React, { useEffect, useState } from "react";
-import { Notyf } from "notyf";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas, Row } from "react-bootstrap";
-import { Link, NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { AuthenContext } from "../context/AuthenContext";
 import axios from "axios";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("Phan Thị Minh Thư");
+  const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [groupedCategories, setGroupedCategories] = useState({});
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { user, logout } = useContext(AuthenContext);
 
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUsername = localStorage.getItem("username");
-    if (token) {
-      setIsLoggedIn(true);
-      setUsername(storedUsername);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  const handleLogout = async () => {
-    if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-      try {
-        await axios
-          .post(
-            import.meta.env.VITE_API_URL + "/logout",
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          )
-          .then((response) => {
-            if (response.data.check === true) {
-              localStorage.removeItem("token");
-              setIsLoggedIn(false);
-              window.notyf.success(response.data.message);
-              setTimeout(() => navigate("/dang-nhap", { replace: true }), 2000);
-            } else {
-              window.notyf.error(response.data.message);
-            }
-          });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
+  const isActive = (path) => location.pathname === path;
 
   const getCategories = async () => {
     try {
@@ -71,18 +27,15 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const tempGroupedCategories = {};
-    categories.forEach((category) => {
+    const grouped = categories.reduce((item, category) => {
       const parent = category.parent;
-      if (!tempGroupedCategories[parent.id]) {
-        tempGroupedCategories[parent.id] = {
-          parent: parent,
-          children: [],
-        };
+      if (!item[parent.id]) {
+        item[parent.id] = { parent, children: [] };
       }
-      tempGroupedCategories[parent.id].children.push(category);
-    });
-    setGroupedCategories(tempGroupedCategories);
+      item[parent.id].children.push(category);
+      return item;
+    }, {});
+    setGroupedCategories(grouped);
   }, [categories]);
 
   return (
@@ -150,20 +103,12 @@ function Header() {
                 </NavDropdown>
                 {/* end dropdown */}
 
-                {/* <NavDropdown title="Sản phẩm" id="product-dropdown" className="d-none d-lg-block">
-                  <NavDropdown.Item as={Link} to="/san-pham">
-                    Sản phẩm
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="#action/3.2">
-                    Another action
-                  </NavDropdown.Item>
-                </NavDropdown> */}
                 <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
                   <NavDropdown.Item as={NavLink} to="/thuong-hieu">
                     Thương hiệu
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to="#action/3.2">
-                    Another action
+                  <NavDropdown.Item as={NavLink} to="/thuong-hieu">
+                    Thương hiệu 2
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
@@ -221,7 +166,7 @@ function Header() {
                     <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">9</span>
                   </i>
                 </Nav.Link>
-                {isLoggedIn ? (
+                {user ? (
                   <>
                     <Dropdown autoClose="outside" className="ms-1">
                       <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic1" title={"Khách hàng"} className="dropdown-user text-decoration-none text-dark">
@@ -229,6 +174,7 @@ function Header() {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu align="end">
+                        <Dropdown.Header className="fw-semibold">{user?.name}</Dropdown.Header>
                         <Dropdown.Item as={NavLink} to="/tai-khoan">
                           <i className="bi bi-person-circle me-2" />
                           Tài khoản
@@ -242,7 +188,7 @@ function Header() {
                           Đặt lịch
                         </Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item href="#" role="button" onClick={handleLogout}>
+                        <Dropdown.Item href="#" role="button" onClick={logout}>
                           <i className="bi bi-box-arrow-right me-2" />
                           Đăng xuất
                         </Dropdown.Item>

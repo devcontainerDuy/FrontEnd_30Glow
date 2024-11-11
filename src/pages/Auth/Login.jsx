@@ -1,31 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
-import axios from "axios";
+import useAuthenContext from "../../context/AuthenContext";
 
 function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ email: "", password: "", rememberToken: false });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const rememberedEmail = localStorage.getItem("rememberedEmail");
-    if (rememberedEmail) {
-      setFormData((prev) => ({ ...prev, email: rememberedEmail }));
-      setRememberMe(true);
-    }
-  }, []);
+  const { login } = useAuthenContext();
 
   const validate = () => {
     let newErrors = {};
@@ -45,19 +32,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      await axios
-        .post(`${import.meta.env.VITE_API_URL}/login`, { email: formData.email, password: formData.password, remember_token: rememberMe })
-        .then((response) => {
-          if (response.data.check === true) {
-            localStorage.setItem("token", response.data.token);
-            window.notyf.success("Đăng nhập thành công!");
-            setTimeout(() => navigate("/"), 2000);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          window.notyf.error(error.response.data.message);
-        });
+      await login({ email: formData.email, password: formData.password, remember_token: formData.rememberToken });
     } else {
       window.notyf.error("Vui lòng kiểm tra thông tin đăng nhập!");
     }
@@ -101,7 +76,7 @@ function Login() {
                 </Form.Group>
 
                 <Form.Group className="mb-2" controlId="formCheckbox">
-                  <Form.Check type="checkbox" label="Ghi nhớ" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
+                  <Form.Check type="checkbox" label="Ghi nhớ" checked={formData.rememberToken} onChange={(e) => setFormData({ ...formData, rememberToken: e.target.checked })} />
                 </Form.Group>
 
                 <Link to="/quen-mat-khau" className="text-decoration-none text-danger me-2">

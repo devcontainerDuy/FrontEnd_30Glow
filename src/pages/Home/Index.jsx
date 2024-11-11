@@ -23,7 +23,6 @@ function Index() {
           .get(import.meta.env.VITE_API_URL + "/slides")
           .then((res) => {
             setSlideIndex(res.data.data);
-            console.log("data", res.data.data);
           })
           .catch((err) => {
             console.log(err);
