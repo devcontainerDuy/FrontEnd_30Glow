@@ -43,7 +43,7 @@ export const useAuth = () => {
   const register = async ({ ...data }) => {
     try {
       await axios
-        .post(`${import.meta.env.VITE_API_URL}/register`, data)
+        .post(`${import.meta.env.VITE_API_URL}/register`, { ...data })
         .then((response) => {
           if (response.data.check === true) {
             window.notyf.success("Đăng ký thành công!");
