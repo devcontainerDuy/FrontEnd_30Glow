@@ -30,11 +30,11 @@ function Header() {
 
   useEffect(() => {
     const grouped = categories.reduce((item, category) => {
-      const parent = category.parent;
-      if (!item[parent.id]) {
-        item[parent.id] = { parent, children: [] };
+      const parent = category?.parent;
+      if (!item[parent?.id]) {
+        item[parent?.id] = { parent, children: [] };
       }
-      item[parent.id].children.push(category);
+      item[parent?.id].children.push(category);
       return item;
     }, {});
     setGroupedCategories(grouped);
@@ -85,12 +85,12 @@ function Header() {
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
                       {Object.values(groupedCategories).map((group, index) => (
                         <Col key={index}>
-                          <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent.slug}`}>
-                            {group.parent.name}
+                          <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent?.slug}`}>
+                            {group.parent?.name}
                           </Dropdown.Header>
                           {group.children.map((child) => (
-                            <Dropdown.Item key={child.id} as={NavLink} to={`/danh-muc/${child.slug}`}>
-                              {child.name}
+                            <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
+                              {child?.name}
                             </Dropdown.Item>
                           ))}
                         </Col>

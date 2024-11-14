@@ -24,10 +24,10 @@ function CategoryProducts() {
         console.log(response.data.data.products);
         setCategory(response.data.data);
         setProducts(response.data.data.products);
-
         setLoading(false);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+        setLoading(false);
       }
     };
     fetchProducts();
