@@ -31,7 +31,7 @@ function Detail() {
     {
       id: 1,
       name: "Nguyễn Huy Hoàng",
-      avatar: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
+      avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png",
       content: "Sản phẩm chất lượng, giá rẻ",
       date: "17/10/2024",
       likes: 0,
@@ -63,21 +63,35 @@ function Detail() {
 
   const handleAddComment = (e) => {
     e.preventDefault();
-    if (!newComment.trim()) return;
+    const trimmedComment = newComment.trim();
+  
+    // Kiểm tra độ dài tối thiểu
+    if (trimmedComment.length < 5) {
+      alert("Bình luận quá ngắn. Vui lòng nhập nội dung rõ ràng hơn.");
+      return;
+    }
+    if (!trimmedComment || trimmedComment.length > 500 || /^(.)\1{3,}$/.test(trimmedComment)) {
+      alert("Nội dung trả lời không hợp lệ!");
+      return;
+    }
+  
+    // Nếu không có vấn đề, thêm bình luận mới
     const newCommentData = {
       id: comments.length + 1,
       name: "Người dùng mới",
       avatar: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-      content: newComment,
+      content: trimmedComment,
       date: new Date().toLocaleDateString("vi-VN"),
       likes: 0,
       liked: false,
       showReplyInput: false,
       replies: [],
     };
+  
     setComments([newCommentData, ...comments]);
     setNewComment("");
   };
+  
 
   const toggleLike = (id) => {
     setComments(
@@ -99,7 +113,13 @@ function Detail() {
 
   const handleReply = (id) => {
     const reply = replyContent[id]?.trim();
-    if (!reply) return;
+  
+    // Kiểm tra tính hợp lệ: trả lời không rỗng, không vượt quá 1000 ký tự và không chứa từ vô nghĩa
+    if (!reply || reply.length > 500 || /^(.)\1{3,}$/.test(reply)) {
+      alert("Nội dung trả lời không hợp lệ!");
+      return;
+    }
+  
     setComments(
       comments.map((comment) =>
         comment.id === id
@@ -108,6 +128,8 @@ function Detail() {
               replies: [
                 ...comment.replies,
                 {
+                  name: "Tên người dùng", // Tên người dùng
+                  avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
                   content: reply,
                   date: new Date().toLocaleDateString("vi-VN"),
                 },
@@ -119,10 +141,25 @@ function Detail() {
     );
     setReplyContent({ ...replyContent, [id]: "" });
   };
-
+  
   const handleDelete = (id) => {
     setComments(comments.filter((comment) => comment.id !== id));
   };
+
+  const handleDeleteReply = (replyId, commentId) => {
+    setComments(prevComments =>
+      prevComments.map(comment => {
+        if (comment.id === commentId) {
+          return {
+            ...comment,
+            replies: comment.replies.filter(reply => reply.id !== replyId)
+          };
+        }
+        return comment;
+      })
+    );
+  };
+  
 
   return (
     <>
@@ -267,9 +304,9 @@ function Detail() {
                     </div>
                     <p className="mb-1 text-muted">{comment.content}</p>
                     <div className="d-flex gap-3">
-                      <Button className="text-decoration-none bg-primary bg-opacity-25" variant="link" size="sm" onClick={() => toggleLike(comment.id)}>
+                      {/* <Button className="text-decoration-none bg-primary bg-opacity-25" variant="link" size="sm" onClick={() => toggleLike(comment.id)}>
                         {comment.liked ? "Bỏ thích" : "Thích"} ({comment.likes})
-                      </Button>
+                      </Button> */}
                       <Button className="text-decoration-none" variant="link" size="sm" onClick={() => toggleReplyInput(comment.id)}>
                         Trả lời
                       </Button>
@@ -279,9 +316,26 @@ function Detail() {
                     </div>
 
                     {comment.replies.map((reply, index) => (
-                      <div key={index} className="ms-4 mt-2">
-                        <small className="d-block fw-bold">{reply.content}</small>
-                        <small className="text-muted">{reply.date}</small>
+                      <div key={index} className="ms-4 mt-3 d-flex">
+                        <img
+                          src={reply.avatar} // Hiển thị avatar của người dùng trả lời
+                          alt="Avatar"
+                          className="rounded-circle me-2"
+                          style={{ width: "32px", height: "32px" }}
+                        />
+                        <div style={{ flex: 1 }}>
+                          <h6 className="fw-bold mb-0">{reply.name}</h6> {/* Hiển thị tên người dùng */}
+                          <p className="mb-1">{reply.content}</p> {/* Nội dung trả lời */}
+                          <div className="d-flex justify-content-between align-items-center">
+                            <small className="text-muted">{reply.date}</small> {/* Ngày trả lời */}
+                            <button
+                              className="btn btn-link text-danger p-0 ms-3 text-decoration-none" 
+                              onClick={() => handleDeleteReply(reply.id, comment.id)} // Thêm logic xóa khi bấm
+                            >
+                              Xóa
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     ))}
 
