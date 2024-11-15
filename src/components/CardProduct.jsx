@@ -2,7 +2,7 @@ import { Card, Col, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export default function CardProduct({ name, slug, price, discount, gallery }) {
+export default function CardProduct({ name, slug, price, discount, gallery, category }) {
   const sale = price - price * (discount / 100);
   return (
     <>
@@ -29,12 +29,15 @@ export default function CardProduct({ name, slug, price, discount, gallery }) {
                   {name}
                 </h6>
               </Link>
-              <div className="ratings mb-1 h6">
+              {/* <div className="ratings mb-1 h6">
                 <i className="bi bi-star-fill text-warning" />
                 <i className="bi bi-star-fill text-warning" />
                 <i className="bi bi-star-fill text-warning" />
                 <i className="bi bi-star-fill text-warning" />
                 <i className="bi bi-star-fill text-warning" />
+              </div> */}
+              <div className="d-flex align-items-center gap-2 mb-1">
+                <span className="fw-semibold text-secondary">Danh mục: {category?.name}</span>
               </div>
               <div className="d-md-flex">
                 {discount > 0 ? (

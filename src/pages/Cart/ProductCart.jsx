@@ -92,7 +92,7 @@ function ProductCart() {
                 <h5>Tổng cộng</h5>
                 <h5 className="fw-bold text-danger">{total.toLocaleString()}₫</h5>
               </div>
-              <Button variant="dark" className="w-100 mt-3">
+              <Button variant="primary" className="w-100 mt-3">
                 <Link to="/thanh-toan-san-pham" className="text-decoration-none text-white">
                   Tiến hành thanh toán
                 </Link>
