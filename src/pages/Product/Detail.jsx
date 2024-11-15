@@ -262,8 +262,8 @@ function Detail() {
             </div>
 
             <div className="d-flex flex-column">
-              <h6 className="fw-semibold text-muted" dangerouslySetInnerHTML={{ __html: productDetail.content?.slice(0, 550) }} />
-              <a href="#xemthem">...Xem thêm</a>
+              <h6 className="fw-semibold text-muted" dangerouslySetInnerHTML={{ __html: productDetail.content?.slice(15, 450) }} />
+              <a className="text-decoration-none fw-bold text-primary-emphasis" href="#xemthem">...Xem thêm</a>
             </div>
           </Col>
         </Row>
