@@ -213,6 +213,14 @@ function Index() {
       </Container>
       {/* End product section */}
 
+      {/* Start banner section */}
+      <Container className="my-5">
+        <Row className="row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 g-4">
+          <Image src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid w-100" style={{ height: "320px" }} alt="banner" />
+        </Row>
+      </Container>
+      {/* End banner section */}
+
       {/* Start Post */}
       <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
