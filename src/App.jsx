@@ -27,6 +27,7 @@ import Notfound from "./pages/Home/Notfound";
 import CategoryProducts from "./pages/Product/CategoryProducts";
 import { useContext } from "react";
 import { AuthenContext } from "./context/AuthenContext";
+import Order from "./pages/Profile/Order";
 
 function App() {
   const { user } = useContext(AuthenContext);
@@ -53,6 +54,7 @@ function App() {
       ) : (
         <>
           <Route path="/tai-khoan" element={<Account />} />
+          <Route path="/hoa-don" element={<Order />} />
         </>
       )}
       <Route path="/quen-mat-khau" element={<Forgot />} />
