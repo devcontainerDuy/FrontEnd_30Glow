@@ -95,13 +95,15 @@ export const useAuth = () => {
 
   useEffect(() => {
     const checkExpiration = () => {
-      if (expiry && Number(expiry) < new Date().getTime() / 1000) {
-        logout();
+      if (token !== null && expiry !== null) {
+        if (Number(expiry) < new Date().getTime() / 1000) {
+          logout();
+        }
       }
     };
-    const interval = setInterval(checkExpiration, 60000);
+    const interval = setInterval(checkExpiration, 1000);
     return () => clearInterval(interval);
-  }, [expiry]);
+  }, [token, expiry]);
 
   const saveAuthInfo = ({ uid, token, expiry }) => {
     localStorage.setItem("uid", uid);
