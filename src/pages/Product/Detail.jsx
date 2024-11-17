@@ -24,7 +24,7 @@ function Detail() {
   const handleAddToCart = () => {
     console.log("cart running...");
 
-    const newItem = { id: productDetail.id, quantity: quantity };
+    const newItem = { id: productDetail.id, quantity: quantity || 1 };
     dispatch(addToCart(newItem));
   };
   const [comments, setComments] = useState([
