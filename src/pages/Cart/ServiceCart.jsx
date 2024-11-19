@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable*/
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
 import Header from "../../layouts/Header";
@@ -101,24 +101,8 @@ function ServiceCart() {
     setId_user(event.target.value);
   };
 
-  const AddNewOrder = async (DataOrder) => {
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/bookings`, DataOrder, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      notyf.success("Đặt lịch hẹn thành công!");
-
-      dispatch(clearServiceCart());
-
-      setTimeout(() => {
-        navigate("/");
-      }, 9000);
-    } catch (error) {
-      console.error("Lỗi khi gọi API:", error);
-      notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
-    }
+  const chuyenTrang = () => {
+    navigate("/dich-vu");
   };
 
   return (
@@ -131,7 +115,98 @@ function ServiceCart() {
       <Container className="my-5 mb-5">
         <h4 className="mb-4">Đặt lịch của bạn</h4>
         {services.length === 0 ? (
-          <h4 className="text-danger text-center">Bạn chưa có lịch hẹn nào </h4>
+          <Row>
+            <Col md={7}>
+              <Table striped bordered hover>
+                <tbody>
+                  {services.map((item, index) => (
+                    <tr key={index}>
+                      <td className="d-flex justify-content-center align-items-center">
+                        <img
+                          src={item.image ? `${import.meta.env.VITE_URL}${item.image}` : "path/to/default-image.jpg"}
+                          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                          alt={item.name}
+                        />
+                      </td>
+                      <td>{item.name}</td>
+                      <td>
+                        <Button variant="outline-danger" onClick={() => handleRemoveService(item.id)} className="ms-3">
+                          <i className="bi bi-trash" />
+                        </Button>
+                      </td>
+                      <td>
+                        <span className="fw-bold">{Intl.NumberFormat("en-US").format(item.price)}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <div>
+                <h4 className="mb-2" style={{ textAlign: "center" }}>
+                  <i className="bi bi-calendar-heart , fs-1"></i> <hr></hr>
+                  <strong style={{ color: "red" }}> Bạn chưa có lịch đặt nào </strong>
+                </h4>
+              </div>
+            </Col>
+            <Col md={5}>
+              <div className="border" style={{ padding: "20px", borderRadius: "5px", width: "100%" }}>
+                <Form onSubmit={handleFormSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Tên người đặt lịch</Form.Label>
+                    <Form.Control type="text" placeholder="Nhập tên của bạn..." value={name} onChange={(e) => setName(e.target.value)} isInvalid={!!errors.name} />
+                    <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                  </Form.Group>
+                  <Row className="align-items-center">
+                    <Col xs={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Số điện thoại</Form.Label>
+                        <Form.Control type="tel" placeholder="Nhập số điện thoại..." value={phone} onChange={(e) => setPhone(e.target.value)} isInvalid={!!errors.phone} />
+                        <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" placeholder="Nhập địa chỉ email..." value={email} onChange={(e) => setEmail(e.target.value)} isInvalid={!!errors.email} />
+                        <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row className="align-items-center">
+                    <Col xs={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Thời gian đến</Form.Label>
+                        <Form.Control type="time" value={time2} onChange={focusTime} isInvalid={!!errors.time} />
+                        <Form.Control.Feedback type="invalid">{errors.time}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Ngày đến</Form.Label>
+                        <Form.Control type="date" value={appointmentDate} onChange={(e) => setAppointmentDate(e.target.value)} isInvalid={!!errors.appointmentDate} />
+                        <Form.Control.Feedback type="invalid">{errors.appointmentDate}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <button
+                      onClick={chuyenTrang}
+                      style={{
+                        margin: "10px",
+                        padding: "10px 20px",
+                        width: "490px",
+                        backgroundColor: "blue",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Đặt hẹn ngay !
+                    </button>
+                  </Row>
+                </Form>
+              </div>
+            </Col>
+          </Row>
         ) : (
           <Row>
             <Col md={7}>
@@ -219,7 +294,7 @@ function ServiceCart() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Button variant="dark" type="submit" className="w-100">
+                  <Button variant="primary" type="submit" className="w-100">
                     Đặt lịch hẹn ngay!
                   </Button>
                 </Form>

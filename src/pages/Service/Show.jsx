@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -76,11 +77,11 @@ function Show() {
           </Col>
 
           <Col md={5}>
-            <div className="border p-2">
-              <div className="d-flex justify-content-between align-items-center">
+            <div className="border p-3">
+              <div className="d-flex justify-content-between align-items-center w-100">
                 <h4 className="text-danger fw-bold mb-0">{ChiTietDV ? ChiTietDV.name : "Tên dịch vụ"}</h4>
-                <Button variant="dark" onClick={handleAddToCart}>
-                  Đặt lịch
+                <Button variant="dark" className="w-30 " onClick={handleAddToCart}>
+                  <i class="bi bi-calendar-plus"></i>
                 </Button>
               </div>
               <div className="d-flex justify-content-between">
@@ -92,8 +93,8 @@ function Show() {
                       })
                     : "..."}
                 </p>
+
                 <p className="fw-bold text-danger">
-                  Tổng:{" "}
                   {ChiTietDV
                     ? ChiTietDV.price.toLocaleString("vi-VN", {
                         style: "currency",
