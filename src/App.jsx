@@ -12,7 +12,7 @@ import Detail from "./pages/Product/Detail";
 import Product from "./pages/Product/Index";
 import Service from "./pages/Service/Index";
 import Show from "./pages/Service/Show";
-import GioHang from "./pages/Cart/ServiceCart";
+import ServiceCart from "./pages/Cart/ServiceCart";
 import About from "./pages/Home/About";
 import Brand from "./pages/Brand/Index";
 import ThanhToan from "./pages/Cart/thanh-toan";
@@ -29,6 +29,8 @@ import { useContext } from "react";
 import { AuthenContext } from "./context/AuthenContext";
 import Order from "./pages/Profile/Order";
 import CollectionService from "./pages/Service/CollectionService";
+import ProductDetail from "./pages/Product/ProductDetail";
+import ShoppingCart from "./pages/Cart/ShoppingCart";
 
 function App() {
   const { user } = useContext(AuthenContext);
@@ -37,27 +39,29 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/gioi-thieu" element={<About />} />
       <Route path="/lien-he" element={<Contact />} />
-      <Route path="/dat-lich" element={<GioHang />} />
-      <Route path="/gio-hang" element={<ProductCart />} />
+      <Route path="/dat-lich" element={<ServiceCart />} />
       <Route path="/thanh-toan-san-pham" element={<ProductPayment />} />
       <Route path="/san-pham" element={<Product />} />
       <Route path="/thuong-hieu" element={<Brand />} />
       <Route path="/danh-muc/:slug" element={<CategoryProducts />} />
-      <Route path="/san-pham/:slug" element={<Detail />} />
       <Route path="/dich-vu" element={<Service />} />
       <Route path="/dich-vu/:slug" element={<Show />} />
-      <Route path="/nhom-dich-vu/:slug" element={<CollectionService/>} />
+      <Route path="/nhom-dich-vu/:slug" element={<CollectionService />} />
 
       <Route path="/thanh-toan" element={<ThanhToan />} />
       {!user ? (
         <>
           <Route path="/dang-ky" element={<Register />} />
           <Route path="/dang-nhap" element={<Login />} />
+          <Route path="/san-pham/:slug" element={<Detail />} />
+          <Route path="/gio-hang" element={<ProductCart />} />
         </>
       ) : (
         <>
           <Route path="/tai-khoan" element={<Account />} />
           <Route path="/hoa-don" element={<Order />} />
+          <Route path="/san-pham/:slug" element={<ProductDetail />} />
+          <Route path="/gio-hang" element={<ShoppingCart />} />
         </>
       )}
       <Route path="/quen-mat-khau" element={<Forgot />} />
