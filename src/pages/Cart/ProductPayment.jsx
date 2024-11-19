@@ -284,7 +284,7 @@ const [formData, setFormData] = useState({
               <h5>Tổng cộng</h5>
               <h5>{total.toLocaleString()}₫</h5>
             </div>
-            <Button variant="dark" className="w-100 mt-3" onClick={handleOrder}>
+            <Button variant="primary" className="w-100 mt-3" onClick={handleOrder}>
               Đặt hàng
             </Button>
           </Col>

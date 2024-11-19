@@ -1,233 +1,279 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
-import { Notyf } from "notyf";
-import {
-  Container,
-  Image,
-  Nav,
-  Navbar,
-  NavDropdown,
-  Offcanvas,
-} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Button, Col, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas, Row } from "react-bootstrap";
+import { NavLink, useLocation } from "react-router-dom";
+import axios from "axios";
+import useAuthenContext from "../context/AuthenContext";
+import { useSelector } from "react-redux";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("Phan Thị Minh Thư");
-  const navigate = useNavigate();
+  // services
+  const location = useLocation();
+  const [categories, setCategories] = useState([]);
+  const [groupedCategories, setGroupedCategories] = useState({});
+  const [services, setServices] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [groupedServices, setGroupedServices] = useState({});
+  const { user, logout } = useAuthenContext();
+  const shoppingCart = useSelector((state) => state.shoppingCart.items);
+
+  const isActive = (path) => location.pathname === path;
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/categories");
+      return setCategories(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getCollections = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/services-collections");
+      setCollections(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getServices = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/services");
+      setServices(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(services, collections);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUsername = localStorage.getItem("username");
-    if (token && storedUsername) {
-      setIsLoggedIn(true);
-      setUsername(storedUsername);
-    } else {
-      setIsLoggedIn(false);
-    }
+    getCategories();
+    getCollections();
+    getServices();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setIsLoggedIn(false);
-    navigate("/", { replace: true });
-};
+  useEffect(() => {
+    const grouped = categories.reduce((item, category) => {
+      const parent = category.parent;
+      if (!item[parent.id]) {
+        item[parent.id] = { parent, children: [] };
+      }
+      item[parent.id].children.push(category);
+      return item;
+    }, {});
+    setGroupedCategories(grouped);
 
-  const notyf = new Notyf({
-    duration: 1000,
-    position: {
-      x: "right",
-      y: "top",
-    },
-    types: [
-      {
-        type: "warning",
-        background: "orange",
-        icon: {
-          className: "material-icons",
-          tagName: "i",
-          text: "warning",
-        },
-      },
-      {
-        type: "error",
-        background: "indianred",
-        duration: 2000,
-        dismissible: true,
-      },
-      {
-        type: "success",
-        background: "green",
-        color: "white",
-        duration: 2000,
-        dismissible: true,
-      },
-      {
-        type: "info",
-        background: "#24b3f0",
-        color: "white",
-        duration: 1500,
-        dismissible: false,
-        icon: '<i className="bi bi-bag-check"></i>',
-      },
-    ],
-  });
-  
+    // Group Services by Collection
+    if (collections.length > 0 && services.length > 0) {
+      const groupedServices = services.reduce((acc, service) => {
+        const collectionId = service.id_collection;
+        if (!acc[collectionId]) {
+          acc[collectionId] = {
+            parent: collections.find((col) => col.id === collectionId),
+            children: [],
+          };
+        }
+        acc[collectionId].children.push(service);
+        return acc;
+      }, {});
+      setGroupedServices(groupedServices);
+    }
+  }, [categories, collections, services]);
+
   return (
     <>
       {/*start top header*/}
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand as={NavLink} to="/" end>
             <Image src="../src/assets/images/logo30GLOW.png" width={100} fluid />
           </Navbar.Brand>
           {/* start header */}
-          
+
           {/* Button mobile */}
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           {/* Button mobile */}
 
-          <Navbar.Offcanvas id='offcanvasNavbar' aria-labelledby='offcanvasNavbarLabel' placement='end' className='bg-body-tertiary'>
+          <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" placement="end" className="bg-body-tertiary">
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
-                <Navbar.Brand href="/">
+                <Navbar.Brand as={NavLink} to="/">
                   <Image src="../src/assets/images/logo30GLOW.png" width={80} fluid />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav
-                className="me-auto text-uppercase fw-semibold gap-3"
-                variant="underline"
-              >
+              <Nav className="me-auto text-uppercase fw-semibold gap-3" variant="underline">
                 <Nav.Item>
-                  <Nav.Link href='/'>Trang chủ</Nav.Link>
+                  <Nav.Link as={NavLink} to="/">
+                    Trang chủ
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="/gioi-thieu">Giới thiệu</Nav.Link>
+                  <Nav.Link as={NavLink} to="/gioi-thieu">
+                    Giới thiệu
+                  </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link href="/dich-vu">Dịch vụ</Nav.Link>
-                </Nav.Item>
-                {/* start dropdown */}
-                {/* <NavDropdown title='Dịch vụ' id='service-dropdown' className='d-none d-lg-block' data-bs-popper='static'>
-                  <Container fluid style={{ width: "532px" }}>
-                    <Row>
-                      <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
-                        <Dropdown.Header as={Link} className='text-decoration-none' to='/dich-vu'>
-                          Dưỡng tóc
+                <NavDropdown title="Dịch vụ" id="service-dropdown" data-bs-popper="static" active={isActive("/dich-vu" || "/dich-vu/:slug")}>
+                  <Container fluid style={{ width: "35rem" }}>
+                    <Row className="g-0 row-cols-1 row-cols-lg-2">
+                      {collections.map((collection) => (
+                        <Col key={collection.id}>
+                          <Dropdown.Item as={NavLink} className="text-decoration-none" to={`/nhom-dich-vu/${collection.slug}`}>
+                            {collection.name}
+                          </Dropdown.Item>
+                        </Col>
+                      ))}
+                    </Row>
+                    <Row className="g-0">
+                      <Col>
+                        <Dropdown.Header as={NavLink} className="text-decoration-none text-center border-top pt-2" to={"/dich-vu"}>
+                          Tất cả dịch vụ
                         </Dropdown.Header>
-                        <Dropdown.Item as={Link} to='/'>
-                          Phục hồi tóc
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to='/'>
-                          Dưỡng phục hồi Robo Nano
-                        </Dropdown.Item>
-                      </Col>
-                      <Col xs={"12"} md={"12"} lg={"12"} xl={"6"} className='d-none d-lg-block text-start'>
-                        <Dropdown.Header as={Link} className='text-decoration-none' to='/'>
-                          Combo
-                        </Dropdown.Header>
-                        <Dropdown.Item as={Link} to='/'>
-                          Combo cắt và tạo kiểu
-                        </Dropdown.Item>
-                        <Dropdown.Item as={Link} to='/'>
-                          Combo cắt và uốn
-                        </Dropdown.Item>
                       </Col>
                     </Row>
                   </Container>
-                </NavDropdown> */}
+                </NavDropdown>
+                {/* start dropdown */}
+                <NavDropdown title="Sản phẩm" id="product-dropdown" data-bs-popper="static" active={isActive("/san-pham" || "/danh-muc/:slug")}>
+                  <Container fluid style={{ width: "24rem" }}>
+                    <Row className="g-0 row-cols-1 row-cols-lg-2">
+                      {Object.values(groupedCategories).map((group, index) => (
+                        <Col key={index}>
+                          <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent?.slug}`}>
+                            {group.parent?.name}
+                          </Dropdown.Header>
+                          {group.children.map((child) => (
+                            <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
+                              {child?.name}
+                            </Dropdown.Item>
+                          ))}
+                        </Col>
+                      ))}
+                      <Col className="m-0 p-0">
+                        <Dropdown.Header as={NavLink} className="text-decoration-none" to={"/san-pham"}>
+                          Tất cả sản phẩm
+                        </Dropdown.Header>
+                      </Col>
+                    </Row>
+                  </Container>
+                </NavDropdown>
                 {/* end dropdown */}
 
-                <NavDropdown
-                  title="Sản phẩm"
-                  id="product-dropdown"
-                  className="d-none d-lg-block"
-                >
-                  <NavDropdown.Item href="/san-pham">Sản phẩm</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
-                    Another action
+                <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
+                  <NavDropdown.Item as={NavLink} to="/thuong-hieu">
+                    Thương hiệu
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to="/thuong-hieu">
+                    Thương hiệu 2
                   </NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
-                  <NavDropdown.Item href="/thuong-hieu">Thương hiệu</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                </NavDropdown>
                 <Nav.Item>
-                  <Nav.Link href="/lien-he">Liên hệ</Nav.Link>
+                  <Nav.Link as={NavLink} to="/lien-he">
+                    Liên hệ
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="/tin-tuc">Tin tức</Nav.Link>
+                  <Nav.Link as={NavLink} to="/tin-tuc">
+                    Tin tức
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="d-block d-lg-none">
+                  <Nav.Link as={NavLink} to="/tai-khoan">
+                    Tài khoản
+                  </Nav.Link>
                 </Nav.Item>
               </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
 
-          {/* end header */}
-          <Navbar.Collapse className="justify-content-end gap-3 fs-5">
-            <Nav.Item>
-              <Nav.Link href="#login">
-                <i className="bi bi-search" />
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item title="Đặt lịch">
-              <Nav.Link className="position-relative me-1" href="/gio-hang">
-                <i className="bi bi-calendar-check" />
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  8
-                </span>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item title="Giỏ hàng">
-              <Nav.Link className="position-relative" href="/gio-hang-san-pham">
-                <i className="bi bi-basket2" />
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  8
-                </span>
-              </Nav.Link>
-            </Nav.Item>
-            <Navbar expand="lg" className="bg-body-tertiary sticky-top">
-              <Container>
-                <Navbar.Toggle aria-controls="navbar-nav" />
-                <Navbar.Collapse id="navbar-nav" className="justify-content-end gap-3 fs-5">
-                  <Nav className="align-items-center">
-                    {isLoggedIn ? (
-                      <NavDropdown
-                        title={<span>Hi, {username || "Khách hàng"}</span>}
-                        id="profile-dropdown"
-                        className="fs-6"
-                        align="end"
-                      >
-                        <NavDropdown.Item href="/tai-khoan">
+              {/* end header */}
+              <Navbar.Collapse className="justify-content-center">
+                <Form className="d-flex mt-3 d-block d-lg-none">
+                  <Form.Control type="search" placeholder="Tìm kiếm gì đó..." className="me-2" aria-label="Search" />
+                  <Button variant="outline-success">
+                    <i className="bi bi-search"></i>
+                  </Button>
+                </Form>
+                <div className="d-flex gap-1 mt-3">
+                  <Nav.Link as={NavLink} to="/dat-lich" className="col-6 d-md-none">
+                    <Button variant="outline-primary" className="w-100">
+                      <span className="me-2">Đặt lịch</span>
+                      <span class="badge text-bg-danger">{services ? services.length : 0}</span>
+                    </Button>
+                  </Nav.Link>
+                  <Nav.Link as={NavLink} to="/gio-hang" className="col-6 d-md-none">
+                    <Button variant="outline-primary" className="w-100">
+                      <span className="me-2">Giỏ hàng</span>
+                      <span class="badge text-bg-danger">{shoppingCart ? shoppingCart.length : 0}</span>
+                    </Button>
+                  </Nav.Link>
+                </div>
+              </Navbar.Collapse>
+
+              <Navbar.Collapse className="justify-content-end mx-auto text-uppercase fw-semibold gap-3 d-none d-lg-block">
+                <Nav.Link as={NavLink} to={"#"}>
+                  <i className="bi bi-search position-relative fs-5"></i>
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/dat-lich" className="ms-1">
+                  <i className="bi bi-calendar-check position-relative fs-5" title="Lịch đã đặt">
+                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{services ? services.length : 0}</span>
+                  </i>
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/gio-hang" className="ms-1" title="Giỏ hàng">
+                  <i className="bi bi-cart2 position-relative fs-5">
+                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{shoppingCart ? shoppingCart.length : 0}</span>
+                  </i>
+                </Nav.Link>
+                {user ? (
+                  <>
+                    <Dropdown autoClose="outside" className="ms-1">
+                      <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic1" title={"Khách hàng"} className="dropdown-user text-decoration-none text-dark">
+                        <i className="bi bi-person-circle fs-4 ms-2"></i>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu align="end">
+                        <Dropdown.Header className="fw-semibold">{user?.name}</Dropdown.Header>
+                        <Dropdown.Item as={NavLink} to="/tai-khoan">
                           <i className="bi bi-person-circle me-2" />
                           Tài khoản
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="/hoa-don">
+                        </Dropdown.Item>
+                        <Dropdown.Item as={NavLink} to="/hoa-don">
                           <i className="bi bi-box me-2" />
                           Hóa đơn
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="/dat-lich">
+                        </Dropdown.Item>
+                        <Dropdown.Item as={NavLink} to="/dat-lich">
                           <i className="bi bi-calendar-check me-2" />
                           Đặt lịch
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item onClick={handleLogout}>
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item href="#" role="button" onClick={logout}>
                           <i className="bi bi-box-arrow-right me-2" />
                           Đăng xuất
-                        </NavDropdown.Item>
-                      </NavDropdown>
-                    ) : (
-                      <Nav.Link href="/dang-nhap">
-                        <i className="bi bi-person-circle fs-4" title="Đăng nhập" />
-                      </Nav.Link>
-                    )}
-                  </Nav>
-                </Navbar.Collapse>
-              </Container>
-            </Navbar>
-          </Navbar.Collapse>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </>
+                ) : (
+                  <>
+                    <Dropdown autoClose="outside" className="ms-1">
+                      <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic" title="Tài khoản" className="dropdown-user">
+                        <i className="bi bi-person-circle fs-4 me-2"></i>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu align="end">
+                        <Dropdown.Header className="fw-semibold">Tài khoản</Dropdown.Header>
+                        <Dropdown.Item as={NavLink} to="/dang-nhap">
+                          <i className="bi bi bi-door-open me-2"></i> Đăng nhập
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item as={NavLink} to="/dang-ky">
+                          <i className="bi bi-person-add me-2"></i> Đăng ký
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </>
+                )}
+              </Navbar.Collapse>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
         </Container>
       </Navbar>
       {/*end top header*/}
