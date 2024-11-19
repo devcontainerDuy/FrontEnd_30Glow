@@ -22,9 +22,23 @@ function Detail() {
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    console.log("cart running...");
-
     const newItem = { id: productDetail.id, quantity: quantity || 1 };
+    const existingItem = shoppingCart.find((item) => item.id === newItem.id);
+
+    if (newItem.quantity > productDetail.in_stock) {
+      window.notyf.error("Số lượng sản phẩm vượt quá số lượng tồn kho");
+      return;
+    }
+
+    if (existingItem) {
+      const totalQuantity = existingItem.quantity + newItem.quantity;
+      if (totalQuantity > productDetail.in_stock) {
+        window.notyf.error("Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho");
+        return;
+      }
+    }
+
+    window.notyf.success("Đã thêm vào giỏ hàng");
     dispatch(addToCart(newItem));
   };
   const [comments, setComments] = useState([
@@ -64,7 +78,7 @@ function Detail() {
   const handleAddComment = (e) => {
     e.preventDefault();
     const trimmedComment = newComment.trim();
-  
+
     // Kiểm tra độ dài tối thiểu
     if (trimmedComment.length < 5) {
       alert("Bình luận quá ngắn. Vui lòng nhập nội dung rõ ràng hơn.");
@@ -74,7 +88,7 @@ function Detail() {
       alert("Nội dung trả lời không hợp lệ!");
       return;
     }
-  
+
     // Nếu không có vấn đề, thêm bình luận mới
     const newCommentData = {
       id: comments.length + 1,
@@ -87,11 +101,10 @@ function Detail() {
       showReplyInput: false,
       replies: [],
     };
-  
+
     setComments([newCommentData, ...comments]);
     setNewComment("");
   };
-  
 
   const toggleLike = (id) => {
     setComments(
@@ -113,13 +126,13 @@ function Detail() {
 
   const handleReply = (id) => {
     const reply = replyContent[id]?.trim();
-  
+
     // Kiểm tra tính hợp lệ: trả lời không rỗng, không vượt quá 1000 ký tự và không chứa từ vô nghĩa
     if (!reply || reply.length > 500 || /^(.)\1{3,}$/.test(reply)) {
       alert("Nội dung trả lời không hợp lệ!");
       return;
     }
-  
+
     setComments(
       comments.map((comment) =>
         comment.id === id
@@ -141,25 +154,24 @@ function Detail() {
     );
     setReplyContent({ ...replyContent, [id]: "" });
   };
-  
+
   const handleDelete = (id) => {
     setComments(comments.filter((comment) => comment.id !== id));
   };
 
   const handleDeleteReply = (replyId, commentId) => {
-    setComments(prevComments =>
-      prevComments.map(comment => {
+    setComments((prevComments) =>
+      prevComments.map((comment) => {
         if (comment.id === commentId) {
           return {
             ...comment,
-            replies: comment.replies.filter(reply => reply.id !== replyId)
+            replies: comment.replies.filter((reply) => reply.id !== replyId),
           };
         }
         return comment;
       })
     );
   };
-  
 
   return (
     <>
@@ -263,7 +275,9 @@ function Detail() {
 
             <div className="d-flex flex-column">
               <h6 className="fw-semibold text-muted" dangerouslySetInnerHTML={{ __html: productDetail.content?.slice(15, 450) }} />
-              <a className="text-decoration-none fw-bold text-primary-emphasis" href="#xemthem">...Xem thêm</a>
+              <a className="text-decoration-none fw-bold text-primary-emphasis" href="#xemthem">
+                ...Xem thêm
+              </a>
             </div>
           </Col>
         </Row>
@@ -329,7 +343,7 @@ function Detail() {
                           <div className="d-flex justify-content-between align-items-center">
                             <small className="text-muted">{reply.date}</small> {/* Ngày trả lời */}
                             <button
-                              className="btn btn-link text-danger p-0 ms-3 text-decoration-none" 
+                              className="btn btn-link text-danger p-0 ms-3 text-decoration-none"
                               onClick={() => handleDeleteReply(reply.id, comment.id)} // Thêm logic xóa khi bấm
                             >
                               Xóa
