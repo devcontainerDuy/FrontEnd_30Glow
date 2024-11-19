@@ -254,7 +254,7 @@ function Header() {
                 ) : (
                   <>
                     <Dropdown autoClose="outside" className="ms-1">
-                      <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic" title="Tài khoản" className="dropdown-user">
+                      <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic" title="Tài khoản" className="dropdown-user text-decoration-none text-dark">
                         <i className="bi bi-person-circle fs-4 me-2"></i>
                       </Dropdown.Toggle>
 
