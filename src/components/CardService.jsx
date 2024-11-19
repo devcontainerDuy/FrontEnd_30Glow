@@ -18,9 +18,11 @@ export default function CardService({ name, slug, price, compare_price, discount
               </p>
             </div>
           )}
-          <Link to={`/dich-vu/${slug}`}>
-            <Image src={import.meta.env.VITE_URL + image} className="card-img-top" fluid alt={name} />
-          </Link>
+          <div className="d-flex justify-content-center align-items-center" style={{ width: "300px", height: "280px", overflow: "hidden" }}>
+            <Link to={`/dich-vu/${slug}`}>
+              <Image src={import.meta.env.VITE_URL + image} className="card-img-top w-100" fluid alt={name} style={{ objectFit: "cover" }} />
+            </Link>
+          </div>
         </div>
         <Card.Body className="d-flex flex-column">
           <div className="text-start flex-grow-1">
