@@ -7,12 +7,15 @@ import useAuthenContext from "../context/AuthenContext";
 import { useSelector } from "react-redux";
 
 function Header() {
+  // services
   const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [groupedCategories, setGroupedCategories] = useState({});
+  const [services, setServices] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [groupedServices, setGroupedServices] = useState({});
   const { user, logout } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
-  const services = useSelector((state) => state.serviceCart.items);
 
   const isActive = (path) => location.pathname === path;
 
@@ -24,22 +27,57 @@ function Header() {
       console.error(error);
     }
   };
+  const getCollections = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/services-collections");
+      setCollections(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getServices = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/services");
+      setServices(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(services, collections);
 
   useEffect(() => {
     getCategories();
+    getCollections();
+    getServices();
   }, []);
 
   useEffect(() => {
     const grouped = categories.reduce((item, category) => {
-      const parent = category?.parent;
-      if (!item[parent?.id]) {
-        item[parent?.id] = { parent, children: [] };
+      const parent = category.parent;
+      if (!item[parent.id]) {
+        item[parent.id] = { parent, children: [] };
       }
-      item[parent?.id].children.push(category);
+      item[parent.id].children.push(category);
       return item;
     }, {});
     setGroupedCategories(grouped);
-  }, [categories]);
+
+    // Group Services by Collection
+    if (collections.length > 0 && services.length > 0) {
+      const groupedServices = services.reduce((acc, service) => {
+        const collectionId = service.id_collection;
+        if (!acc[collectionId]) {
+          acc[collectionId] = {
+            parent: collections.find((col) => col.id === collectionId),
+            children: [],
+          };
+        }
+        acc[collectionId].children.push(service);
+        return acc;
+      }, {});
+      setGroupedServices(groupedServices);
+    }
+  }, [categories, collections, services]);
 
   return (
     <>
@@ -75,11 +113,26 @@ function Header() {
                     Giới thiệu
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link as={NavLink} to="/dich-vu">
-                    Dịch vụ
-                  </Nav.Link>
-                </Nav.Item>
+                <NavDropdown title="Dịch vụ" id="service-dropdown" data-bs-popper="static" active={isActive("/dich-vu" || "/dich-vu/:slug")}>
+                  <Container fluid style={{ width: "35rem" }}>
+                    <Row className="g-0 row-cols-1 row-cols-lg-2">
+                      {collections.map((collection) => (
+                        <Col key={collection.id}>
+                          <Dropdown.Item as={NavLink} className="text-decoration-none" to={`/nhom-dich-vu/${collection.slug}`}>
+                            {collection.name}
+                          </Dropdown.Item>
+                        </Col>
+                      ))}
+                    </Row>
+                    <Row className="g-0">
+                      <Col>
+                        <Dropdown.Header as={NavLink} className="text-decoration-none text-center border-top pt-2" to={"/dich-vu"}>
+                          Tất cả dịch vụ
+                        </Dropdown.Header>
+                      </Col>
+                    </Row>
+                  </Container>
+                </NavDropdown>
                 {/* start dropdown */}
                 <NavDropdown title="Sản phẩm" id="product-dropdown" data-bs-popper="static" active={isActive("/san-pham" || "/danh-muc/:slug")}>
                   <Container fluid style={{ width: "24rem" }}>

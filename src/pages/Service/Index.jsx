@@ -12,37 +12,76 @@ import axios from "axios";
 
 function Index() {
   const [filter, setFilter] = useState("default");
-  const [services, setServices] = useState([]);
+  const [allServices, setAllServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [page, setPage] = useState(1);
-  1;
-  const [totalPage, setTotalPage] = useState(1);
+  const [servicesPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchServices = async () => {
+  const fetchAllServices = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services?page=${page}`
-      );
-      setTotalPage(res.data.data.last_page);
-      setServices(res.data.data.data);
-      setPage(res.data.data.current_page);
-    } catch (err) {
-      console.log(err);
-      setError(err);
+      let allServices = [];
+      let currentPage = 1;
+      let lastPage = 1;
+
+      do {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/services?page=${currentPage}`);
+        const data = response.data.data;
+        allServices = [...allServices, ...data.data];
+        lastPage = data.last_page;
+        currentPage++;
+      } while (currentPage <= lastPage);
+
+      setAllServices(allServices);
+    } catch (error) {
+      console.error("Lỗi khi fetch dịch vụ:", error);
+      setError(error);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
+
+  const getFilteredServices = () => {
+    let sortedServices = [...allServices];
+
+    if (filter === "sale") {
+      sortedServices = sortedServices.filter((service) => service.discount > 0);
+    } else if (filter === "high-to-low") {
+      sortedServices.sort((a, b) => b.price - a.price);
+    } else if (filter === "low-to-high") {
+      sortedServices.sort((a, b) => a.price - b.price);
+    } else if (filter === "newest") {
+      sortedServices.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
+    return sortedServices;
+  };
+
+  const updateFilteredServices = () => {
+    const newFilteredServices = getFilteredServices();
+    setFilteredServices(newFilteredServices);
+  };
+
+  const paginatedServices = filteredServices.slice((page - 1) * servicesPerPage, page * servicesPerPage);
+
+  useEffect(() => {
+    fetchAllServices();
+  }, []);
+
+  useEffect(() => {
+    updateFilteredServices();
+  }, [filter, allServices]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
-  useEffect(() => {
-    fetchServices();
-  }, [page]);
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
 
   return (
     <>
@@ -53,45 +92,46 @@ function Index() {
       <Headers />
       <BreadcrumbComponent props={[{ name: "Dịch vụ", url: "/dich-vu" }]} />
       <Container className="my-3">
+        {/* Header và Bộ lọc */}
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
             <div className="ms-2">
-              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">
-                Dịch vụ
-              </h3>
+              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Dịch vụ</h3>
             </div>
           </div>
           <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
-            <FormSelect
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              style={{ width: "200px" }}
-            >
+            <FormSelect value={filter} onChange={handleFilterChange} style={{ width: "200px" }}>
               <option value="default">Mặc định</option>
-              <option value="popular">Phổ biến</option>
-              <option value="newest">Dịch vụ mới</option>
+              <option value="high-to-low">Giá cao nhất</option>
+              <option value="low-to-high">Giá thấp nhất</option>
+              <option value="newest">Sản phẩm mới</option>
+              <option value="sale">Sản phẩm có sale</option>
             </FormSelect>
           </div>
         </div>
+
+        {/* Hiển thị sản phẩm */}
         {loading ? (
           <p>Đang tải dịch vụ...</p>
         ) : error ? (
           <p>Có lỗi xảy ra: {error.message}</p>
         ) : (
           <Row className="row-cols-1 row-cols-lg-5 g-4">
-            {services.length > 0 ? (
-              services.map((service, index) => (
-                <CardService key={index} {...service} />
-              ))
-            ) : (
-              <h3 className="text-center">Không có dịch vụ</h3>
-            )}
+            {paginatedServices.length > 0 ? paginatedServices.map((service, index) => <CardService key={index} {...service} />) : <h3 className="text-center">Không có dịch vụ</h3>}
           </Row>
         )}
-        <Paginated current={page} total={totalPage} handle={handlePageChange} />
+
+        {/* Phân trang */}
+        <Paginated
+          current={page}
+          total={Math.ceil(filteredServices.length / servicesPerPage)} // Tổng số trang
+          handle={handlePageChange}
+        />
       </Container>
-     <Container className="my-2">
+
+      {/* Thông tin thêm */}
+      <Container className="my-2">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
           <Col className="d-flex">
             <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
@@ -100,9 +140,7 @@ function Index() {
                   <i className="bi bi-truck" />
                 </div>
                 <h5 className="fw-bold">Giao hàng siêu tốc 2h</h5>
-                <p className="mb-0">
-                  Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.
-                </p>
+                <p className="mb-0">Nhận hàng ngay trong 2 giờ! Nhanh chóng, tiện lợi.</p>
               </Card.Body>
             </Card>
           </Col>
@@ -140,7 +178,6 @@ function Index() {
             </Card>
           </Col>
         </Row>
-        {/*end row*/}
       </Container>
       <Footers />
     </>

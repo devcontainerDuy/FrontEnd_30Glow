@@ -101,27 +101,8 @@ function ServiceCart() {
     setId_user(event.target.value);
   };
 
-  const AddNewOrder = async (DataOrder) => {
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/bookings`, DataOrder, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      notyf.success("Đặt lịch hẹn thành công!");
-
-      dispatch(clearServiceCart());
-
-      setTimeout(() => {
-        navigate("/");
-      }, 9000);
-    } catch (error) {
-      console.error("Lỗi khi gọi API:", error);
-      notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
-    }
-  };
   const chuyenTrang = () => {
-    navigate("/dich-vu"); // Đường dẫn muốn chuyển đến
+    navigate("/dich-vu");
   };
 
   return (
