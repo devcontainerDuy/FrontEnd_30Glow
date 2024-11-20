@@ -220,7 +220,7 @@ function Header() {
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/gio-hang" className="ms-1" title="Giỏ hàng">
                   <i className="bi bi-cart2 position-relative fs-5">
-                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{user ? cartItems.length || 0 : shoppingCart || 0}</span>
+                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{user ? cartItems.length || 0 : shoppingCart.length || 0}</span>
                   </i>
                 </Nav.Link>
                 {user ? (
