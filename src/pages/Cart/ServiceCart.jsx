@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
+
 /* eslint-disable*/
-=======
-/* eslint-disable */
->>>>>>> Stashed changes
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
 import Header from "../../layouts/Header";
@@ -107,11 +104,6 @@ function ServiceCart() {
   const chuyenTrang = () => {
     navigate("/dich-vu");
   };
-
-<<<<<<< Updated upstream
-  const chuyenTrang = () => {
-    navigate("/dich-vu");
-=======
   const AddNewOrder = async (DataOrder) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/bookings`, DataOrder, {
@@ -130,7 +122,6 @@ function ServiceCart() {
       console.error("Lỗi khi gọi API:", error);
       notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
     }
->>>>>>> Stashed changes
   };
 
   return (
@@ -168,15 +159,6 @@ function ServiceCart() {
                     </tr>
                   ))}
                 </tbody>
-<<<<<<< Updated upstream
-              </Table>
-              <div>
-                <h4 className="mb-2" style={{ textAlign: "center" }}>
-                  <i className="bi bi-calendar-heart , fs-1"></i> <hr></hr>
-                  <strong style={{ color: "red" }}> Bạn chưa có lịch đặt nào </strong>
-                </h4>
-              </div>
-=======
                 <div>
                   <h4 className="mb-2" style={{ textAlign: "center" }}>
                     <i className="bi bi-calendar-heart , fs-1"></i> <hr></hr>
@@ -184,44 +166,28 @@ function ServiceCart() {
                   </h4>
                 </div>
               </Table>
->>>>>>> Stashed changes
             </Col>
             <Col md={5}>
               <div className="border" style={{ padding: "20px", borderRadius: "5px", width: "100%" }}>
                 <Form onSubmit={handleFormSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Tên người đặt lịch</Form.Label>
-<<<<<<< Updated upstream
-                    <Form.Control type="text" placeholder="Nhập tên của bạn..." value={name} onChange={(e) => setName(e.target.value)} isInvalid={!!errors.name} />
-                    <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-=======
                     <Form.Control type="text" placeholder="Nhập tên của bạn..." />
                     <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
->>>>>>> Stashed changes
                   </Form.Group>
                   <Row className="align-items-center">
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Số điện thoại</Form.Label>
-<<<<<<< Updated upstream
-                        <Form.Control type="tel" placeholder="Nhập số điện thoại..." value={phone} onChange={(e) => setPhone(e.target.value)} isInvalid={!!errors.phone} />
-                        <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
-=======
                         <Form.Control type="tel" placeholder="Nhập số điện thoại..." />
                         <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
->>>>>>> Stashed changes
                       </Form.Group>
                     </Col>
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
-<<<<<<< Updated upstream
-                        <Form.Control type="email" placeholder="Nhập địa chỉ email..." value={email} onChange={(e) => setEmail(e.target.value)} isInvalid={!!errors.email} />
-                        <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-=======
                         <Form.Control type="email" placeholder="Nhập địa chỉ email..." />
                         <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
->>>>>>> Stashed changes
                       </Form.Group>
                     </Col>
                   </Row>
@@ -229,40 +195,13 @@ function ServiceCart() {
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Thời gian đến</Form.Label>
-<<<<<<< Updated upstream
-                        <Form.Control type="time" value={time2} onChange={focusTime} isInvalid={!!errors.time} />
-                        <Form.Control.Feedback type="invalid">{errors.time}</Form.Control.Feedback>
-=======
                         <Form.Control type="time" />
                         <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
->>>>>>> Stashed changes
                       </Form.Group>
                     </Col>
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Ngày đến</Form.Label>
-<<<<<<< Updated upstream
-                        <Form.Control type="date" value={appointmentDate} onChange={(e) => setAppointmentDate(e.target.value)} isInvalid={!!errors.appointmentDate} />
-                        <Form.Control.Feedback type="invalid">{errors.appointmentDate}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <button
-                      onClick={chuyenTrang}
-                      style={{
-                        margin: "10px",
-                        padding: "10px 20px",
-                        width: "490px",
-                        backgroundColor: "blue",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Đặt hẹn ngay !
-                    </button>
-                  </Row>
-=======
                         <Form.Control type="date" />
                         <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                       </Form.Group>
@@ -283,7 +222,6 @@ function ServiceCart() {
                   >
                     Đặt hẹn ngay !
                   </button>
->>>>>>> Stashed changes
                 </Form>
               </div>
             </Col>

@@ -18,15 +18,9 @@ export default function CardService({ name, slug, price, compare_price, discount
               </p>
             </div>
           )}
-<<<<<<< Updated upstream
           <div className="d-flex justify-content-center align-items-center" style={{ width: "300px", height: "280px", overflow: "hidden" }}>
             <Link to={`/dich-vu/${slug}`}>
               <Image src={import.meta.env.VITE_URL + image} className="card-img-top w-100" fluid alt={name} style={{ objectFit: "cover" }} />
-=======
-          <div className="d-flex justify-content-center align-items-center" style={{ width: "280px", height: "250px", overflow: "hidden" }}>
-            <Link to={`/dich-vu/${slug}`}>
-              <Image src={import.meta.env.VITE_URL + image} className="card-img-top" fluid alt={name} style={{ objectFit: "cover" }} />
->>>>>>> Stashed changes
             </Link>
           </div>
         </div>
