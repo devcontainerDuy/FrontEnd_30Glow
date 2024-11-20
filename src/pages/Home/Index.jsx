@@ -137,7 +137,7 @@ function Index() {
 
       {/* Start buy section */}
       <Container className="my-2">
-        <Row className="row-cols-1 row-cols-lg-4 g-4">
+        <Row className="row-cols-2 row-cols-lg-4 g-4">
           <Col className="d-flex">
             <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
               <Card.Body className="text-center">
@@ -195,7 +195,13 @@ function Index() {
           </div>
         </div>
         <Row className="row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 row-cols-xl-5 g-4">
-          {serviceIndex && serviceIndex.length > 0 ? serviceIndex.map((item, index) => <CardService key={index} {...item} />) : <h3 className="text-center pt-3">Không có dịch vụ</h3>}
+          {serviceIndex && serviceIndex.length > 0 ? (
+            serviceIndex.map((item, index) => <CardService key={index} {...item} />)
+          ) : (
+            <Col xs="12" className="mx-auto w-100">
+              <h3 className="text-center pt-3">Không có dịch vụ</h3>
+            </Col>
+          )}
         </Row>
       </Container>
       {/* End service section */}
@@ -208,7 +214,13 @@ function Index() {
           </div>
         </div>
         <Row className="row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 row-cols-xl-5 g-4">
-          {productIndex.length > 0 ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className="text-center">Không có sản phẩm</h3>}
+          {productIndex.length > 0 ? (
+            productIndex.map((product, index) => <CardProduct key={index} {...product} />)
+          ) : (
+            <Col xs="12" className="mx-auto w-100">
+              <h3 className="text-center pt-3">Không có sản phẩm</h3>
+            </Col>
+          )}
         </Row>
       </Container>
       {/* End product section */}

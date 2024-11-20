@@ -5,17 +5,18 @@ import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuthenContext from "../context/AuthenContext";
 import { useSelector } from "react-redux";
+import logo from "@img/logo30GLOW.png";
 
 function Header() {
   // services
   const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [groupedCategories, setGroupedCategories] = useState({});
-  const [groupedServices, setGroupedServices] = useState({});
-  const { user, logout } = useAuthenContext();
-  const shoppingCart = useSelector((state) => state.shoppingCart.items);
-  const services = useSelector((state) => state.serviceCart.items);
+  const [services, setServices] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [groupedServices, setGroupedServices] = useState({});
+  const { user, logout, cartItems } = useAuthenContext();
+  const shoppingCart = useSelector((state) => state.shoppingCart.items);
 
   const isActive = (path) => location.pathname === path;
 
@@ -35,10 +36,20 @@ function Header() {
       console.error(error);
     }
   };
+  const getServices = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/services");
+      setServices(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(services, collections);
 
   useEffect(() => {
     getCategories();
     getCollections();
+    getServices();
   }, []);
 
   useEffect(() => {
@@ -75,7 +86,7 @@ function Header() {
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
           <Navbar.Brand as={NavLink} to="/" end>
-            <Image src="../src/assets/images/logo30GLOW.png" width={100} fluid />
+            <Image src={logo} width={100} fluid />
           </Navbar.Brand>
           {/* start header */}
 
@@ -87,7 +98,7 @@ function Header() {
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand as={NavLink} to="/">
-                  <Image src="../src/assets/images/logo30GLOW.png" width={80} fluid />
+                  <Image src={logo} width={80} fluid />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
@@ -209,7 +220,7 @@ function Header() {
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/gio-hang" className="ms-1" title="Giỏ hàng">
                   <i className="bi bi-cart2 position-relative fs-5">
-                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{shoppingCart ? shoppingCart.length : 0}</span>
+                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{user ? cartItems.length || 0 : shoppingCart || 0}</span>
                   </i>
                 </Nav.Link>
                 {user ? (

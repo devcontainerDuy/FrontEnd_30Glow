@@ -1,5 +1,4 @@
-
-/* eslint-disable */
+/* eslint-disable*/
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -58,34 +57,34 @@ function Show() {
         <meta name="description" content={ChiTietDV?.summary} />
       </Helmet>
       <Header />
-
       <Container className="my-5 mb-6">
         <Row>
           <Col md={6} className="d-flex flex-column align-items-center">
             <div className="text-center">
-              <div className="text-center">
-                <img
-                  src={ChiTietDV?.image ? `${import.meta.env.VITE_URL}/${ChiTietDV.image}` : "path/to/default-image.jpg"}
-                  alt="Hình ảnh"
-                  style={{
-                    maxWidth: "500px",
-                    height: "1500px",
-                    maxHeight: "500px",
-                    objectFit: "contain",
-                    marginBottom: "3px",
-                  }}
-                  className="mx-auto"
-                />
-              </div>
+              <img
+                src={ChiTietDV?.image ? `${import.meta.env.VITE_URL}/${ChiTietDV.image}` : "path/to/default-image.jpg"}
+                alt="Hình ảnh"
+                style={{
+                  maxWidth: "500px",
+                  height: "1500px",
+                  maxHeight: "500px",
+                  objectFit: "contain",
+                  marginBottom: "3px",
+                }}
+                className="mx-auto"
+              />
             </div>
           </Col>
 
           <Col md={5}>
-            <div className="border p-2">
-              <div className="d-flex justify-content-between align-items-center">
-                <h3 className=" text-primary-emphasis fw-bold mb-0">{ChiTietDV ? ChiTietDV.name : "Tên dịch vụ"}</h3>
+            <div className="border p-3">
+              <div className="d-flex justify-content-between align-items-center w-100">
+                <h4 className="text-danger fw-bold mb-0">{ChiTietDV ? ChiTietDV.name : "Tên dịch vụ"}</h4>
+                <Button variant="dark" className="w-30 " onClick={handleAddToCart}>
+                  <i class="bi bi-calendar-plus"></i>
+                </Button>
               </div>
-              <div className="d-flex ">
+              <div className="d-flex justify-content-between">
                 <p className="me-3 text-decoration-line-through">
                   {ChiTietDV
                     ? ChiTietDV.compare_price.toLocaleString("vi-VN", {
@@ -106,9 +105,6 @@ function Show() {
               </div>
               <h4 className="fw-bold text-start mt-2">Nội dung dịch vụ:</h4>
               <div className="text-start">{ChiTietDV ? <p dangerouslySetInnerHTML={{ __html: ChiTietDV.content }} /> : <p>Đang tải nội dung dịch vụ...</p>}</div>
-              <Button variant="primary w-100" onClick={handleAddToCart}>
-                Đặt lịch
-              </Button>
             </div>
           </Col>
         </Row>

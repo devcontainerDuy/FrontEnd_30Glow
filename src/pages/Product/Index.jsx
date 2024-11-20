@@ -45,7 +45,7 @@ function Index() {
   // Sắp xếp sản phẩm dựa trên giá trị bộ lọc
   const getFilteredProducts = () => {
     let sortedProducts = [...products];
-    
+
     if (filter === "sale") {
       sortedProducts = sortedProducts.filter((product) => product.discount > 0);
     } else if (filter === "high-to-low") {
@@ -95,7 +95,9 @@ function Index() {
             {getFilteredProducts().length > 0 ? (
               getFilteredProducts().map((product, index) => <CardProduct key={index} {...product} />)
             ) : (
-              <h3 className="text-center">Không có sản phẩm</h3>
+              <Col xs="12" className="mx-auto w-100">
+                <h3 className="text-center pt-3">Không có sản phẩm</h3>
+              </Col>
             )}
           </Row>
         )}
