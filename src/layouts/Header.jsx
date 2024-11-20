@@ -16,6 +16,11 @@ function Header() {
   const [groupedServices, setGroupedServices] = useState({});
   const { user, logout } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
+<<<<<<< Updated upstream
+=======
+  const services = useSelector((state) => state.serviceCart.items);
+  const [collections, setCollections] = useState([]);
+>>>>>>> Stashed changes
 
   const isActive = (path) => location.pathname === path;
 
@@ -35,6 +40,7 @@ function Header() {
       console.error(error);
     }
   };
+<<<<<<< Updated upstream
   const getServices = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + "/services");
@@ -44,11 +50,16 @@ function Header() {
     }
   };
   console.log(services, collections);
+=======
+>>>>>>> Stashed changes
 
   useEffect(() => {
     getCategories();
     getCollections();
+<<<<<<< Updated upstream
     getServices();
+=======
+>>>>>>> Stashed changes
   }, []);
 
   useEffect(() => {
