@@ -7,11 +7,15 @@ export const useCart = () => {
   const { token } = useAuth();
 
   const addToCart = async ({ ...data }) => {
+    if (!token) {
+      window.notyf.error("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng");
+      return;
+    }
+
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/carts`, { ...data }, { headers: { Authorization: `Bearer ${token}` } });
       if (response.data.check === true) {
         window.notyf.success(response.data.message);
-        // Refresh cart items after adding a new item
         await show();
       } else {
         window.notyf.error(response.data.message);
@@ -23,6 +27,11 @@ export const useCart = () => {
   };
 
   const show = async () => {
+    if (!token) {
+      window.notyf.error("Bạn cần đăng nhập để xem giỏ hàng");
+      return;
+    }
+
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/carts`, {
         headers: { Authorization: `Bearer ${token}` },

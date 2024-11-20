@@ -5,7 +5,7 @@ import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 
 function CategoryProducts() {
@@ -64,7 +64,13 @@ function CategoryProducts() {
           <p>Đang tải sản phẩm...</p>
         ) : (
           <Row className="row-cols-1 row-cols-lg-5 g-4">
-            {Object.keys(products).length > 0 ? products.map((product) => <CardProduct key={product.id} {...product} />) : <h3 className="text-center">Không có sản phẩm nào thuộc danh mục này.</h3>}
+            {Object.keys(products).length > 0 ? (
+              products.map((product) => <CardProduct key={product.id} {...product} />)
+            ) : (
+              <Col xs="12" className="mx-auto w-100">
+                <h3 className="text-center pt-3">Không có sản phẩm nào thuộc danh mục này.</h3>
+              </Col>
+            )}
           </Row>
         )}
         {/* <Paginated current={page} total={totalPage} handle={handlePageChange} /> */}
