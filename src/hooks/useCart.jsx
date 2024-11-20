@@ -79,6 +79,7 @@ export const useCart = () => {
         window.notyf.error(response.data.message);
       }
     } catch (error) {
+      setCartItems([]);
       window.notyf.error("Có lỗi xảy ra khi lấy dữ liệu giỏ hàng");
     }
   };
@@ -86,6 +87,8 @@ export const useCart = () => {
   useEffect(() => {
     if (token) {
       show();
+    } else {
+      setCartItems([]);
     }
   }, [token]);
 
