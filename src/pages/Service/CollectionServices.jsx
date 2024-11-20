@@ -34,7 +34,7 @@ function CollectionServices() {
     <>
       <Helmet>
         <title>Bộ sưu tập - 30GLOW</title>
-        <meta name="description" content="Trang hiển thị bộ sưu tập dịch vụ " />
+        <meta name="description" content="Trang hiển thị bộ sưu tập dịch vụ" />
       </Helmet>
       <Header />
       <Container className="my-3">

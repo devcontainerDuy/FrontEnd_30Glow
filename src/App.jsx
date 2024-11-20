@@ -28,9 +28,9 @@ import CategoryProducts from "./pages/Product/CategoryProducts";
 import { useContext } from "react";
 import { AuthenContext } from "./context/AuthenContext";
 import Order from "./pages/Profile/Order";
-import CollectionService from "./pages/Service/CollectionService";
 import ProductDetail from "./pages/Product/ProductDetail";
 import ShoppingCart from "./pages/Cart/ShoppingCart";
+import CollectionServices from "./pages/Service/CollectionServices";
 
 function App() {
   const { user } = useContext(AuthenContext);
@@ -44,10 +44,10 @@ function App() {
       <Route path="/san-pham" element={<Product />} />
       <Route path="/thuong-hieu" element={<Brand />} />
       <Route path="/danh-muc/:slug" element={<CategoryProducts />} />
+      <Route path="/nhom-dich-vu/:slug" element={<CollectionServices />} />
+      <Route path="/san-pham/:slug" element={<Detail />} />
       <Route path="/dich-vu" element={<Service />} />
       <Route path="/dich-vu/:slug" element={<Show />} />
-      <Route path="/nhom-dich-vu/:slug" element={<CollectionService />} />
-
       <Route path="/thanh-toan" element={<ThanhToan />} />
       {!user ? (
         <>
