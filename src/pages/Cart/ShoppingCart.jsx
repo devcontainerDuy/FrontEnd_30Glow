@@ -6,15 +6,16 @@ import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 
 const ShoppingCart = () => {
-  const { cartItems, addToCart } = useAuthenContext();
+  const { cartItems, updateCart, removeFromCart } = useAuthenContext();
 
-  const subtotal = cartItems.reduce((sum, product) => {
-    const price = product.discount > 0 ? product.price - (product.price * product.discount) / 100 : product.price;
-    return sum + price * product.quantity;
+  const subtotal = cartItems.reduce((sum, item) => {
+    const price = item.product?.discount > 0 ? item.product?.price - (item.product?.price * item.product?.discount) / 100 : item.product?.price;
+    return sum + price * item?.quantity;
   }, 0);
+
   const shippingFee = subtotal > 500000 ? 0 : 30000;
   const total = subtotal + shippingFee;
-  const totalItems = cartItems.reduce((total, product) => total + product.quantity, 0);
+  const totalItems = cartItems.reduce((total, items) => total + items.quantity, 0);
 
   const handleQuantityChange = (id, change) => {
     const product = cartItems.find((item) => item.id === id);
@@ -23,25 +24,16 @@ const ShoppingCart = () => {
 
     const newQuantity = product.quantity + change;
 
-    if (newQuantity > product.in_stock) {
-      window.notyf.error("Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho");
-      return;
-    }
-
     if (newQuantity < 1) {
       window.notyf.error("Số lượng sản phẩm không thể nhỏ hơn 1");
       return;
     }
 
-    if (change > 0) {
-      console.log("increase");
-    } else {
-      console.log("decrease");
-    }
+    updateCart({ id, id_product: product.product.id, quantity: newQuantity });
   };
 
   const handleRemoveProduct = (id) => {
-    console.log("remove" + id);
+    removeFromCart(id);
   };
 
   return (
@@ -62,26 +54,26 @@ const ShoppingCart = () => {
                 cartItems.map((items, index) => (
                   <Row key={index} className="mb-3 align-items-center w-100 ">
                     <Col xs={3}>
-                      <Image src={import.meta.env.VITE_URL + items?.gallery} fluid rounded />
+                      <Image src={import.meta.env.VITE_URL + items.product?.image} fluid rounded />
                     </Col>
                     <Col xs={5} className="text-start">
                       <div className="d-flex ">
-                        <h6 className="mb-0">
-                          <span>{items?.name || "Product Name"}</span>
-                        </h6>
-                        <div className="ms-auto">{items.discount > 0 && <span className="badge text-bg-danger "> {items?.discount} %</span>}</div>
+                        <Link to={`/san-pham/${items.product?.slug}`} className="text-decoration-none h5 link-hover-underline link-dark ">
+                          <span>{items.product?.name || "Product Name"}</span>
+                        </Link>
+                        <div className="ms-auto">{items.product.discount > 0 && <span className="badge text-bg-danger "> {items.product?.discount} %</span>}</div>
                       </div>
-                      {items?.discount > 0 ? (
+                      {items.product?.discount > 0 ? (
                         <>
                           <div>
                             <p className="mb-0 text-danger">
-                              Giá gốc: <del>{items?.price?.toLocaleString() || "0"}₫</del>
+                              Giá gốc: <del>{items.product?.price?.toLocaleString() || "0"}₫</del>
                             </p>
-                            <p className=" fw-bold">Giá giảm: {(items.price - (items.price * items.discount) / 100).toLocaleString()}₫</p>
+                            <p className=" fw-bold">Giá giảm: {(items.product.price - (items.product.price * items.product.discount) / 100).toLocaleString()}₫</p>
                           </div>
                         </>
                       ) : (
-                        <p className="mb-0 fw-bold">Giá: {items?.price?.toLocaleString() || "0"}₫</p>
+                        <p className="mb-0 fw-bold">Giá: {items.product?.price?.toLocaleString() || "0"}₫</p>
                       )}
                     </Col>
                     <Col xs={3}>

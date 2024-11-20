@@ -21,8 +21,45 @@ export const useCart = () => {
         window.notyf.error(response.data.message);
       }
     } catch (error) {
-      console.error(error);
-      window.notyf.error("Có lỗi xảy ra khi thêm vào giỏ hàng");
+      window.notyf.error(error.response.data.message);
+    }
+  };
+
+  const updateCart = async ({ id, ...data }) => {
+    if (!token) {
+      window.notyf.error("Bạn cần đăng nhập để cập nhật giỏ hàng");
+      return;
+    }
+
+    try {
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/carts/${id}`, { ...data }, { headers: { Authorization: `Bearer ${token}` } });
+      if (response.data.check === true) {
+        window.notyf.success(response.data.message);
+        await show();
+      } else {
+        window.notyf.error(response.data.message);
+      }
+    } catch (error) {
+      window.notyf.error(error.response.data.message);
+    }
+  };
+
+  const removeFromCart = async (id) => {
+    if (!token) {
+      window.notyf.error("Bạn cần đăng nhập để cập nhật giỏ hàng");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/carts/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      if (response.data.check === true) {
+        window.notyf.success(response.data.message);
+        await show();
+      } else {
+        window.notyf.error(response.data.message);
+      }
+    } catch (error) {
+      window.notyf.error(error.response.data.message);
     }
   };
 
@@ -42,7 +79,6 @@ export const useCart = () => {
         window.notyf.error(response.data.message);
       }
     } catch (error) {
-      console.error(error);
       window.notyf.error("Có lỗi xảy ra khi lấy dữ liệu giỏ hàng");
     }
   };
@@ -53,5 +89,5 @@ export const useCart = () => {
     }
   }, [token]);
 
-  return { cartItems, addToCart };
+  return { cartItems, addToCart, updateCart, removeFromCart };
 };
