@@ -83,8 +83,8 @@ function Index() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              <option value="newest">Sản phẩm mới</option>
-              <option value="sale">Sản phẩm có sale</option> {/* Thêm tùy chọn Sale */}
+              {/* <option value="newest">Sản phẩm mới</option> */}
+              <option value="sale">Sản phẩm có sale</option> 
             </FormSelect>
           </div>
         </div>
