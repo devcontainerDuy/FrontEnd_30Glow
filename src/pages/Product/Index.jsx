@@ -45,7 +45,7 @@ function Index() {
   // Sắp xếp sản phẩm dựa trên giá trị bộ lọc
   const getFilteredProducts = () => {
     let sortedProducts = [...products];
-    
+
     if (filter === "sale") {
       sortedProducts = sortedProducts.filter((product) => product.discount > 0);
     } else if (filter === "high-to-low") {
@@ -91,11 +91,13 @@ function Index() {
         {loading ? (
           <p>Đang tải sản phẩm...</p>
         ) : (
-          <Row className="row-cols-1 row-cols-lg-5 g-4">
+          <Row className="row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 row-cols-sm-2 g-4 ">
             {getFilteredProducts().length > 0 ? (
               getFilteredProducts().map((product, index) => <CardProduct key={index} {...product} />)
             ) : (
-              <h3 className="text-center">Không có sản phẩm</h3>
+              <Col xs="12" className="mx-auto w-100">
+                <h3 className="text-center pt-3">Không có sản phẩm</h3>
+              </Col>
             )}
           </Row>
         )}

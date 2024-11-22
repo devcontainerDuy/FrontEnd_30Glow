@@ -5,6 +5,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuthenContext from "../context/AuthenContext";
 import { useSelector } from "react-redux";
+import logo from "@img/logo30GLOW.png";
 
 function Header() {
   // services
@@ -14,7 +15,7 @@ function Header() {
   const [services, setServices] = useState([]);
   const [collections, setCollections] = useState([]);
   const [groupedServices, setGroupedServices] = useState({});
-  const { user, logout } = useAuthenContext();
+  const { user, logout, cartItems } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
 
   const isActive = (path) => location.pathname === path;
@@ -79,13 +80,15 @@ function Header() {
     }
   }, [categories, collections, services]);
 
+  console.log("user", user);
+
   return (
     <>
       {/*start top header*/}
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
           <Navbar.Brand as={NavLink} to="/" end>
-            <Image src="../src/assets/images/logo30GLOW.png" width={100} fluid />
+            <Image src={logo} width={100} fluid />
           </Navbar.Brand>
           {/* start header */}
 
@@ -97,7 +100,7 @@ function Header() {
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand as={NavLink} to="/">
-                  <Image src="../src/assets/images/logo30GLOW.png" width={80} fluid />
+                  <Image src={logo} width={80} fluid />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
@@ -185,92 +188,120 @@ function Header() {
               </Nav>
 
               {/* end header */}
-              <Navbar.Collapse className="justify-content-center">
-                <Form className="d-flex mt-3 d-block d-lg-none">
-                  <Form.Control type="search" placeholder="Tìm kiếm gì đó..." className="me-2" aria-label="Search" />
-                  <Button variant="outline-success">
-                    <i className="bi bi-search"></i>
-                  </Button>
-                </Form>
-                <div className="d-flex gap-1 mt-3">
-                  <Nav.Link as={NavLink} to="/dat-lich" className="col-6 d-md-none">
-                    <Button variant="outline-primary" className="w-100">
-                      <span className="me-2">Đặt lịch</span>
-                      <span class="badge text-bg-danger">{services ? services.length : 0}</span>
-                    </Button>
-                  </Nav.Link>
-                  <Nav.Link as={NavLink} to="/gio-hang" className="col-6 d-md-none">
-                    <Button variant="outline-primary" className="w-100">
-                      <span className="me-2">Giỏ hàng</span>
-                      <span class="badge text-bg-danger">{shoppingCart ? shoppingCart.length : 0}</span>
-                    </Button>
-                  </Nav.Link>
-                </div>
-              </Navbar.Collapse>
+              <Navbar.Collapse id="basic-navbar-nav">
+      {/* Tìm kiếm - Hiển thị theo kích thước màn hình */}
+      <Form className="d-flex mt-3 d-lg-none w-100">
+        <Form.Control
+          type="search"
+          placeholder="Tìm kiếm gì đó..."
+          className="me-2"
+          aria-label="Search"
+        />
+        <Button variant="outline-success">
+          <i className="bi bi-search"></i>
+        </Button>
+      </Form>
 
-              <Navbar.Collapse className="justify-content-end mx-auto text-uppercase fw-semibold gap-3 d-none d-lg-block">
-                <Nav.Link as={NavLink} to={"#"}>
-                  <i className="bi bi-search position-relative fs-5"></i>
-                </Nav.Link>
-                <Nav.Link as={NavLink} to="/dat-lich" className="ms-1">
-                  <i className="bi bi-calendar-check position-relative fs-5" title="Lịch đã đặt">
-                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{services ? services.length : 0}</span>
-                  </i>
-                </Nav.Link>
-                <Nav.Link as={NavLink} to="/gio-hang" className="ms-1" title="Giỏ hàng">
-                  <i className="bi bi-cart2 position-relative fs-5">
-                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{shoppingCart ? shoppingCart.length : 0}</span>
-                  </i>
-                </Nav.Link>
-                {user ? (
-                  <>
-                    <Dropdown autoClose="outside" className="ms-1">
-                      <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic1" title={"Khách hàng"} className="dropdown-user text-decoration-none text-dark">
-                        <i className="bi bi-person-circle fs-4 ms-2"></i>
-                      </Dropdown.Toggle>
+      {/* Nút "Đặt lịch" và "Giỏ hàng" - Hiển thị ở màn hình nhỏ */}
+      <div className="d-flex gap-2 mt-3 d-lg-none w-100">
+        <Nav.Link as={NavLink} to="/dat-lich" className="col-6">
+          <Button variant="outline-primary" className="w-100">
+            <span className="me-2">Đặt lịch</span>
+            <span className="badge text-bg-danger">
+              {services ? services.length : 0}
+            </span>
+          </Button>
+        </Nav.Link>
+        <Nav.Link as={NavLink} to="/gio-hang" className="col-6">
+          <Button variant="outline-primary" className="w-100">
+            <span className="me-2">Giỏ hàng</span>
+            <span className="badge text-bg-danger">
+              {(user && cartItems.length) || (!user && shoppingCart.length)}
+            </span>
+          </Button>
+        </Nav.Link>
+      </div>
 
-                      <Dropdown.Menu align="end">
-                        <Dropdown.Header className="fw-semibold">{user?.name}</Dropdown.Header>
-                        <Dropdown.Item as={NavLink} to="/tai-khoan">
-                          <i className="bi bi-person-circle me-2" />
-                          Tài khoản
-                        </Dropdown.Item>
-                        <Dropdown.Item as={NavLink} to="/hoa-don">
-                          <i className="bi bi-box me-2" />
-                          Hóa đơn
-                        </Dropdown.Item>
-                        <Dropdown.Item as={NavLink} to="/dat-lich">
-                          <i className="bi bi-calendar-check me-2" />
-                          Đặt lịch
-                        </Dropdown.Item>
-                        <Dropdown.Divider />
-                        <Dropdown.Item href="#" role="button" onClick={logout}>
-                          <i className="bi bi-box-arrow-right me-2" />
-                          Đăng xuất
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </>
-                ) : (
-                  <>
-                    <Dropdown autoClose="outside" className="ms-1">
-                      <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic" title="Tài khoản" className="dropdown-user text-decoration-none text-dark">
-                        <i className="bi bi-person-circle fs-4 me-2"></i>
-                      </Dropdown.Toggle>
+      {/* Menu đầy đủ ở màn hình lớn */}
+      <div className="justify-content-end mx-auto text-uppercase fw-semibold gap-3 d-none d-lg-flex">
+        <Nav.Link as={NavLink} to={"#"}>
+          <i className="bi bi-search position-relative fs-5"></i>
+        </Nav.Link>
+        <Nav.Link as={NavLink} to="/dat-lich">
+          <i
+            className="bi bi-calendar-check position-relative fs-5"
+            title="Lịch đã đặt"
+          >
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {services ? services.length : 0}
+            </span>
+          </i>
+        </Nav.Link>
+        <Nav.Link as={NavLink} to="/gio-hang" title="Giỏ hàng">
+          <i className="bi bi-cart2 position-relative fs-5">
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {(user && cartItems.length) || (!user && shoppingCart.length)}
+            </span>
+          </i>
+        </Nav.Link>
 
-                      <Dropdown.Menu align="end">
-                        <Dropdown.Header className="fw-semibold">Tài khoản</Dropdown.Header>
-                        <Dropdown.Item as={NavLink} to="/dang-nhap">
-                          <i className="bi bi bi-door-open me-2"></i> Đăng nhập
-                        </Dropdown.Item>
-                        <Dropdown.Divider />
-                        <Dropdown.Item as={NavLink} to="/dang-ky">
-                          <i className="bi bi-person-add me-2"></i> Đăng ký
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </>
-                )}
+        {/* Dropdown tài khoản */}
+        {user ? (
+          <Dropdown autoClose="outside" className="ms-1">
+            <Dropdown.Toggle
+              as={NavLink}
+              variant="link"
+              id="dropdown-user"
+              title="Khách hàng"
+              className="dropdown-user text-decoration-none text-dark"
+            >
+              <i className="bi bi-person-circle fs-4 ms-2"></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu align="end">
+              <Dropdown.Header className="fw-semibold">{user?.name}</Dropdown.Header>
+              <Dropdown.Item as={NavLink} to="/tai-khoan">
+                <i className="bi bi-person-circle me-2" />
+                Tài khoản
+              </Dropdown.Item>
+              <Dropdown.Item as={NavLink} to="/hoa-don">
+                <i className="bi bi-box me-2" />
+                Hóa đơn
+              </Dropdown.Item>
+              <Dropdown.Item as={NavLink} to="/dat-lich">
+                <i className="bi bi-calendar-check me-2" />
+                Đặt lịch
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item href="#" role="button" onClick={logout}>
+                <i className="bi bi-box-arrow-right me-2" />
+                Đăng xuất
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          <Dropdown autoClose="outside" className="ms-1">
+            <Dropdown.Toggle
+              as={NavLink}
+              variant="link"
+              id="dropdown-login"
+              title="Tài khoản"
+              className="dropdown-user text-decoration-none text-dark"
+            >
+              <i className="bi bi-person-circle fs-4 me-2"></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu align="end">
+              <Dropdown.Header className="fw-semibold">Tài khoản</Dropdown.Header>
+              <Dropdown.Item as={NavLink} to="/dang-nhap">
+                <i className="bi bi-door-open me-2"></i> Đăng nhập
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item as={NavLink} to="/dang-ky">
+                <i className="bi bi-person-add me-2"></i> Đăng ký
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+      </div>
               </Navbar.Collapse>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

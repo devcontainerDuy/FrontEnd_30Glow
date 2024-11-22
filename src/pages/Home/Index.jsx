@@ -137,7 +137,7 @@ function Index() {
 
       {/* Start buy section */}
       <Container className="my-2">
-        <Row className="row-cols-1 row-cols-lg-4 g-4">
+        <Row className="row-cols-2 row-cols-lg-4 g-4">
           <Col className="d-flex">
             <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
               <Card.Body className="text-center">
@@ -194,8 +194,14 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
           </div>
         </div>
-        <Row className="row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 row-cols-xl-5 g-4">
-          {serviceIndex && serviceIndex.length > 0 ? serviceIndex.map((item, index) => <CardService key={index} {...item} />) : <h3 className="text-center pt-3">Không có dịch vụ</h3>}
+        <Row className="row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+          {serviceIndex && serviceIndex.length > 0 ? (
+            serviceIndex.map((item, index) => <CardService key={index} {...item} />)
+          ) : (
+            <Col xs="12" className="mx-auto w-100">
+              <h3 className="text-center pt-3">Không có dịch vụ</h3>
+            </Col>
+          )}
         </Row>
       </Container>
       {/* End service section */}
@@ -207,8 +213,14 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
-        <Row className="row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 row-cols-xl-5 g-4">
-          {productIndex.length > 0 ? productIndex.map((product, index) => <CardProduct key={index} {...product} />) : <h3 className="text-center">Không có sản phẩm</h3>}
+        <Row className="row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+          {productIndex.length > 0 ? (
+            productIndex.map((product, index) => <CardProduct key={index} {...product} />)
+          ) : (
+            <Col xs="12" className="mx-auto w-100">
+              <h3 className="text-center pt-3">Không có sản phẩm</h3>
+            </Col>
+          )}
         </Row>
       </Container>
       {/* End product section */}
@@ -223,11 +235,11 @@ function Index() {
 
       {/* Start Post */}
       <Container className="my-5">
-        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+        <Row className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3 ">
           <div className="ms-2">
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Tin tức mới nhất về 30Glow</h3>
           </div>
-        </div>
+        </Row>
 
         <Row className="row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
           {postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className="text-center">Không có bài đăng</h3>}

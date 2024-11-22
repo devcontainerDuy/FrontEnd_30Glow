@@ -139,7 +139,7 @@ function Account() {
                 </InputGroup>
               </Form.Group>
               {isEditing && (
-                <Button variant="dark" type="button">
+                <Button variant="primary" type="button">
                   Đổi mật khẩu
                 </Button>
               )}

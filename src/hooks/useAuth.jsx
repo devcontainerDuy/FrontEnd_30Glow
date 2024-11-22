@@ -36,7 +36,7 @@ export const useAuth = () => {
         window.notyf.error(response.data.message);
       }
     } catch (error) {
-      console.error(error);
+      window.notyf.error(error.response.data.message);
     }
   };
 
@@ -54,7 +54,7 @@ export const useAuth = () => {
           window.notyf.error(error.response.data.message);
         });
     } catch (error) {
-      console.error(error);
+      window.notyf.error(error.response.data.message);
     }
   };
 
@@ -86,10 +86,13 @@ export const useAuth = () => {
         setUser(response.data.data);
       } catch (error) {
         console.error(error);
+        setUser(null);
       }
     };
     if (uid && token && expiry) {
       getInfoUser();
+    } else {
+      setUser(null);
     }
   }, [uid, token, expiry]);
 

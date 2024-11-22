@@ -1,5 +1,4 @@
-/* eslint-disable*/
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Container, Row, Col, Form, Button, Badge } from "react-bootstrap";
@@ -10,37 +9,39 @@ import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import { A11y, Autoplay, FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../store/reducers/shoppingCartSlice";
+import useAuthenContext from "../../context/AuthenContext";
 
 function ProductDetail() {
   const { slug } = useParams();
+  const [productDetail, setProductDetail] = useState({});
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useAuthenContext();
 
-  const shoppingCart = useSelector((state) => state.shoppingCart.items);
-  const dispatch = useDispatch();
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/products/${slug}`)
+      .then((res) => {
+        setProductDetail(res.data.data);
+        setRelatedProducts(res.data.data.related_products);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [slug]);
 
   const handleAddToCart = () => {
-    const newItem = { id: productDetail.id, quantity: quantity || 1 };
-    const existingItem = shoppingCart.find((item) => item.id === newItem.id);
+    const newItem = { id_product: productDetail.id, quantity: quantity || 1 };
 
     if (newItem.quantity > productDetail.in_stock) {
       window.notyf.error("Số lượng sản phẩm vượt quá số lượng tồn kho");
       return;
     }
 
-    if (existingItem) {
-      const totalQuantity = existingItem.quantity + newItem.quantity;
-      if (totalQuantity > productDetail.in_stock) {
-        window.notyf.error("Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho");
-        return;
-      }
-    }
-
-    window.notyf.success("Đã thêm vào giỏ hàng");
-    dispatch(addToCart(newItem));
+    addToCart(newItem);
   };
+
   const [comments, setComments] = useState([
     {
       id: 1,
@@ -56,20 +57,6 @@ function ProductDetail() {
   ]);
   const [newComment, setNewComment] = useState("");
   const [replyContent, setReplyContent] = useState({});
-  const [productDetail, setProductDetail] = useState({});
-  const [relatedProducts, setRelatedProducts] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/products/${slug}`)
-      .then((res) => {
-        setProductDetail(res.data.data);
-        setRelatedProducts(res.data.data.related_products);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [slug]);
 
   const handleQuantityChange = (value) => {
     if (quantity + value > 0) setQuantity(quantity + value);
@@ -106,19 +93,19 @@ function ProductDetail() {
     setNewComment("");
   };
 
-  const toggleLike = (id) => {
-    setComments(
-      comments.map((comment) =>
-        comment.id === id
-          ? {
-              ...comment,
-              likes: comment.liked ? comment.likes - 1 : comment.likes + 1,
-              liked: !comment.liked,
-            }
-          : comment
-      )
-    );
-  };
+  // const toggleLike = (id) => {
+  //   setComments(
+  //     comments.map((comment) =>
+  //       comment.id === id
+  //         ? {
+  //             ...comment,
+  //             likes: comment.liked ? comment.likes - 1 : comment.likes + 1,
+  //             liked: !comment.liked,
+  //           }
+  //         : comment
+  //     )
+  //   );
+  // };
 
   const toggleReplyInput = (id) => {
     setComments(comments.map((comment) => (comment.id === id ? { ...comment, showReplyInput: !comment.showReplyInput } : comment)));
@@ -189,9 +176,7 @@ function ProductDetail() {
       <Container className="my-5">
         {/* <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">
-              Chi tiết sản phẩm
-            </h3>
+            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Chi tiết sản phẩm</h3>
           </div>
         </div> */}
 
@@ -226,6 +211,7 @@ function ProductDetail() {
           </Col>
 
           <Col lg={7} className="d-flex flex-column gap-3">
+            <p>Tài khoản đã đn</p>
             <h3 className="text-primary-emphasis fw-bold">{productDetail.name}</h3>
 
             <div className="d-flex align-items-center gap-3">
