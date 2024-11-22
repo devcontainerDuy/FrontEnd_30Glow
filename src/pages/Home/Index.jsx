@@ -9,6 +9,7 @@ import CardProduct from "../../components/CardProduct";
 import CardPost from "../../components/CardPost";
 import CardService from "../../components/CardService";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 function Index() {
   const [slideIndex, setSlideIndex] = useState([]);
@@ -227,9 +228,35 @@ function Index() {
 
       {/* Start banner section */}
       <Container className="my-5">
-        <Row className="row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 g-4">
-          <Image src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid w-100" style={{ height: "320px" }} alt="banner" />
-        </Row>
+        <Swiper
+        style={{
+          "--swiper-navigation-color": "#000000",
+          "height": "450px",
+          "border-radius": "5px"
+        }}
+          slidesPerView={1}
+          spaceBetween={30}
+          loop={true}
+          navigation={true}
+          modules={[ Navigation]}
+          className="mySwiper"
+        >
+          <SwiperSlide>
+            <Link to="/san-pham">
+            <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link to="/san-pham">
+            <img src="https://daugoiduoclieunguyenxuan.vn/wp-content/uploads/2022/05/Banner-web-NX_1920x650-1.jpg" className="img-fluid" alt="..." />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link to="/san-pham">
+            <img src="https://image.cocoonvietnam.com/uploads/z4049933820713_07b14144b07b572f3d20100e8316394a_b3a9f006c5.jpg" className="img-fluid" alt="..." />
+            </Link>
+          </SwiperSlide>
+        </Swiper>
       </Container>
       {/* End banner section */}
 

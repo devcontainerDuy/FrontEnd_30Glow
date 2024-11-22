@@ -32,7 +32,7 @@ function About() {
         </Row>
 
         <Row className="my-4">
-          <Col md={6}>
+          <Col className="col-12 col-lg-6">
             <h3 className="fw-bold text-primary-emphasis">
               Tầm nhìn và Sứ mệnh
             </h3>
@@ -58,7 +58,7 @@ function About() {
               sau khi sử dụng dịch vụ của chúng tôi.
             </p>
           </Col>
-          <Col md={6}>
+          <Col className="col-12 col-lg-6">
             <img
               src="https://dkdecor.vn/wp-content/uploads/2024/01/Screenshot-2024-01-16-163647.jpg"
               alt="Hair Salon"
@@ -102,7 +102,7 @@ function About() {
 
         <div className="container my-5">
           <div className="row align-items-center">
-            <div className="col-lg-6 text-center">
+            <div className="col-lg-6 text-center pb-4">
               <img
                 src="https://static.30shine.com/shop-web/banners/Banner3_2-T1023-6.jpg"
                 alt="Sản phẩm chăm sóc"
@@ -151,7 +151,7 @@ function About() {
             {/* <p>Địa chỉ: 123 Đường Ánh Dương, Quận 1, TP. Hồ Chí Minh</p> */}
             <p className="fs-5 text-dark">Hotline: 1900-30GLOW (304569)</p>
             <p className="fs-5 text-dark">Email: support@30glow.vn</p>
-            <Link to="/contact">
+            <Link to="/lien-he">
               <Button className="btn btn-primary-emphasis" variant="primary">
                 Liên hệ ngay
               </Button>

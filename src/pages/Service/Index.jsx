@@ -131,7 +131,7 @@ function Index() {
       </Container>
 
       {/* Thông tin thêm */}
-      <Container className="my-2">
+      <Container className="my-2 pb-5">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
           <Col className="d-flex">
             <Card className="border-0 rounded-0 border-bottom border-primary border-3 w-100">
