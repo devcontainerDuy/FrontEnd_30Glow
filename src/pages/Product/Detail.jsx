@@ -187,14 +187,6 @@ function Detail() {
         ]}
       />
       <Container className="my-5">
-        {/* <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
-          <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">
-              Chi tiết sản phẩm
-            </h3>
-          </div>
-        </div> */}
-
         <Row className="g-4">
           <Col lg={5}>
             <Swiper

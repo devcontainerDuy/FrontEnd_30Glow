@@ -1,8 +1,8 @@
-/* eslint-disable*/ 
+/* eslint-disable */
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import Header from "../../layouts/Header"; 
-import Footer from "../../layouts/Footer"; 
+import Header from "../../layouts/Header";
+import Footer from "../../layouts/Footer";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 
@@ -11,68 +11,66 @@ const Contact = () => {
     <>
       <Helmet>
         <title>Liên hệ - 30GLOW</title>
-        <meta name="description" content="meo meo meo" />
+        <meta name="description" content="Liên hệ với chúng tôi để được hỗ trợ nhanh chóng." />
       </Helmet>
       <Header />
-      <BreadcrumbComponent props={[{ name: "Liên hệ", url: "/lien-he" }]} />
-      <Container className="contact-content my-3">
-        {/* <div className="breadcrumb mt-3 ">
-          <p>Home / Liên hệ</p>
-        </div> */}
-        <Row>
-          <Col className="contact-image col-md-12 col-lg-8 col-xl-6 pb-4">
+      <BreadcrumbComponent props={[{ name: "Liên hệ", url: "/lien-he" }]} />
+      <Container className="contact-content my-4 pb-3">
+        <Row className="align-items-center">
+          {/* Hình ảnh minh họa */}
+          <Col lg={6} className="pb-4 d-flex justify-content-center">
             <img
-              src="https://i.pinimg.com/564x/eb/df/d2/ebdfd2d7ee0b0380baa73df893707b80.jpg"
+              src="https://static.vecteezy.com/system/resources/previews/012/335/178/non_2x/customer-service-concept-with-a-man-sitting-at-his-laptop-and-talking-with-a-call-center-woman-support-contact-us-hotline-operator-illustration-in-flat-style-vector.jpg"
               alt="Liên hệ"
+              className="img-fluid rounded shadow-sm"
+              style={{ maxHeight: "400px", objectFit: "cover" }}
             />
           </Col>
-          <Col className="col-md-12 col-lg-4 col-xl-6">
-            <div className="contact-form">
-              <Form>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="form-group mb-3">
-                      <Form.Label>Họ tên</Form.Label>
-                      <Form.Control type="text" placeholder="Họ tên . . ." />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="form-group mb-3">
-                      <Form.Label>Email</Form.Label>
-                      <Form.Control type="email" placeholder="Email . . ." />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="form-group">
-                      <Form.Label>Số điện thoại</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Số điện thoại . . ."
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="form-group">
-                      <Form.Label>Chủ đề</Form.Label>
-                      <Form.Control type="text" placeholder="Chủ đề . . ." />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Form.Group className="form-group mt-3">
-                  <Form.Label>Tin nhắn</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={4}
-                    placeholder="Tin nhắn . . ."
-                  />
-                </Form.Group>
-                <Button type="submit" className="mt-3">
+
+          <Col lg={6}>
+            <h2 className="mb-4 text-primary fw-bold text-center">Liên hệ với chúng tôi</h2>
+            <p className="mb-4 text-secondary text-center">
+              Để lại thông tin của bạn, chúng tôi sẽ liên hệ hỗ trợ bạn nhanh nhất có thể.
+            </p>
+            <Form className="px-3">
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="fw-semibold">Họ tên</Form.Label>
+                    <Form.Control type="text" placeholder="Nhập họ tên..." />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="fw-semibold">Email</Form.Label>
+                    <Form.Control type="email" placeholder="Nhập email..." />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="fw-semibold">Số điện thoại</Form.Label>
+                    <Form.Control type="text" placeholder="Nhập số điện thoại..." />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="fw-semibold">Chủ đề</Form.Label>
+                    <Form.Control type="text" placeholder="Nhập chủ đề..." />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Form.Group className="mb-4">
+                <Form.Label className="fw-semibold">Tin nhắn</Form.Label>
+                <Form.Control as="textarea" rows={4} placeholder="Nhập nội dung tin nhắn..." />
+              </Form.Group>
+              <div className="text-center">
+                <Button variant="primary" type="submit" className="px-4 py-2">
                   Gửi yêu cầu
                 </Button>
-              </Form>
-            </div>
+              </div>
+            </Form>
           </Col>
         </Row>
       </Container>
