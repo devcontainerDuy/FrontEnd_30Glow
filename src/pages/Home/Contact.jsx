@@ -20,13 +20,13 @@ const Contact = () => {
           <p>Home / Liên hệ</p>
         </div> */}
         <Row>
-          <Col md={6} className="contact-image">
+          <Col className="contact-image col-md-12 col-lg-8 col-xl-6 pb-4">
             <img
               src="https://i.pinimg.com/564x/eb/df/d2/ebdfd2d7ee0b0380baa73df893707b80.jpg"
               alt="Liên hệ"
             />
           </Col>
-          <Col md={6}>
+          <Col className="col-md-12 col-lg-4 col-xl-6">
             <div className="contact-form">
               <Form>
                 <Row>

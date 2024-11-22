@@ -91,7 +91,7 @@ function Index() {
         {loading ? (
           <p>Đang tải sản phẩm...</p>
         ) : (
-          <Row className="row-cols-1 row-cols-lg-5 g-4">
+          <Row className="row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 row-cols-sm-2 g-4 ">
             {getFilteredProducts().length > 0 ? (
               getFilteredProducts().map((product, index) => <CardProduct key={index} {...product} />)
             ) : (

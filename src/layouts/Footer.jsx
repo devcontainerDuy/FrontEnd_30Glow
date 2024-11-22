@@ -19,7 +19,7 @@ function Footer() {
                   <Link className="link-dark" to={"/gioi-thieu"}>Đọc thêm</Link>
                 </div>
               </div>
-              <div className="col">
+              <div className="col-6 col-sm-6 col-md-6">
                 <div className="footer-widget-7">
                   <h5 className="mb-3 fw-bold">Cửa hàng</h5>
                   <ul className="widget-link list-unstyled">
@@ -38,7 +38,7 @@ function Footer() {
                   </ul>
                 </div>
               </div>
-              <div className="col">
+              <div className="col-5 col-sm-4 col-md-4">
                 <div className="footer-widget-8">
                   <h5 className="mb-3 fw-bold">Thông tin</h5>
                   <ul className="widget-link list-unstyled">

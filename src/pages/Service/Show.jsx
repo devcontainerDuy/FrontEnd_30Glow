@@ -59,7 +59,7 @@ function Show() {
       <Header />
       <Container className="my-5 mb-6">
         <Row>
-          <Col md={6} className="d-flex flex-column align-items-center">
+          <Col className="row-md-6 d-flex flex-column align-items-center">
             <div className="text-center">
               <img
                 src={ChiTietDV?.image ? `${import.meta.env.VITE_URL}/${ChiTietDV.image}` : "path/to/default-image.jpg"}
@@ -76,7 +76,7 @@ function Show() {
             </div>
           </Col>
 
-          <Col md={5}>
+          <Col>
             <div className="border p-3">
               <div className="d-flex justify-content-between align-items-center w-100">
                 <h4 className="text-danger fw-bold mb-0">{ChiTietDV ? ChiTietDV.name : "Tên dịch vụ"}</h4>

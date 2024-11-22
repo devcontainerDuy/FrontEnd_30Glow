@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function CardPost({ name, slug, image, createdAt, author, content }) {
   return (
     <>
-      <Col>
+      <Col className="col-12 col-md-6">
         <Card>
           <Image src={image} className='card-img-top rounded-0' alt={slug} />
           <Card.Body className='card-body'>
