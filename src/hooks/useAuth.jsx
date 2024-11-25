@@ -98,15 +98,22 @@ export const useAuth = () => {
 
   useEffect(() => {
     const checkExpiration = () => {
-      if (token !== null && expiry !== null) {
-        if (Number(expiry) < new Date().getTime() / 1000) {
+      if (token && expiry) {
+        const currentTimestamp = Math.floor(new Date().getTime() / 1000);
+        // console.log("Thời gian hết hạn:", new Date(expiry * 1000).toLocaleString());
+        // console.log("Thời gian hiện tại:", new Date(currentTimestamp * 1000).toLocaleString());
+        if (currentTimestamp >= expiry) {
+          console.log("Token đã hết hạn, đang logout...");
           logout();
         }
       }
     };
-    const interval = setInterval(checkExpiration, 1000);
-    return () => clearInterval(interval);
+  
+    const interval = setInterval(checkExpiration, 1000); // Kiểm tra mỗi giây
+  
+    return () => clearInterval(interval); // Xóa interval khi component unmount
   }, [token, expiry]);
+  
 
   const saveAuthInfo = ({ uid, token, expiry }) => {
     localStorage.setItem("uid", uid);

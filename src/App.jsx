@@ -34,6 +34,8 @@ import ShoppingCart from "./pages/Cart/ShoppingCart";
 
 function App() {
   const { user } = useContext(AuthenContext);
+  console.log("Tài khoản đăng nhập: ",user);
+  
   return (
     <Routes>
       <Route path="/" element={<Home />} />

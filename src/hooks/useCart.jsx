@@ -80,7 +80,6 @@ export const useCart = () => {
       }
     } catch (error) {
       setCartItems([]);
-      window.notyf.error("Có lỗi xảy ra khi lấy dữ liệu giỏ hàng");
     }
   };
 
