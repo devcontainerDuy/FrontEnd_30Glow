@@ -79,7 +79,7 @@ function CollectionServices() {
               <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Bộ sưu tập: {collection.name}</h3>
             </div>
           </div>
-          {/* Bộ lọc dịch vụ */}
+
           <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
             <FormSelect value={filter} onChange={handleFilterChange} className="w-auto">
@@ -95,7 +95,7 @@ function CollectionServices() {
         ) : error ? (
           <p>Có lỗi xảy ra: {error.message}</p>
         ) : (
-          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
             {paginatedServices.length > 0 ? (
               paginatedServices.map((service) => <CardService key={service.id} {...service} />)
             ) : (

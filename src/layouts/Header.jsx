@@ -14,6 +14,7 @@ function Header() {
   const [groupedCategories, setGroupedCategories] = useState({});
   const services = useSelector((state) => state.serviceCart.items);
   const [collections, setCollections] = useState([]);
+  const [ setServices] = useState([]);
   const [groupedServices, setGroupedServices] = useState({});
   const { user, logout, cartItems } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
