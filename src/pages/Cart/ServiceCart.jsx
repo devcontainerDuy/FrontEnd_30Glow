@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
 import Header from "../../layouts/Header";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../layouts/Footer";
 import { Helmet } from "react-helmet";
 import { Notyf } from "notyf";
@@ -38,16 +38,12 @@ function ServiceCart() {
     dispatch(removeFromServiceCart(id));
   };
 
-  const TongTien = () => {
-    const subtotal = services.reduce((sum, service) => sum + service.price * service.quantity, 0);
-    const shippingFee = subtotal > 500000 ? 0 : 30000;
-    const ThanhTien = subtotal + shippingFee;
-    setTotal(ThanhTien);
+  const handleClearServices = () => {
+    dispatch(clearServiceCart());
+    notyf.success("Đã xóa tất cả dịch vụ!");
   };
 
-  useEffect(() => {
-    TongTien();
-  }, [services]);
+  useEffect(() => {}, [services]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -100,9 +96,27 @@ function ServiceCart() {
   const handleSelectChange = (event) => {
     setId_user(event.target.value);
   };
-
   const chuyenTrang = () => {
     navigate("/dich-vu");
+  };
+  const AddNewOrder = async (DataOrder) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/bookings`, DataOrder, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      notyf.success("Đặt lịch hẹn thành công!");
+
+      dispatch(clearServiceCart());
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+      notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+    }
   };
 
   return (
@@ -140,35 +154,37 @@ function ServiceCart() {
                     </tr>
                   ))}
                 </tbody>
+                <div>
+                  <h5 className="mb-2" style={{ textAlign: "center" }}>
+                    <i className="bi bi-calendar-heart , fs-1"></i> <hr></hr>
+                    <strong style={{ color: "red" }}>
+                      Bạn chưa có lịch đặt nào. <Link to="/san-pham">Đặt lịch ngay!!</Link>
+                    </strong>
+                  </h5>
+                </div>
               </Table>
-              <div>
-                <h4 className="mb-2" style={{ textAlign: "center" }}>
-                  <i className="bi bi-calendar-heart , fs-1"></i> <hr></hr>
-                  <strong style={{ color: "red" }}> Bạn chưa có lịch đặt nào </strong>
-                </h4>
-              </div>
             </Col>
             <Col md={5}>
               <div className="border" style={{ padding: "20px", borderRadius: "5px", width: "100%" }}>
                 <Form onSubmit={handleFormSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Tên người đặt lịch</Form.Label>
-                    <Form.Control type="text" placeholder="Nhập tên của bạn..." value={name} onChange={(e) => setName(e.target.value)} isInvalid={!!errors.name} />
-                    <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                    <Form.Control type="text" placeholder="Nhập tên của bạn..." />
+                    <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                   </Form.Group>
                   <Row className="align-items-center">
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Số điện thoại</Form.Label>
-                        <Form.Control type="tel" placeholder="Nhập số điện thoại..." value={phone} onChange={(e) => setPhone(e.target.value)} isInvalid={!!errors.phone} />
-                        <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
+                        <Form.Control type="tel" placeholder="Nhập số điện thoại..." />
+                        <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Nhập địa chỉ email..." value={email} onChange={(e) => setEmail(e.target.value)} isInvalid={!!errors.email} />
-                        <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                        <Form.Control type="email" placeholder="Nhập địa chỉ email..." />
+                        <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
@@ -176,33 +192,33 @@ function ServiceCart() {
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Thời gian đến</Form.Label>
-                        <Form.Control type="time" value={time2} onChange={focusTime} isInvalid={!!errors.time} />
-                        <Form.Control.Feedback type="invalid">{errors.time}</Form.Control.Feedback>
+                        <Form.Control type="time" />
+                        <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col xs={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Ngày đến</Form.Label>
-                        <Form.Control type="date" value={appointmentDate} onChange={(e) => setAppointmentDate(e.target.value)} isInvalid={!!errors.appointmentDate} />
-                        <Form.Control.Feedback type="invalid">{errors.appointmentDate}</Form.Control.Feedback>
+                        <Form.Control type="date" />
+                        <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <button
-                      onClick={chuyenTrang}
-                      style={{
-                        margin: "10px",
-                        padding: "10px 20px",
-                        width: "490px",
-                        backgroundColor: "blue",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Đặt hẹn ngay !
-                    </button>
                   </Row>
+                  <button
+                    onClick={chuyenTrang}
+                    style={{
+                      margin: "10px",
+                      padding: "10px 20px",
+                      width: "490px",
+                      backgroundColor: "blue",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Đặt hẹn ngay !
+                  </button>
                 </Form>
               </div>
             </Col>
@@ -242,10 +258,22 @@ function ServiceCart() {
                   ))}
                 </tbody>
               </Table>
-              <h4>
+              <div className="d-flex justify-content-between">
+                <Button variant="outline-secondary" onClick={chuyenTrang} className="text-decoration-none text-body-emphasis">
+                  <i class="bi bi-arrow-right ms-2">
+                    <span> Tiếp tục mua hàng </span>{" "}
+                  </i>
+                </Button>
+
+                <Button variant="outline-danger" onClick={handleClearServices} className="mb-2">
+                  <span> Xóa tất cả</span> <i class="bi bi-cart-x"></i>
+                </Button>
+              </div>
+
+              {/* <h4>
                 <strong style={{ color: "red" }}> Khi đặt lịch trước</strong> bạn sẽ được tặng
                 <span style={{ color: "green" }}> xịt dưỡng tóc Loreal</span>
-              </h4>
+              </h4> */}
             </Col>
             <Col md={5}>
               <div className="border" style={{ padding: "20px", borderRadius: "5px", width: "100%" }}>
