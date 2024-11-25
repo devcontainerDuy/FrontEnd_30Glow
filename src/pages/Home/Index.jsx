@@ -10,6 +10,7 @@ import CardPost from "../../components/CardPost";
 import CardService from "../../components/CardService";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
 function Index() {
   const [slideIndex, setSlideIndex] = useState([]);
@@ -214,15 +215,34 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
-        <Row className="row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay, A11y]}
+          slidesPerView={2} // Hiển thị 2 sản phẩm mỗi lần 
+          spaceBetween={20}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          navigation={true}
+
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 10 },
+            768: { slidesPerView: 3, spaceBetween: 15 },
+            1024: { slidesPerView: 4, spaceBetween: 20 }, // Hiển thị 4 sản phẩm ở màn hình lớn
+          }}
+        >
           {productIndex.length > 0 ? (
-            productIndex.map((product, index) => <CardProduct key={index} {...product} />)
+            productIndex.map((product, index) => (
+              <SwiperSlide key={index}>
+                <CardProduct {...product} />
+              </SwiperSlide>
+            ))
           ) : (
-            <Col xs="12" className="mx-auto w-100">
-              <h3 className="text-center pt-3">Không có sản phẩm</h3>
-            </Col>
+            <SwiperSlide>
+              <h3 className="text-center pt-3">Không có sản phẩm</h3>
+            </SwiperSlide>
           )}
-        </Row>
+        </Swiper>
       </Container>
       {/* End product section */}
 

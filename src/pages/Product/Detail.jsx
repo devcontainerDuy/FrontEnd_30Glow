@@ -208,13 +208,6 @@ function Detail() {
                 </SwiperSlide>
               ))}
             </Swiper>
-            {/* <Swiper onSwiper={setThumbsSwiper} loop={true} spaceBetween={10} slidesPerView={2} freeMode={true} watchSlidesProgress={true} modules={[FreeMode, Navigation, Thumbs]} className="mySwiper">
-              {productDetail.gallery?.map((image, index) => (
-                <SwiperSlide key={index}>
-                  <img className="d-block w-100 rounded" src={`${import.meta.env.VITE_URL}${image?.image}`} alt={`Slide ${index + 1}`} />
-                </SwiperSlide>
-              ))}
-            </Swiper> */}
           </Col>
 
           <Col lg={7} className="d-flex flex-column gap-3">
@@ -266,7 +259,7 @@ function Detail() {
             </div>
 
             <div className="d-flex flex-column">
-              <h6 className="fw-semibold text-muted" dangerouslySetInnerHTML={{ __html: productDetail.content?.slice(15, 450) }} />
+              <h6 className="fw-semibold text-primary-emphasis" dangerouslySetInnerHTML={{ __html: productDetail.content?.slice(15, 450) }} />
               <a className="text-decoration-none fw-bold text-primary-emphasis" href="#xemthem">
                 ...Xem thêm
               </a>

@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Dropdown, Form, Image, Nav, Navbar, NavDropdown, Offcanvas, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Form, Image, Modal, Nav, Navbar, NavDropdown, Offcanvas, Row } from "react-bootstrap";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuthenContext from "../context/AuthenContext";
@@ -17,6 +17,11 @@ function Header() {
   const [groupedServices, setGroupedServices] = useState({});
   const { user, logout, cartItems } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
+
+  const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
+
+  const handleShowSearchModal = () => setIsSearchModalVisible(true);
+  const handleCloseSearchModal = () => setIsSearchModalVisible(false);
 
   const isActive = (path) => location.pathname === path;
 
@@ -212,7 +217,7 @@ function Header() {
               </Navbar.Collapse>
 
               <Navbar.Collapse className="justify-content-end mx-auto text-uppercase fw-semibold gap-3 d-none d-lg-block">
-                <Nav.Link as={NavLink} to={"#"}>
+                <Nav.Link onClick={handleShowSearchModal} style={{ cursor: "pointer" }}>
                   <i className="bi bi-search position-relative fs-5"></i>
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/dat-lich" className="ms-1">
@@ -287,6 +292,26 @@ function Header() {
                   </>
                 )}
               </Navbar.Collapse>
+
+              <Modal show={isSearchModalVisible} onHide={handleCloseSearchModal} className="search-modal mt-5">
+                <Modal.Header closeButton>
+                  <Modal.Title>Tìm kiếm</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Control
+                      type="search"
+                      placeholder="Nhập từ khóa tìm kiếm..."
+                      aria-label="Search"
+                      className="mb-3"
+                    />
+                    <Button variant="primary" className="w-100">
+                      Tìm kiếm
+                    </Button>
+                  </Form>
+                </Modal.Body>
+              </Modal>
+
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
