@@ -29,13 +29,6 @@ export default function CardProduct({ name, slug, price, discount, gallery, cate
                   {name}
                 </h6>
               </Link>
-              {/* <div className="ratings mb-1 h6">
-                <i className="bi bi-star-fill text-warning" />
-                <i className="bi bi-star-fill text-warning" />
-                <i className="bi bi-star-fill text-warning" />
-                <i className="bi bi-star-fill text-warning" />
-                <i className="bi bi-star-fill text-warning" />
-              </div> */}
               <div className="d-flex align-items-center gap-2 mb-1">
                 <span className="fw-semibold text-secondary">Danh mục: {category?.name}</span>
               </div>
