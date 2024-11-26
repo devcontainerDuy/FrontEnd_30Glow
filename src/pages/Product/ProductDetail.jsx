@@ -124,18 +124,18 @@ function ProductDetail() {
       comments.map((comment) =>
         comment.id === id
           ? {
-              ...comment,
-              replies: [
-                ...comment.replies,
-                {
-                  name: "Tên người dùng", // Tên người dùng
-                  avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
-                  content: reply,
-                  date: new Date().toLocaleDateString("vi-VN"),
-                },
-              ],
-              showReplyInput: false,
-            }
+            ...comment,
+            replies: [
+              ...comment.replies,
+              {
+                name: "Tên người dùng", // Tên người dùng
+                avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
+                content: reply,
+                date: new Date().toLocaleDateString("vi-VN"),
+              },
+            ],
+            showReplyInput: false,
+          }
           : comment
       )
     );
@@ -211,7 +211,6 @@ function ProductDetail() {
           </Col>
 
           <Col lg={7} className="d-flex flex-column gap-3">
-            <p>Tài khoản đã đn</p>
             <h3 className="text-primary-emphasis fw-bold">{productDetail.name}</h3>
 
             <div className="d-flex align-items-center gap-3">

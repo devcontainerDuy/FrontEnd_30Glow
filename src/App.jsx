@@ -32,11 +32,13 @@ import ProductDetail from "./pages/Product/ProductDetail";
 import ShoppingCart from "./pages/Cart/ShoppingCart";
 import CollectionServices from "./pages/Service/CollectionService";
 import BrandProducts from "./pages/Brand/BrandProducts";
+import LocationForm from "./pages/Cart/LocationForm";
 
 function App() {
   const { user } = useContext(AuthenContext);
   return (
     <Routes>
+      <Route path="/test" element={<LocationForm />} />
       <Route path="/" element={<Home />} />
       <Route path="/gioi-thieu" element={<About />} />
       <Route path="/lien-he" element={<Contact />} />

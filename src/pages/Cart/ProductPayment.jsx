@@ -1,111 +1,125 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../layouts/Header';
 import Footer from '../../layouts/Footer';
+import axios from "axios";
 import { Col, Container, Row, Form, Button, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { Helmet } from 'react-helmet';
-import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuthenContext from '../../context/AuthenContext';
 
 function ProductPayment() {
-  const navigate = useNavigate();
+  const { cartItems } = useAuthenContext();
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
 
-  const notyf = new Notyf({
-    position: {
-      x: 'right',
-      y: 'top',
-    },
+  const subtotal = cartItems.reduce((sum, item) => {
+    const price = item.product?.discount > 0 ? item.product?.price - (item.product?.price * item.product?.discount) / 100 : item.product?.price;
+    return sum + price * item?.quantity;
+  }, 0);
+
+  const shippingFee = subtotal > 500000 ? 0 : 30000;
+  const total = subtotal + shippingFee;
+  const totalItems = cartItems.reduce((total, items) => total + items.quantity, 0);
+
+  const [formData, setFormData] = useState({
+    provinceId: "",
+    districtId: "",
+    wardId: "",
+    addressDetail: "", // Thêm trường địa chỉ chi tiết
   });
-  
 
-  // Khởi tạo giỏ hàng
-  const [cartItems] = useState(
-    [...Array(10)].map((_, idx) => ({
-      id: idx + 1,
-      name: `Sản phẩm ${idx + 1}`,
-      originalPrice: 500000,
-      discountPrice: 300000,
-      quantity: 1,
-    }))
-  );
+  const [loading, setLoading] = useState({
+    provinces: false,
+    districts: false,
+    wards: false,
+  });
 
-  const [subtotal, setSubtotal] = useState(0);
-  const [shippingFee, setShippingFee] = useState(30000);
-  const [total, setTotal] = useState(0);
-
-  // Tính toán tổng giá trị giỏ hàng
+  // Fetch Provinces
   useEffect(() => {
-    const newSubtotal = cartItems.reduce(
-      (sum, item) => sum + item.discountPrice * item.quantity,
-      0
-    );
+    const fetchProvinces = async () => {
+      setLoading((prev) => ({ ...prev, provinces: true }));
+      try {
+        const response = await axios.get(
+          "https://open.oapi.vn/location/provinces?page=0&size=300"
+        );
+        setProvinces(response.data.data);
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      } finally {
+        setLoading((prev) => ({ ...prev, provinces: false }));
+      }
+    };
+    fetchProvinces();
+  }, []);
 
-    // Nếu tạm tính trên 500,000₫ thì miễn phí vận chuyển
-    const newShippingFee = newSubtotal > 500000 ? 0 : 30000;
-    setSubtotal(newSubtotal);
-    setShippingFee(newShippingFee);
-    setTotal(newSubtotal + newShippingFee);
-  }, [cartItems]);
+  // Fetch Districts when Province changes
+  useEffect(() => {
+    if (!formData.provinceId) {
+      setDistricts([]);
+      setWards([]);
+      return;
+    }
+    const fetchDistricts = async () => {
+      setLoading((prev) => ({ ...prev, districts: true }));
+      try {
+        const response = await axios.get(
+          `https://open.oapi.vn/location/districts/${formData.provinceId}?page=0&size=300`
+        );
+        setDistricts(response.data.data);
+      } catch (error) {
+        console.error("Error fetching districts:", error);
+      } finally {
+        setLoading((prev) => ({ ...prev, districts: false }));
+      }
+    };
+    fetchDistricts();
+  }, [formData.provinceId]);
 
-  // Tính tổng số lượng sản phẩm
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-//   const handleOrder = () => {
-//     // Kiểm tra form và hiển thị thông báo
-//     const form = document.querySelector('form');
-//     if (form.checkValidity()) {
-//       notyf.success('Đặt hàng thành công!');
-//       navigate('/');
-//     } else {
-//       notyf.error('Vui lòng điền đầy đủ thông tin!');
-//     }
-//   };
-
-const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    address: '',
-    commune: '',
-    district: '',
-    city: '',
-  });
+  // Fetch Wards when District changes
+  useEffect(() => {
+    if (!formData.districtId) {
+      setWards([]);
+      return;
+    }
+    const fetchWards = async () => {
+      setLoading((prev) => ({ ...prev, wards: true }));
+      try {
+        const response = await axios.get(
+          `https://open.oapi.vn/location/wards/${formData.districtId}?page=0&size=300`
+        );
+        setWards(response.data.data);
+      } catch (error) {
+        console.error("Error fetching wards:", error);
+      } finally {
+        setLoading((prev) => ({ ...prev, wards: false }));
+      }
+    };
+    fetchWards();
+  }, [formData.districtId]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+      ...(id === "provinceId" ? { districtId: "", wardId: "" } : {}),
+      ...(id === "districtId" ? { wardId: "" } : {}),
+    }));
   };
 
-  const validateForm = () => {
-    const namePattern = /^[a-zA-ZÀ-ỹ\s]+$/;
-    const phonePattern = /^0\d{9}$/;
+  const handleSubmit = () => {
+    // Lấy tên tỉnh/thành, quận/huyện, xã/phường từ danh sách
+    const provinceName = provinces.find((p) => p.id === formData.provinceId)?.name || "";
+    const districtName = districts.find((d) => d.id === formData.districtId)?.name || "";
+    const wardName = wards.find((w) => w.id === formData.wardId)?.name || "";
 
-    if (!formData.name || !formData.phone || !formData.address || !formData.commune || !formData.district || !formData.city) {
-      notyf.error("Vui lòng điền đầy đủ thông tin!");
-      return false;
-    }
-
-    if (!namePattern.test(formData.name)) {
-      notyf.error("Họ và tên không hợp lệ! Vui lòng chỉ nhập chữ cái.");
-      return false;
-    }
-
-    if (!phonePattern.test(formData.phone)) {
-      notyf.error("Số điện thoại không hợp lệ! Vui lòng nhập đủ 10 số bắt đầu từ 0.");
-      return false;
-    }
-
-    return true;
+    // Ghép chuỗi địa chỉ hoàn chỉnh
+    const fullAddress = `${formData.addressDetail}, ${wardName}, ${districtName}, ${provinceName}`;
+    console.log("Địa chỉ hoàn chỉnh:", fullAddress);
   };
-
-  const handleOrder = () => {
-    if (validateForm()) {
-      notyf.success("Đặt hàng thành công!");
-      navigate('/');
-    }
-  };
-
   return (
     <>
       <Helmet>
@@ -118,81 +132,111 @@ const [formData, setFormData] = useState({
           <Col md={7} className="border-end pt-1">
             <h4>Thông tin thanh toán</h4>
             <Form className="mt-3" noValidate>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="name">
-                  <Form.Label>Họ và tên</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    placeholder="Nhập họ và tên" 
-                    required 
-                    value={formData.name} 
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="phone">
-                  <Form.Label>Số điện thoại</Form.Label>
-                  <Form.Control 
-                    type="tel" 
-                    placeholder="Nhập số điện thoại" 
-                    required 
-                    value={formData.phone} 
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>Họ và tên</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Nhập họ và tên"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="phone">
+                    <Form.Label>Số điện thoại</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      placeholder="Nhập số điện thoại"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-            <Form.Group className="mb-3" controlId="address">
-              <Form.Label>Địa chỉ</Form.Label>
-              <Form.Control 
-                type="text" 
-                placeholder="Nhập địa chỉ" 
-                required 
-                value={formData.address} 
-                onChange={handleInputChange}
-              />
-            </Form.Group>
+              {/* Địa chỉ */}
+              <Form.Group className="mb-3" controlId="provinceId">
+                <Form.Label>Tỉnh / Thành phố</Form.Label>
+                <Form.Select
+                  required
+                  value={formData.provinceId}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Chọn tỉnh/thành phố</option>
+                  {loading.provinces ? (
+                    <option>Loading...</option>
+                  ) : (
+                    provinces?.map((province) => (
+                      <option key={province.id} value={province.id}>
+                        {province.name}
+                      </option>
+                    ))
+                  )}
+                </Form.Select>
+              </Form.Group>
 
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="commune">
-                  <Form.Label>Xã</Form.Label>
-                  <Form.Select required value={formData.commune} onChange={handleInputChange}>
-                    <option value="">Chọn xã</option>
-                    <option value="Xa1">Xã 1</option>
-                    <option value="Xa2">Xã 2</option>
-                    <option value="Xa3">Xã 3</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="district">
-                  <Form.Label>Quận / Huyện</Form.Label>
-                  <Form.Select required value={formData.district} onChange={handleInputChange}>
-                    <option value="">Chọn quận/huyện</option>
-                    <option value="Quan1">Quận 1</option>
-                    <option value="Quan2">Quận 2</option>
-                    <option value="Quan3">Quận 3</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="districtId">
+                    <Form.Label>Quận / Huyện</Form.Label>
+                    <Form.Select
+                      required
+                      value={formData.districtId}
+                      onChange={handleInputChange}
+                      disabled={!formData.provinceId || loading.districts}
+                    >
+                      <option value="">Chọn quận/huyện</option>
+                      {loading.districts ? (
+                        <option>Loading...</option>
+                      ) : (
+                        districts?.map((district) => (
+                          <option key={district.id} value={district.id}>
+                            {district.name}
+                          </option>
+                        ))
+                      )}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
 
-            <Form.Group className="mb-3" controlId="city">
-              <Form.Label>Tỉnh / Thành phố</Form.Label>
-              <Form.Select required value={formData.city} onChange={handleInputChange}>
-                <option value="">Chọn tỉnh/thành phố</option>
-                <option value="TPHCM">TP. Hồ Chí Minh</option>
-                <option value="HaNoi">Hà Nội</option>
-                <option value="DaNang">Đà Nẵng</option>
-              </Form.Select>
-            </Form.Group>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="wardId">
+                    <Form.Label>Xã / Phường</Form.Label>
+                    <Form.Select
+                      required
+                      value={formData.wardId}
+                      onChange={handleInputChange}
+                      disabled={!formData.districtId || loading.wards}
+                    >
+                      <option value="">Chọn xã/phường</option>
+                      {loading.wards ? (
+                        <option>Loading...</option>
+                      ) : (
+                        wards?.map((ward) => (
+                          <option key={ward.id} value={ward.id}>
+                            {ward.name}
+                          </option>
+                        ))
+                      )}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+              </Row>
 
-            {/* Ghi chú đơn hàng */}
-            <Form.Group className="mb-3" controlId="formNote">
+              <Form.Group className="mb-3" controlId="addressDetail">
+                <Form.Label>Địa chỉ</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Số nhà, tên đường..."
+                  value={formData.addressDetail}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Form.Group>
+
+              {/* Ghi chú đơn hàng */}
+              <Form.Group className="mb-3" controlId="formNote">
                 <Form.Label>Ghi chú đơn hàng</Form.Label>
                 <Form.Control as="textarea" rows={3} placeholder="Thêm ghi chú nếu có" />
               </Form.Group>
@@ -201,7 +245,7 @@ const [formData, setFormData] = useState({
               <Form.Group className="mb-3" controlId="formPaymentMethod">
                 <Form.Label className="mb-2 fs-5 fw-bold">Hình thức thanh toán</Form.Label>
                 <div>
-                  <Form.Check 
+                  <Form.Check
                     type="radio"
                     label={
                       <>
@@ -214,7 +258,7 @@ const [formData, setFormData] = useState({
                     className="mb-2"
                     defaultChecked
                   />
-                  <Form.Check 
+                  <Form.Check
                     type="radio"
                     label={
                       <>
@@ -231,31 +275,40 @@ const [formData, setFormData] = useState({
 
               <p>Thời gian giao hàng từ 3 – 5 ngày đối với ngoại thành</p>
               <p>Giao hàng nhanh trong ngày với khu vực Hồ Chí Minh</p>
-          </Form>
+            </Form>
           </Col>
 
           <Col md={5} className="pt-1">
             <h4>Đơn hàng của bạn</h4>
-            <p className="text-muted">Tổng sản phẩm: {totalItems}</p>
+            <p className="text-muted">Tổng sản phẩm: {totalItems || 0}</p>
             <div className="order-summary mt-3" style={{ maxHeight: '300px', overflowY: 'auto' }}>
-              {cartItems.map((item) => (
-                <Row key={item.id} className="align-items-center mb-3" style={{ borderBottom: '1px solid #dee2e6', width: '500px' }}>
-                  <Col xs={3}>
-                    <Image
-                      src="https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg"
-                      fluid
-                      rounded
-                    />
+              {cartItems?.map((items, index) => (
+                <Row key={index} className="align-items-center mb-3" style={{ borderBottom: '1px solid #dee2e6', width: '500px' }}>
+                  <Col xs={2}>
+                    <Image src={import.meta.env.VITE_URL + items.product?.image} fluid rounded />
                   </Col>
-                  <Col xs={6}>
-                    <h6>{item.name}</h6>
-                    <p className="text-muted mb-1">
-                      <del>{item.originalPrice.toLocaleString()}₫</del>
-                    </p>
-                    <p className="text-danger mb-0">{item.discountPrice.toLocaleString()}₫</p>
+                  <Col xs={8}>
+                    <div className="d-flex">
+                      <Link to={`/san-pham/${items.product?.slug}`} className="text-decoration-none h6 link-hover-underline link-dark ">
+                        <span>{items.product?.name || "Product Name"}</span>
+                      </Link>
+                      <div className="ms-2">{items.product.discount > 0 && <span className="badge text-bg-danger "> {items.product?.discount} %</span>}</div>
+                    </div>
+                    {items.product?.discount > 0 ? (
+                      <>
+                        <div>
+                          <p className="mb-0 text-danger">
+                            <del>{items.product?.price?.toLocaleString() || "0"}₫</del>
+                          </p>
+                          <p className="fw-bold">{(items.product.price - (items.product.price * items.product.discount) / 100).toLocaleString()}₫</p>
+                        </div>
+                      </>
+                    ) : (
+                      <p className="fw-bold">{items.product?.price?.toLocaleString() || "0"}₫</p>
+                    )}
                   </Col>
-                  <Col xs={3} className="text-end">
-                    <p className="mb-0">x{item.quantity}</p>
+                  <Col xs={2} className="text-end">
+                    <p className="mb-0">x{items.quantity}</p>
                   </Col>
                 </Row>
               ))}
@@ -273,18 +326,27 @@ const [formData, setFormData] = useState({
             <hr />
             <div className="d-flex justify-content-between">
               <h6>Tạm tính</h6>
-              <p>{subtotal.toLocaleString()}₫</p>
+              <p>{new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(subtotal)}</p>
             </div>
             <div className="d-flex justify-content-between">
               <h6>Phí vận chuyển</h6>
-              <p className='text-success'>{shippingFee > 0 ? `${shippingFee.toLocaleString()}₫` : 'Miễn phí'}</p>
+              <p className='text-success'>{shippingFee === 0 ? "Miễn phí" : new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(shippingFee)}</p>
             </div>
             <hr />
             <div className="d-flex justify-content-between">
               <h5>Tổng cộng</h5>
-              <h5>{total.toLocaleString()}₫</h5>
+              <h5 className="fw-bold">{new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(total)}</h5>
             </div>
-            <Button variant="primary" className="w-100 mt-3" onClick={handleOrder}>
+            <Button variant="primary" className="w-100 mt-3" onClick={handleSubmit}>
               Đặt hàng
             </Button>
           </Col>
