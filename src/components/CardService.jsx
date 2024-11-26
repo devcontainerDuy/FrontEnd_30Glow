@@ -18,9 +18,26 @@ export default function CardService({ name, slug, price, compare_price, discount
               </p>
             </div>
           )}
-          <div className="d-flex justify-content-center align-items-center" style={{ width: "300px", height: "280px", overflow: "hidden" }}>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{
+              width: "100%",
+              height: "30vh",
+              overflow: "hidden",
+            }}
+          >
             <Link to={`/dich-vu/${slug}`}>
-              <Image src={import.meta.env.VITE_URL + image} className="card-img-top w-100" fluid alt={name} style={{ objectFit: "cover" }} />
+              <Image
+                src={`${import.meta.env.VITE_URL}${image}`}
+                className="card-img-top w-100"
+                fluid
+                alt={name}
+                style={{
+                  objectFit: "cover",
+                  height: "100%",
+                  width: "100%",
+                }}
+              />
             </Link>
           </div>
         </div>
@@ -31,11 +48,11 @@ export default function CardService({ name, slug, price, compare_price, discount
                 {name}
               </h6>
             </Link>
-            <div className="ratings mb-1 h6">
+            {/* <div className="ratings mb-1 h6">
               {[...Array(5)].map((_, index) => (
                 <i key={index} className="bi bi-star-fill text-warning" />
               ))}
-            </div>
+            </div> */}
             <div className="d-md-flex justify-content-between align-items-center">
               <p className="me-md-2 mb-0 text-decoration-line-through mb-0">
                 {compare_price.toLocaleString("vi-VN", {

@@ -228,7 +228,8 @@ function Index() {
           breakpoints={{
             640: { slidesPerView: 2, spaceBetween: 10 },
             768: { slidesPerView: 3, spaceBetween: 15 },
-            1024: { slidesPerView: 4, spaceBetween: 20 }, // Hiển thị 4 sản phẩm ở màn hình lớn
+            1024: { slidesPerView: 4, spaceBetween: 20 },
+            1200: { slidesPerView: 5, spaceBetween: 20 },
           }}
         >
           {productIndex.length > 0 ? (
@@ -251,7 +252,7 @@ function Index() {
         <Swiper
         style={{
           "--swiper-navigation-color": "#000000",
-          "height": "450px",
+          // "height": "450px",
           "border-radius": "5px"
         }}
           slidesPerView={1}
