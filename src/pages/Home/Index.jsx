@@ -219,6 +219,7 @@ function Index() {
           modules={[Navigation, Pagination, Autoplay, A11y]}
           slidesPerView={2} // Hiển thị 2 sản phẩm mỗi lần 
           spaceBetween={20}
+          loop={true}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
@@ -252,7 +253,6 @@ function Index() {
         <Swiper
         style={{
           "--swiper-navigation-color": "#000000",
-          // "height": "450px",
           "border-radius": "5px"
         }}
           slidesPerView={1}
@@ -274,7 +274,7 @@ function Index() {
           </SwiperSlide>
           <SwiperSlide>
             <Link to="/san-pham">
-            <img src="https://image.cocoonvietnam.com/uploads/z4049933820713_07b14144b07b572f3d20100e8316394a_b3a9f006c5.jpg" className="img-fluid" alt="..." />
+            <img src="https://www.beautycos.co.uk/media/amasty/shopby/option_images/loreal_paris.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
         </Swiper>
