@@ -18,6 +18,7 @@ function Header() {
   const [groupedServices, setGroupedServices] = useState({});
   const { user, logout, cartItems } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
+  const [brands, setBrands] = useState([]);
 
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
 
@@ -34,6 +35,14 @@ function Header() {
       console.error(error);
     }
   };
+  const getBrands = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/brands");
+      return setBrands(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const getCollections = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + "/services-collections");
@@ -56,6 +65,7 @@ function Header() {
     getCategories();
     getCollections();
     getServices();
+    getBrands();
   }, []);
 
   useEffect(() => {
@@ -168,12 +178,30 @@ function Header() {
                 {/* end dropdown */}
 
                 <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
-                  <NavDropdown.Item as={NavLink} to="/thuong-hieu">
+                  {/* <NavDropdown.Item as={NavLink} to="/thuong-hieu">
                     Thương hiệu
                   </NavDropdown.Item>
                   <NavDropdown.Item as={NavLink} to="/thuong-hieu">
                     Thương hiệu 2
-                  </NavDropdown.Item>
+                  </NavDropdown.Item> */}
+                  <Container fluid style={{ width: "35rem" }}>
+                    <Row className="g-0 row-cols-1 row-cols-lg-2">
+                      {brands.map((brand) => (
+                        <Col key={brand.id}>
+                          <Dropdown.Item as={NavLink} className="text-decoration-none" to={`/thuong-hieu/${brand.slug}`}>
+                            {brand.name}
+                          </Dropdown.Item>
+                        </Col>
+                      ))}
+                    </Row>
+                    <Row className="g-0">
+                      <Col>
+                        <Dropdown.Header as={NavLink} className="text-decoration-none text-center border-top pt-2" to={"/thuong-hieu"}>
+                          Tất cả thương hiệu
+                        </Dropdown.Header>
+                      </Col>
+                    </Row>
+                  </Container>
                 </NavDropdown>
                 <Nav.Item>
                   <Nav.Link as={NavLink} to="/lien-he">

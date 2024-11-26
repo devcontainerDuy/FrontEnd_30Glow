@@ -1,56 +1,58 @@
 import React, { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import { Container } from "react-bootstrap";
+import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
-import CardProduct from "../../components/CardProduct";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
-// import CardBrand from "../../components/CardBrand.jsx";
+import CardBrand from "../../components/CardBrand.jsx";
 
 function Index() {
-  // const productList = [
-  //   {
-  //     id: 1,
-  //     name: "Sửa rửa mặt Simple",
-  //     slug: "sua-rua-mat-simple",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 618000,
-  //     discount: 494000,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dầu gội Dvinces",
-  //     slug: "dau-goi-davinces",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 334000,
-  //     discount: 293000,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Dầu xả Dvinces",
-  //     slug: "dau-xa-davinces",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 364060,
-  //     discount: 320000,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Kem dưỡng ẩm ATS",
-  //     slug: "kem-duong-ats",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 691000,
-  //     discount: 549000,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Kem chống nắng SkinAqua",
-  //     slug: "kem-chong-nang-skinaqua",
-  //     image: "https://static.30shine.com/shop-admin/2024/01/14/30SF3Q4K-5.jpg",
-  //     price: 284570,
-  //     discount: 159000,
-  //   },
-  // ];
+  const [filter, setFilter] = useState("default");
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/products?page=${page}`);
+      const data = response.data.data;
+      setProducts(data.data);
+      setTotalPage(data.last_page);
+      setPage(data.current_page);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  // Sắp xếp sản phẩm dựa trên giá trị bộ lọc
+  const getFilteredProducts = () => {
+    let sortedProducts = [...products];
+
+    if (filter === "sale") {
+      sortedProducts = sortedProducts.filter((product) => product.discount > 0);
+    } else if (filter === "high-to-low") {
+      sortedProducts.sort((a, b) => b.price - a.price);
+    } else if (filter === "low-to-high") {
+      sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (filter === "newest") {
+      sortedProducts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
+    return sortedProducts;
+  };
   return (
     <>
       <Helmet>
@@ -66,21 +68,21 @@ function Index() {
               <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Thương hiệu</h3>
             </div>
           </div>
-          {/* <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
-            <FormSelect value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: "200px" }}>
+            <FormSelect value={filter} onChange={handleFilterChange} style={{ width: "200px" }}>
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              <option value="newest">Sản phẩm mới</option>
+              <option value="sale">Sản phẩm có sale</option> 
             </FormSelect>
-          </div> */}
+          </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {productList.map((product) => (
-            <CardProduct key={product.id} {...product} />
+        {/* <Row className="row-cols-1 row-cols-lg-5 g-4">
+          {products.map((product) => (
+            <CardBrand key={product.id} {...product} />
           ))}
-        </Row>
+        </Row> */}
       </Container>
       <Container className="my-5">
         <Row className="row-cols-1 row-cols-lg-4 g-4">
