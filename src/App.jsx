@@ -31,6 +31,7 @@ import Order from "./pages/Profile/Order";
 import ProductDetail from "./pages/Product/ProductDetail";
 import ShoppingCart from "./pages/Cart/ShoppingCart";
 import CollectionServices from "./pages/Service/CollectionService";
+import BrandProducts from "./pages/Brand/BrandProducts";
 
 function App() {
   const { user } = useContext(AuthenContext);
@@ -43,6 +44,7 @@ function App() {
       <Route path="/thanh-toan-san-pham" element={<ProductPayment />} />
       <Route path="/san-pham" element={<Product />} />
       <Route path="/thuong-hieu" element={<Brand />} />
+      <Route path="/thuong-hieu/:slug" element={<BrandProducts />} />
       <Route path="/danh-muc/:slug" element={<CategoryProducts />} />
       <Route path="/dich-vu" element={<Service />} />
       <Route path="/dich-vu/:slug" element={<Show />} />

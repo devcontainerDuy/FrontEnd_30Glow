@@ -13,7 +13,7 @@ function CategoryProducts() {
   const [category, setCategory] = useState({});
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [filter, setFilter] = useState("default"); // Bộ lọc
+  const [filter, setFilter] = useState("default");
   const [loading, setLoading] = useState(true);
 
   // Lấy dữ liệu danh mục và sản phẩm
