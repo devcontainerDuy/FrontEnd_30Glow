@@ -158,10 +158,9 @@ function ProductCart() {
                 <h5 className="fw-bold text-danger">{total.toLocaleString()}₫</h5>
               </div>
               <Button variant="primary" className="w-100 mt-3">
-                <Link to="/thanh-toan-san-pham" className="text-decoration-none text-white">
-                  <span>Tiến hành thanh toán</span>
-                  <i className="bi bi-arrow-right ms-2" />
-                </Link>
+                {productData.length > 0 ? <Link to="/thanh-toan-sanpham" className="text-decoration-none text-light">Tiến hành thanh toán</Link> 
+                  : <Link to="/san-pham" className="text-decoration-none text-light">Tiếp tục mua hàng</Link>
+                }
               </Button>
             </div>
           </Col>

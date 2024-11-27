@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthenContext from '../../context/AuthenContext';
 
-function ProductPayment() {
+function PaymentProduct() {
   const { cartItems } = useAuthenContext();
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -357,4 +357,4 @@ function ProductPayment() {
   );
 }
 
-export default ProductPayment;
+export default PaymentProduct;
