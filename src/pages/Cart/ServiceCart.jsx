@@ -103,7 +103,7 @@ function ServiceCart() {
           "Content-Type": "application/json",
         },
       });
-       window.notyf.success("Đặt lịch hẹn thành công!");
+      window.notyf.success("Đặt lịch hẹn thành công!");
 
       dispatch(clearServiceCart());
 
@@ -112,7 +112,7 @@ function ServiceCart() {
       }, 1000);
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
-        window.notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+      window.notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
     }
   };
 
@@ -201,21 +201,11 @@ function ServiceCart() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <button
-                    onClick={chuyenTrang}
-                    style={{
-                      margin: "10px",
-                      padding: "10px 20px",
-                      width: "490px",
-                      backgroundColor: "blue",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Đặt hẹn ngay !
-                  </button>
+                  <Button variant="primary" className="w-100 mt-3">
+                    <Link to="/dich-vu" className="text-decoration-none text-light">
+                      Tiếp tục mua hàng
+                    </Link>
+                  </Button>
                 </Form>
               </div>
             </Col>

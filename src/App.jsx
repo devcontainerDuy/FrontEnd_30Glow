@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import { Route, Routes } from "react-router-dom";
 import "notyf/notyf.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,6 +35,7 @@ import CollectionServices from "./pages/Service/CollectionService";
 import BrandProducts from "./pages/Brand/BrandProducts";
 import LocationForm from "./pages/Cart/LocationForm";
 import PaymentProduct from "./pages/Cart/PaymentProduct";
+import Post from "./pages/Post/IndexPost";
 
 function App() {
   const { user } = useContext(AuthenContext);
@@ -52,6 +54,7 @@ function App() {
       <Route path="/dich-vu" element={<Service />} />
       <Route path="/dich-vu/:slug" element={<Show />} />
       <Route path="/nhom-dich-vu/:slug" element={<CollectionServices />} />
+      <Route path="/tin-tuc" element={<Post />} />
 
       <Route path="/thanh-toan-sanpham" element={<PaymentProduct />} />
       {!user ? (
