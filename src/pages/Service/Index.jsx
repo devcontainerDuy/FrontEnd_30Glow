@@ -15,7 +15,7 @@ function Index() {
   const [allServices, setAllServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [page, setPage] = useState(1);
-  const [servicesPerPage] = useState(10);
+  const [servicesPerPage] = useState(8);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -117,7 +117,7 @@ function Index() {
         ) : error ? (
           <p>Có lỗi xảy ra: {error.message}</p>
         ) : (
-          <Row className="row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 row-cols-sm-2 g-4">
+          <Row className="row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             {paginatedServices.length > 0 ? paginatedServices.map((service, index) => <CardService key={index} {...service} />) : <h3 className="text-center">Không có dịch vụ</h3>}
           </Row>
         )}
