@@ -71,28 +71,30 @@ function Index() {
 
   const postList = [
     {
-      name: "Bài viết số 1",
-      slug: "bai-viet-so-1",
-      image: "./src/assets/images/blog/01.webp",
-      createdAt: "2024-10-19",
-      author: "Nguyễn Văn A",
-      content: "Nội dung tóm tắt của bài viết số 1...",
+      name: "Làm thế nào để chọn dầu gội phù hợp với da đầu?",
+      slug: "chon-dau-goi-phu-hop",
+      image: "https://i.pinimg.com/736x/77/ac/25/77ac25c3b4b1cc810cc0afe803923ae2.jpg",
+      createdAt: "2024-11-02",
+      author: "Lê Minh Hằng",
+      content: "Chọn dầu gội đúng không chỉ giúp làm sạch da đầu mà còn cải thiện sức khỏe tóc đáng kể. Hãy cùng tìm hiểu cách xác định loại da đầu và chọn sản phẩm phù hợp nhất.",
     },
     {
-      name: "Hướng dẫn học React",
-      slug: "huong-dan-hoc-react",
-      image: "./src/assets/images/blog/02.webp",
-      createdAt: "2024-10-18",
-      author: "Trần Thị B",
-      content: "React là một thư viện JavaScript...",
+      name: "Khám phá dịch vụ chăm sóc da chuyên sâu tại spa",
+      slug: "cham-soc-da-chuyen-sau-tai-spa",
+      image: "https://i.pinimg.com/736x/13/95/30/13953045964276a03b5bf63ca6e72813.jpg",
+      createdAt: "2024-10-28",
+      author: "Trần Quỳnh Hoa",
+      content:
+        "Dành thời gian chăm sóc da tại các spa không chỉ mang lại làn da khỏe mạnh mà còn giúp bạn thư giãn sau những ngày làm việc căng thẳng. Cùng khám phá các liệu trình làm đẹp da nổi bật tại các spa uy tín.",
     },
     {
-      name: "Khám phá thế giới lập trình",
-      slug: "kham-pha-the-gioi-lap-trinh",
-      image: "./src/assets/images/blog/03.webp",
-      createdAt: "2024-10-17",
-      author: "Lê Văn C",
-      content: "Lập trình là một lĩnh vực thú vị...",
+      name: "Bí quyết chăm sóc tóc nhuộm để luôn óng mượt",
+      slug: "bi-quyet-cham-soc-toc-nhuom",
+      image: "https://i.pinimg.com/736x/f8/66/9c/f8669caae105949e4b20d9ee701e4dc4.jpg",
+      createdAt: "2024-11-05",
+      author: "Phạm Hải Yến",
+      content:
+        "Tóc nhuộm rất dễ bị hư tổn nếu không được chăm sóc đúng cách. Trong bài viết này, chúng tôi sẽ chia sẻ những mẹo nhỏ giúp tóc nhuộm luôn bền màu và bóng khỏe, từ cách chọn dầu gội đến sản phẩm dưỡng tóc phù hợp.",
     },
   ];
   return (
