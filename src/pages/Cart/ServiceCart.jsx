@@ -1,9 +1,9 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
-import Header from "../../layouts/Header";
+import Header from "@layouts/Header";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "../../layouts/Footer";
+import Footer from "@layouts/Footer";
 import { Helmet } from "react-helmet";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";

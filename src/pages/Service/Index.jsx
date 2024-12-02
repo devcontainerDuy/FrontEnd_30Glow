@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
-import Footers from "../../layouts/Footer";
-import Headers from "../../layouts/Header";
+import Footers from "@layouts/Footer";
+import Headers from "@layouts/Header";
 import CardService from "../../components/CardService";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
 import { Helmet } from "react-helmet";
 import axios from "axios";

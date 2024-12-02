@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 

@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
-import { AuthenContext } from "../../context/AuthenContext";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
+import { AuthenContext } from "@context/AuthenContext";
 import axios from "axios";
 
 function Account() {

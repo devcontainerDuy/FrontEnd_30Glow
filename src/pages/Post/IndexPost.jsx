@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import Headers from "../../layouts/Header";
-import Footers from "../../layouts/Footer";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import Headers from "@layouts/Header";
+import Footers from "@layouts/Footer";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 import CardPost from "../../components/CardPost";
 const postList = [

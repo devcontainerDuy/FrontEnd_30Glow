@@ -1,7 +1,7 @@
 // Forgot.js
 import React, { useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css"; // Import CSS của Notyf

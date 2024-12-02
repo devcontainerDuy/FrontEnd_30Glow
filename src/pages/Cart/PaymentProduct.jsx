@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../../layouts/Header';
-import Footer from '../../layouts/Footer';
+import React, { useState, useEffect } from "react";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import axios from "axios";
-import { Col, Container, Row, Form, Button, Image } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyBillWave, faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { Helmet } from 'react-helmet';
-import { Link, useNavigate } from 'react-router-dom';
-import useAuthenContext from '../../context/AuthenContext';
+import { Col, Container, Row, Form, Button, Image } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBillWave, faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthenContext from "@context/AuthenContext";
 
 function PaymentProduct() {
   const { cartItems } = useAuthenContext();
@@ -42,9 +42,7 @@ function PaymentProduct() {
     const fetchProvinces = async () => {
       setLoading((prev) => ({ ...prev, provinces: true }));
       try {
-        const response = await axios.get(
-          "https://open.oapi.vn/location/provinces?page=0&size=300"
-        );
+        const response = await axios.get("https://open.oapi.vn/location/provinces?page=0&size=300");
         setProvinces(response.data.data);
       } catch (error) {
         console.error("Error fetching provinces:", error);
@@ -65,9 +63,7 @@ function PaymentProduct() {
     const fetchDistricts = async () => {
       setLoading((prev) => ({ ...prev, districts: true }));
       try {
-        const response = await axios.get(
-          `https://open.oapi.vn/location/districts/${formData.provinceId}?page=0&size=300`
-        );
+        const response = await axios.get(`https://open.oapi.vn/location/districts/${formData.provinceId}?page=0&size=300`);
         setDistricts(response.data.data);
       } catch (error) {
         console.error("Error fetching districts:", error);
@@ -87,9 +83,7 @@ function PaymentProduct() {
     const fetchWards = async () => {
       setLoading((prev) => ({ ...prev, wards: true }));
       try {
-        const response = await axios.get(
-          `https://open.oapi.vn/location/wards/${formData.districtId}?page=0&size=300`
-        );
+        const response = await axios.get(`https://open.oapi.vn/location/wards/${formData.districtId}?page=0&size=300`);
         setWards(response.data.data);
       } catch (error) {
         console.error("Error fetching wards:", error);
@@ -136,21 +130,13 @@ function PaymentProduct() {
                 <Col md={6}>
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Họ và tên</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Nhập họ và tên"
-                      required
-                    />
+                    <Form.Control type="text" placeholder="Nhập họ và tên" required />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group className="mb-3" controlId="phone">
                     <Form.Label>Số điện thoại</Form.Label>
-                    <Form.Control
-                      type="tel"
-                      placeholder="Nhập số điện thoại"
-                      required
-                    />
+                    <Form.Control type="tel" placeholder="Nhập số điện thoại" required />
                   </Form.Group>
                 </Col>
               </Row>
@@ -158,11 +144,7 @@ function PaymentProduct() {
               {/* Địa chỉ */}
               <Form.Group className="mb-3" controlId="provinceId">
                 <Form.Label>Tỉnh / Thành phố</Form.Label>
-                <Form.Select
-                  required
-                  value={formData.provinceId}
-                  onChange={handleInputChange}
-                >
+                <Form.Select required value={formData.provinceId} onChange={handleInputChange}>
                   <option value="">Chọn tỉnh/thành phố</option>
                   {loading.provinces ? (
                     <option>Loading...</option>
@@ -180,12 +162,7 @@ function PaymentProduct() {
                 <Col md={6}>
                   <Form.Group className="mb-3" controlId="districtId">
                     <Form.Label>Quận / Huyện</Form.Label>
-                    <Form.Select
-                      required
-                      value={formData.districtId}
-                      onChange={handleInputChange}
-                      disabled={!formData.provinceId || loading.districts}
-                    >
+                    <Form.Select required value={formData.districtId} onChange={handleInputChange} disabled={!formData.provinceId || loading.districts}>
                       <option value="">Chọn quận/huyện</option>
                       {loading.districts ? (
                         <option>Loading...</option>
@@ -203,12 +180,7 @@ function PaymentProduct() {
                 <Col md={6}>
                   <Form.Group className="mb-3" controlId="wardId">
                     <Form.Label>Xã / Phường</Form.Label>
-                    <Form.Select
-                      required
-                      value={formData.wardId}
-                      onChange={handleInputChange}
-                      disabled={!formData.districtId || loading.wards}
-                    >
+                    <Form.Select required value={formData.wardId} onChange={handleInputChange} disabled={!formData.districtId || loading.wards}>
                       <option value="">Chọn xã/phường</option>
                       {loading.wards ? (
                         <option>Loading...</option>
@@ -226,13 +198,7 @@ function PaymentProduct() {
 
               <Form.Group className="mb-3" controlId="addressDetail">
                 <Form.Label>Địa chỉ</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Số nhà, tên đường..."
-                  value={formData.addressDetail}
-                  onChange={handleInputChange}
-                  required
-                />
+                <Form.Control type="text" placeholder="Số nhà, tên đường..." value={formData.addressDetail} onChange={handleInputChange} required />
               </Form.Group>
 
               {/* Ghi chú đơn hàng */}
@@ -281,16 +247,16 @@ function PaymentProduct() {
           <Col md={5} className="pt-1">
             <h4>Đơn hàng của bạn</h4>
             <p className="text-muted">Tổng sản phẩm: {totalItems || 0}</p>
-            <div className="order-summary mt-3" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+            <div className="order-summary mt-3" style={{ maxHeight: "300px", overflowY: "auto" }}>
               {cartItems?.map((items, index) => (
-                <Row key={index} className="align-items-center mb-3" style={{ borderBottom: '1px solid #dee2e6', width: '500px' }}>
+                <Row key={index} className="align-items-center mb-3" style={{ borderBottom: "1px solid #dee2e6", width: "500px" }}>
                   <Col xs={2}>
                     <Image src={import.meta.env.VITE_URL + items.product?.image} fluid rounded />
                   </Col>
                   <Col xs={9}>
                     <div className="d-flex">
                       {/* <Link to={`/san-pham/${items.product?.slug}`} className="text-decoration-none h6 link-hover-underline link-dark "> */}
-                        <span className="h6 link-dark">{items.product?.name || "Product Name"}</span>
+                      <span className="h6 link-dark">{items.product?.name || "Product Name"}</span>
                       {/* </Link> */}
                       <div className="ms-2">{items.product.discount > 0 && <span className="badge text-bg-danger "> {items.product?.discount} %</span>}</div>
                     </div>
@@ -319,32 +285,42 @@ function PaymentProduct() {
               <Form.Label className="fs-5 fw-bold">Mã Voucher</Form.Label>
               <div className="d-flex flex-column flex-md-row gap-2">
                 <Form.Control className="flex-grow-1" type="text" placeholder="Nhập mã giảm giá" />
-                <Button variant="outline-success" className="w-50 w-md-auto">Áp dụng</Button>
+                <Button variant="outline-success" className="w-50 w-md-auto">
+                  Áp dụng
+                </Button>
               </div>
             </Form.Group>
 
             <hr />
             <div className="d-flex justify-content-between">
               <h6>Tạm tính</h6>
-              <p>{new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(subtotal)}</p>
+              <p>
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(subtotal)}
+              </p>
             </div>
             <div className="d-flex justify-content-between">
               <h6>Phí vận chuyển</h6>
-              <p className='text-success'>{shippingFee === 0 ? "Miễn phí" : new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(shippingFee)}</p>
+              <p className="text-success">
+                {shippingFee === 0
+                  ? "Miễn phí"
+                  : new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(shippingFee)}
+              </p>
             </div>
             <hr />
             <div className="d-flex justify-content-between">
               <h5>Tổng cộng</h5>
-              <h5 className="fw-bold">{new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(total)}</h5>
+              <h5 className="fw-bold">
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(total)}
+              </h5>
             </div>
             <Button variant="primary" className="w-100 mt-3" onClick={handleSubmit}>
               Đặt hàng

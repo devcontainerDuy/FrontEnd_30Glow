@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
-import Footers from "../../layouts/Footer";
-import Headers from "../../layouts/Header";
+import Footers from "@layouts/Footer";
+import Headers from "@layouts/Header";
 import CardProduct from "../../components/CardProduct";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -84,7 +84,7 @@ function Index() {
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
               {/* <option value="newest">Sản phẩm mới</option> */}
-              <option value="sale">Sản phẩm có sale</option> 
+              <option value="sale">Sản phẩm có sale</option>
             </FormSelect>
           </div>
         </div>

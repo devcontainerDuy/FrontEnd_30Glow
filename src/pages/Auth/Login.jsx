@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
-import useAuthenContext from "../../context/AuthenContext";
+import useAuthenContext from "@context/AuthenContext";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "", rememberToken: false });

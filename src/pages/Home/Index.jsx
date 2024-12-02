@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Footer from "../../layouts/Footer";
-import Header from "../../layouts/Header";
+import Footer from "@layouts/Footer";
+import Header from "@layouts/Header";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -217,7 +217,7 @@ function Index() {
         </div>
         <Swiper
           modules={[Navigation, Pagination, Autoplay, A11y]}
-          slidesPerView={2} // Hiển thị 2 sản phẩm mỗi lần 
+          slidesPerView={2} // Hiển thị 2 sản phẩm mỗi lần
           spaceBetween={20}
           loop={true}
           autoplay={{
@@ -225,7 +225,6 @@ function Index() {
             disableOnInteraction: false,
           }}
           navigation={true}
-
           breakpoints={{
             640: { slidesPerView: 2, spaceBetween: 10 },
             768: { slidesPerView: 3, spaceBetween: 15 },
@@ -251,30 +250,30 @@ function Index() {
       {/* Start banner section */}
       <Container className="my-5">
         <Swiper
-        style={{
-          "--swiper-navigation-color": "#000000",
-          "border-radius": "5px"
-        }}
+          style={{
+            "--swiper-navigation-color": "#000000",
+            "border-radius": "5px",
+          }}
           slidesPerView={1}
           spaceBetween={30}
           loop={true}
           navigation={true}
-          modules={[ Navigation]}
+          modules={[Navigation]}
           className="mySwiper"
         >
           <SwiperSlide>
             <Link to="/san-pham">
-            <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
+              <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
             <Link to="/san-pham">
-            <img src="https://daugoiduoclieunguyenxuan.vn/wp-content/uploads/2022/05/Banner-web-NX_1920x650-1.jpg" className="img-fluid" alt="..." />
+              <img src="https://daugoiduoclieunguyenxuan.vn/wp-content/uploads/2022/05/Banner-web-NX_1920x650-1.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
             <Link to="/san-pham">
-            <img src="https://www.beautycos.co.uk/media/amasty/shopby/option_images/loreal_paris.jpg" className="img-fluid" alt="..." />
+              <img src="https://www.beautycos.co.uk/media/amasty/shopby/option_images/loreal_paris.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
         </Swiper>

@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+/* eslint-disable */
 import { Route, Routes } from "react-router-dom";
 import "notyf/notyf.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -73,7 +73,7 @@ function App() {
         </>
       )}
       <Route path="/quen-mat-khau" element={<Forgot />} />
-      <Route path="/doi-mat-khau" element={<ResetPass />} />
+      <Route path="/reset-password/" element={<ResetPass />} />
       <Route path="/*" element={<Notfound />} />
     </Routes>
   );

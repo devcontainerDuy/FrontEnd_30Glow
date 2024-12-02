@@ -59,30 +59,28 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
-    if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/logout`, {}, { headers: { Authorization: `Bearer ${token}` } });
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/logout`, {}, { headers: { Authorization: `Bearer ${token}` } });
 
-        if (response.data.check === true) {
-          clearAuthInfo();
-          window.notyf.success(response.data.message);
-          setTimeout(() => {
-            setUser(null);
-            navigate("/dang-nhap", { replace: true });
-          }, 2000);
-        } else {
-          window.notyf.error(response.data.message);
-        }
-      } catch (error) {
-        console.error(error);
+      if (response.data.check === true) {
+        clearAuthInfo();
+        window.notyf.success(response.data.message);
+        setTimeout(() => {
+          setUser(null);
+          navigate("/dang-nhap", { replace: true });
+        }, 2000);
+      } else {
+        window.notyf.error(response.data.message);
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
     const getInfoUser = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_API_URL + "/customers/" + uid, { headers: { Authorization: `Bearer ${token}` } });
+        const response = await axios.get(import.meta.env.VITE_API_URL + "/customers", { headers: { Authorization: `Bearer ${token}` } });
         setUser(response.data.data);
       } catch (error) {
         console.error(error);
@@ -108,12 +106,11 @@ export const useAuth = () => {
         }
       }
     };
-  
+
     const interval = setInterval(checkExpiration, 1000); // Kiểm tra mỗi giây
-  
+
     return () => clearInterval(interval); // Xóa interval khi component unmount
   }, [token, expiry]);
-  
 
   const saveAuthInfo = ({ uid, token, expiry }) => {
     localStorage.setItem("uid", uid);

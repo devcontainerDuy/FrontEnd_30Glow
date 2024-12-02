@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, Badge } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { A11y, Autoplay, FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
-import useAuthenContext from "../../context/AuthenContext";
+import useAuthenContext from "@context/AuthenContext";
 
 function ProductDetail() {
   const { slug } = useParams();
@@ -124,18 +124,18 @@ function ProductDetail() {
       comments.map((comment) =>
         comment.id === id
           ? {
-            ...comment,
-            replies: [
-              ...comment.replies,
-              {
-                name: "Tên người dùng", // Tên người dùng
-                avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
-                content: reply,
-                date: new Date().toLocaleDateString("vi-VN"),
-              },
-            ],
-            showReplyInput: false,
-          }
+              ...comment,
+              replies: [
+                ...comment.replies,
+                {
+                  name: "Tên người dùng", // Tên người dùng
+                  avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
+                  content: reply,
+                  date: new Date().toLocaleDateString("vi-VN"),
+                },
+              ],
+              showReplyInput: false,
+            }
           : comment
       )
     );
