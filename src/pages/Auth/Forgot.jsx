@@ -1,11 +1,11 @@
-// Forgot.js
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "@layouts/Header";
 import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css"; // Import CSS của Notyf
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 function Forgot() {
   const notyf = new Notyf({
@@ -33,10 +33,15 @@ function Forgot() {
   };
 
   // Xử lý khi người dùng submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateEmail()) {
-      notyf.success("Đã gửi xác nhận đến email của bạn!");
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/reset-password`, { email });
+      if (response.data.check === true) {
+        notyf.success(response.data.message);
+      } else {
+        notyf.error(response.data.message);
+      }
     } else {
       notyf.error("Vui lòng kiểm tra thông tin email!");
     }

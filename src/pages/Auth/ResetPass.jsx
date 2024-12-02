@@ -1,10 +1,11 @@
 import Header from "@layouts/Header";
 import { Helmet } from "react-helmet";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ResetPass() {
+  const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
@@ -20,6 +21,7 @@ function ResetPass() {
 
       if (response.data.check === true) {
         window.notyf.success(response.data.message);
+        setTimeout(() => navigate("/dang-nhap"), 2000);
       } else {
         window.notyf.error(response.data.message);
       }
