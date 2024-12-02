@@ -6,6 +6,7 @@ import axios from "axios";
 import useAuthenContext from "../context/AuthenContext";
 import { useSelector } from "react-redux";
 import logo from "@img/logo30GLOW.png";
+import Swal from "sweetalert2";
 
 function Header() {
   // services
@@ -35,6 +36,7 @@ function Header() {
       console.error(error);
     }
   };
+
   const getBrands = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + "/brands");
@@ -42,7 +44,8 @@ function Header() {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
+
   const getCollections = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + "/services-collections");
@@ -51,6 +54,7 @@ function Header() {
       console.error(error);
     }
   };
+
   const getServices = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + "/services");
@@ -59,7 +63,23 @@ function Header() {
       console.error(error);
     }
   };
-  console.log(services, collections);
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Đăng xuất?",
+      text: "Bạn chắc chẫn muốn đăng xuất?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Đăng xuất",
+      cancelButtonText: "Quay lại",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+      }
+    });
+  };
 
   useEffect(() => {
     getCategories();
@@ -257,19 +277,13 @@ function Header() {
                   <i className="bi bi-cart2 position-relative fs-5">
                     {user && user !== null ? (
                       <>
-                        <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">
-                          {cartItems.length || 0}
-                        </span>
+                        <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{cartItems.length || 0}</span>
                       </>
                     ) : (
                       <>
-                        <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">
-                          {shoppingCart.length || 0}
-                        </span>
+                        <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{shoppingCart.length || 0}</span>
                       </>
-                    )
-
-                    }
+                    )}
                   </i>
                 </Nav.Link>
                 {user ? (
@@ -294,7 +308,7 @@ function Header() {
                           Đặt lịch
                         </Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item href="#" role="button" onClick={logout}>
+                        <Dropdown.Item href="#" role="button" onClick={handleLogout}>
                           <i className="bi bi-box-arrow-right me-2" />
                           Đăng xuất
                         </Dropdown.Item>
@@ -329,19 +343,13 @@ function Header() {
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
-                    <Form.Control
-                      type="search"
-                      placeholder="Nhập từ khóa tìm kiếm..."
-                      aria-label="Search"
-                      className="mb-3"
-                    />
+                    <Form.Control type="search" placeholder="Nhập từ khóa tìm kiếm..." aria-label="Search" className="mb-3" />
                     <Button variant="primary" className="w-100">
                       Tìm kiếm
                     </Button>
                   </Form>
                 </Modal.Body>
               </Modal>
-
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
