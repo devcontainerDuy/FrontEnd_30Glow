@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 import { addToServiceCart } from "../../store/reducers/serviceCartSlice";
 import { useDispatch } from "react-redux";
 import BreadcrumbComponent from "@components/BreadcrumbComponent";
@@ -15,7 +13,6 @@ import BreadcrumbComponent from "@components/BreadcrumbComponent";
 function Show() {
   const { slug } = useParams();
   const [ChiTietDV, setChiTietDV] = useState(null);
-  const notyf = useRef(new Notyf({ position: { x: "right", y: "top" } }));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,17 +22,17 @@ function Show() {
         if (response.data?.check) {
           setChiTietDV(response.data.data);
         } else {
-          notyf.current.error("Dữ liệu không hợp lệ");
+             window.notyf.error("Dữ liệu không hợp lệ");
         }
       } catch (error) {
-        notyf.current.error("Có lỗi xảy ra khi tải dữ liệu.");
+           window.notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
       }
     };
     fetchChiTietDV();
   }, [slug]);
 
   const handleAddToCart = () => {
-    notyf.current.success("Đã thêm vào giỏ hàng!");
+    window.notyf.success("Đã thêm vào đặt lịch!");
     const newItem = { ...ChiTietDV, quantity: 1 };
     dispatch(addToServiceCart(newItem));
   };

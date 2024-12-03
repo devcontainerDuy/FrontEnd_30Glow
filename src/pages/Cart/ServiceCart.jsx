@@ -5,8 +5,6 @@ import Header from "@layouts/Header";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "@layouts/Footer";
 import { Helmet } from "react-helmet";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 import axios from "axios";
 import { clearServiceCart, removeFromServiceCart } from "../../store/reducers/serviceCartSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,6 +27,7 @@ function ServiceCart() {
 
   const handleRemoveService = (id) => {
     dispatch(removeFromServiceCart(id));
+        window.notyf.success("Đã xóa dịch vụ!");
   };
 
   const handleClearServices = () => {
