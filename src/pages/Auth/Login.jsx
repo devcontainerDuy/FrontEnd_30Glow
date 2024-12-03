@@ -52,50 +52,46 @@ function Login() {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/google`);
       const data = response.data;
+      console.log("Google Login URL:", data.url);
 
-      if (data.check) {
+      if (data.check === true) {
         const width = 400;
         const height = 600;
         const left = (window.innerWidth - width) / 2;
         const top = (window.innerHeight - height) / 2;
 
-        const googleWindow = window.open(data.url, "GoogleLogin", `width=${width},height=${height},top=${top},left=${left}`);
+        const popup = window.open(data.url, "GoogleLogin", `width=${width},height=${height},top=${top},left=${left}`);
 
-        if (!googleWindow) {
+        if (!popup) {
           window.notyf.error("Popup bị chặn! Hãy cho phép bật popup trên trình duyệt.");
           return;
         }
 
-        // Polling để lấy dữ liệu từ popup
-        const pollTimer = setInterval(async () => {
-          try {
-            if (googleWindow.closed) {
-              clearInterval(pollTimer);
-              window.notyf.error("Đăng nhập bị hủy.");
-              return;
+        popup.focus();
+
+        window.onmessage = async (e) => {
+          console.log("Received message from popup:", e.data);
+
+          if (e.origin === window.location.origin) {
+            try {
+              const responseData = JSON.parse(e.data);
+              console.log("Google Login Response Data:", responseData);
+
+              if (responseData.check) {
+                await loginWithGoogle(responseData);
+                popup?.close();
+                window.onmessage = null;
+              } else {
+                window.notyf.error("Đăng nhập bị hủy hoặc thất bại.");
+              }
+            } catch (parseError) {
+              console.error("Error parsing Google Login response:", parseError);
+              window.notyf.error("Có lỗi xảy ra khi xử lý dữ liệu đăng nhập với Google.");
             }
-
-            const popupURL = googleWindow.location.href;
-
-            if (popupURL.includes("check=true")) {
-              const urlParams = new URLSearchParams(googleWindow.location.search || googleWindow.location.hash);
-
-              const responseData = {
-                check: urlParams.get("check") === "true",
-                uid: urlParams.get("uid"),
-                token: urlParams.get("token"),
-                expiry: parseInt(urlParams.get("expiry"), 10),
-              };
-
-              googleWindow.close();
-              clearInterval(pollTimer);
-
-              loginWithGoogle(responseData);
-            }
-          } catch (error) {
-            console.error("Google Login Error:", error);
+          } else {
+            window.notyf.error("URL không hợp lệ!");
           }
-        }, 500);
+        };
       } else {
         window.notyf.error("Không thể lấy URL đăng nhập Google.");
       }
