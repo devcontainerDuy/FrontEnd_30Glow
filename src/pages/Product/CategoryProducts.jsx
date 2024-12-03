@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Col, Container, Row, FormSelect } from "react-bootstrap";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 
 function CategoryProducts() {
   const { slug } = useParams();
@@ -69,9 +69,7 @@ function CategoryProducts() {
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100">
             <div className="ms-2">
-              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">
-                Danh mục: {category.name}
-              </h3>
+              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Danh mục: {category.name}</h3>
             </div>
           </div>
           {/* Bộ lọc sản phẩm */}

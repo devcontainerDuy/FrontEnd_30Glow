@@ -1,7 +1,7 @@
 // Register.js
 import { useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

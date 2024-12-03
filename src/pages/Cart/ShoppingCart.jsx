@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
 import { Container, Row, Col, Image, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import useAuthenContext from "../../context/AuthenContext";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import useAuthenContext from "@context/AuthenContext";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 
 const ShoppingCart = () => {
   const { cartItems, updateCart, removeFromCart } = useAuthenContext();
@@ -133,9 +133,15 @@ const ShoppingCart = () => {
                 <h5 className="fw-bold text-danger">{total.toLocaleString()}₫</h5>
               </div>
               <Button variant="primary" className="w-100 mt-3">
-                {cartItems.length > 0 ? <Link to="/thanh-toan-san-pham" className="text-decoration-none text-light">Tiến hành thanh toán</Link> 
-                : <Link to="/san-pham" className="text-decoration-none text-light">Tiếp tục mua hàng</Link>
-                }
+                {cartItems.length > 0 ? (
+                  <Link to="/thanh-toan-san-pham" className="text-decoration-none text-light">
+                    Tiến hành thanh toán
+                  </Link>
+                ) : (
+                  <Link to="/san-pham" className="text-decoration-none text-light">
+                    Tiếp tục mua hàng
+                  </Link>
+                )}
               </Button>
             </div>
           </Col>

@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, FormSelect } from "react-bootstrap";
-import Footers from "../../layouts/Footer";
-import Headers from "../../layouts/Header";
+import Footers from "@layouts/Footer";
+import Headers from "@layouts/Header";
 import CardService from "../../components/CardService";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -19,7 +19,7 @@ function CollectionServices() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [servicesPerPage] = useState(10);
+  const [servicesPerPage] = useState(8);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -95,7 +95,7 @@ function CollectionServices() {
         ) : error ? (
           <p>Có lỗi xảy ra: {error.message}</p>
         ) : (
-          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             {paginatedServices.length > 0 ? (
               paginatedServices.map((service) => <CardService key={service.id} {...service} />)
             ) : (

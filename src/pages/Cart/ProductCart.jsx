@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { increaseQuantity, decreaseQuantity, removeFromCart, clearCart } from "../../store/reducers/shoppingCartSlice";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Helmet } from "react-helmet";
 import { Col, Container, Row, Button, Form, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -158,9 +158,15 @@ function ProductCart() {
                 <h5 className="fw-bold text-danger">{total.toLocaleString()}₫</h5>
               </div>
               <Button variant="primary" className="w-100 mt-3">
-                {productData.length > 0 ? <Link to="/thanh-toan-sanpham" className="text-decoration-none text-light">Tiến hành thanh toán</Link> 
-                  : <Link to="/san-pham" className="text-decoration-none text-light">Tiếp tục mua hàng</Link>
-                }
+                {productData.length > 0 ? (
+                  <Link to="/thanh-toan-sanpham" className="text-decoration-none text-light">
+                    Tiến hành thanh toán
+                  </Link>
+                ) : (
+                  <Link to="/san-pham" className="text-decoration-none text-light">
+                    Tiếp tục mua hàng
+                  </Link>
+                )}
               </Button>
             </div>
           </Col>

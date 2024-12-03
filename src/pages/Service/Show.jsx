@@ -1,6 +1,6 @@
 /* eslint-disable */
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Button, Breadcrumb, Card, Badge } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -10,7 +10,7 @@ import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import { addToServiceCart } from "../../store/reducers/serviceCartSlice";
 import { useDispatch } from "react-redux";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 
 function Show() {
   const { slug } = useParams();

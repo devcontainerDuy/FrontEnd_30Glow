@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Header from '../../layouts/Header';
-import Footer from '../../layouts/Footer';
-import { Container, Row, Col, Badge, Button, Modal, Table } from 'react-bootstrap';
-import BreadcrumbComponent from '../../components/BreadcrumbComponent';
+import React, { useState } from "react";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
+import { Container, Row, Col, Badge, Button, Modal, Table } from "react-bootstrap";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList, faCheckCircle, faClock, faTimesCircle, faInfoCircle, faTruck } from "@fortawesome/free-solid-svg-icons";
 
@@ -183,7 +183,7 @@ function Order() {
       <BreadcrumbComponent props={[{ name: "Hóa đơn", url: "/hoa-don" }]} />
       <Container className="mb-5 mt-4">
         <h3 className="mb-4">Danh sách đơn hàng</h3>
-        <Table striped bordered hover >
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th>#</th>
@@ -218,10 +218,18 @@ function Order() {
         </Modal.Header>
         <Modal.Body>
           <h5>Thông tin khách hàng</h5>
-          <p><strong>Tên:</strong> {selectedOrder?.customer.name}</p>
-          <p><strong>Số điện thoại:</strong> {selectedOrder?.customer.phone}</p>
-          <p><strong>Địa chỉ:</strong> {selectedOrder?.customer.address}</p>
-          <p><strong>Ghi chú:</strong> {selectedOrder?.customer.note}</p>
+          <p>
+            <strong>Tên:</strong> {selectedOrder?.customer.name}
+          </p>
+          <p>
+            <strong>Số điện thoại:</strong> {selectedOrder?.customer.phone}
+          </p>
+          <p>
+            <strong>Địa chỉ:</strong> {selectedOrder?.customer.address}
+          </p>
+          <p>
+            <strong>Ghi chú:</strong> {selectedOrder?.customer.note}
+          </p>
 
           <h5 className="mt-3">Sản phẩm trong đơn hàng</h5>
           <Table striped bordered hover>
@@ -248,8 +256,12 @@ function Order() {
           </Table>
 
           <h5>Tổng tiền: {selectedOrder?.total}</h5>
-          <p><strong>Trạng thái:</strong> {getStatusBadge(selectedOrder?.status)}</p>
-          <p><strong>Chi tiết:</strong> {selectedOrder?.details}</p>
+          <p>
+            <strong>Trạng thái:</strong> {getStatusBadge(selectedOrder?.status)}
+          </p>
+          <p>
+            <strong>Chi tiết:</strong> {selectedOrder?.details}
+          </p>
         </Modal.Body>
         <Modal.Footer>
   <Button variant="secondary" onClick={handleCloseModal}>

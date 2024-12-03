@@ -1,18 +1,19 @@
 import { useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
-import useAuthenContext from "../../context/AuthenContext";
+import useAuthenContext from "@context/AuthenContext";
+import axios from "axios";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "", rememberToken: false });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuthenContext();
+  const { loginWithGoogle, login } = useAuthenContext();
 
   const validate = () => {
     let newErrors = {};
@@ -45,6 +46,63 @@ function Login() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/google`);
+      const data = response.data;
+
+      if (data.check) {
+        const width = 400;
+        const height = 600;
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+
+        const googleWindow = window.open(data.url, "GoogleLogin", `width=${width},height=${height},top=${top},left=${left}`);
+
+        if (!googleWindow) {
+          window.notyf.error("Popup bị chặn! Hãy cho phép bật popup trên trình duyệt.");
+          return;
+        }
+
+        // Polling để lấy dữ liệu từ popup
+        const pollTimer = setInterval(async () => {
+          try {
+            if (googleWindow.closed) {
+              clearInterval(pollTimer);
+              window.notyf.error("Đăng nhập bị hủy.");
+              return;
+            }
+
+            const popupURL = googleWindow.location.href;
+
+            if (popupURL.includes("check=true")) {
+              const urlParams = new URLSearchParams(googleWindow.location.search || googleWindow.location.hash);
+
+              const responseData = {
+                check: urlParams.get("check") === "true",
+                uid: urlParams.get("uid"),
+                token: urlParams.get("token"),
+                expiry: parseInt(urlParams.get("expiry"), 10),
+              };
+
+              googleWindow.close();
+              clearInterval(pollTimer);
+
+              loginWithGoogle(responseData);
+            }
+          } catch (error) {
+            console.error("Google Login Error:", error);
+          }
+        }, 500);
+      } else {
+        window.notyf.error("Không thể lấy URL đăng nhập Google.");
+      }
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      window.notyf.error("Có lỗi xảy ra khi đăng nhập với Google.");
+    }
   };
 
   return (
@@ -90,7 +148,7 @@ function Login() {
                   Đăng nhập
                 </Button>
 
-                <Button variant="outline-primary" className="w-100">
+                <Button variant="outline-primary" className="w-100" onClick={handleGoogleLogin}>
                   Đăng nhập với Google
                 </Button>
               </Form>

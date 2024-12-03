@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 import CardBrand from "../../components/CardBrand.jsx";
 
@@ -74,7 +74,7 @@ function Index() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              <option value="sale">Sản phẩm có sale</option> 
+              <option value="sale">Sản phẩm có sale</option>
             </FormSelect>
           </div>
         </div>
