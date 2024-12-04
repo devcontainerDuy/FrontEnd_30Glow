@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "@layouts/Header";
 import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
@@ -50,54 +50,71 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     try {
+      // Gọi API lấy URL đăng nhập Google
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/google`);
-      const data = response.data;
-      console.log("Google Login URL:", data.url);
+      const { check, url } = response.data;
 
-      if (data.check === true) {
+      if (check) {
         const width = 400;
         const height = 600;
         const left = (window.innerWidth - width) / 2;
         const top = (window.innerHeight - height) / 2;
 
-        const popup = window.open(data.url, "GoogleLogin", `width=${width},height=${height},top=${top},left=${left}`);
+        // Mở popup đăng nhập Google
+        const popup = window.open(url, "GoogleLogin", `width=${width},height=${height},top=${top},left=${left}`);
 
         if (!popup) {
           window.notyf.error("Popup bị chặn! Hãy cho phép bật popup trên trình duyệt.");
           return;
         }
 
-        popup.focus();
-
-        window.onmessage = async (e) => {
-          console.log("Received message from popup:", e.data);
-
-          if (e.origin === window.location.origin) {
-            try {
-              const responseData = JSON.parse(e.data);
-              console.log("Google Login Response Data:", responseData);
-
-              if (responseData.check) {
-                await loginWithGoogle(responseData);
-                popup?.close();
-                window.onmessage = null;
-              } else {
-                window.notyf.error("Đăng nhập bị hủy hoặc thất bại.");
-              }
-            } catch (parseError) {
-              console.error("Error parsing Google Login response:", parseError);
-              window.notyf.error("Có lỗi xảy ra khi xử lý dữ liệu đăng nhập với Google.");
+        // Polling để kiểm tra URL của popup
+        const pollTimer = setInterval(() => {
+          try {
+            if (popup.closed) {
+              clearInterval(pollTimer);
+              window.notyf.error("Đăng nhập bị hủy.");
+              return;
             }
-          } else {
-            window.notyf.error("URL không hợp lệ!");
+
+            // Kiểm tra khi popup chuyển hướng về frontend
+            if (popup.location.href.startsWith("https://30glow.site")) {
+              const hash = popup.location.hash.substring(1);
+              const params = new URLSearchParams(hash);
+
+              const loginData = {
+                check: params.get("check"),
+                uid: params.get("uid"),
+                token: params.get("token"),
+                expiry: parseInt(params.get("expiry"), 10),
+              };
+
+              popup.close(); // Đóng popup
+              clearInterval(pollTimer); // Dừng polling
+
+              // Gọi hàm xử lý sau khi đăng nhập thành công
+              console.log(loginData);
+
+              loginWithGoogle(loginData);
+            }
+          } catch (error) {
+            // Bỏ qua lỗi cross-origin cho đến khi popup chuyển về cùng domain
           }
-        };
+        }, 500);
       } else {
         window.notyf.error("Không thể lấy URL đăng nhập Google.");
       }
     } catch (error) {
-      console.error("Google Login Error:", error);
-      window.notyf.error("Có lỗi xảy ra khi đăng nhập với Google.");
+      if (error.response) {
+        console.error("Server Error:", error.response.data);
+        window.notyf.error(error.response.data.message || "Có lỗi xảy ra khi đăng nhập với Google.");
+      } else if (error.request) {
+        console.error("Network Error:", error.request);
+        window.notyf.error("Không thể kết nối đến server.");
+      } else {
+        console.error("Error:", error.message);
+        window.notyf.error("Có lỗi xảy ra khi đăng nhập với Google.");
+      }
     }
   };
 
