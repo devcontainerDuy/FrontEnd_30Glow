@@ -17,7 +17,7 @@ function BrandProducts() {
       <Container className="my-3">
         <BreadcrumbComponent
           props={[
-            { title: "Thương hiệu", link: "/thuong-hieu" },
+            { name: "Thương hiệu", url: "/thuong-hieu" },
             { name: "Simple", url: `/thuong-hieu/simple` },
           ]}
         />
