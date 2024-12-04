@@ -50,7 +50,6 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      // Gọi API lấy URL đăng nhập Google
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/google`);
       const { check, url } = response.data;
 
@@ -60,7 +59,6 @@ function Login() {
         const left = (window.innerWidth - width) / 2;
         const top = (window.innerHeight - height) / 2;
 
-        // Mở popup đăng nhập Google
         const popup = window.open(url, "GoogleLogin", `width=${width},height=${height},top=${top},left=${left}`);
 
         if (!popup) {
@@ -68,7 +66,6 @@ function Login() {
           return;
         }
 
-        // Polling để kiểm tra URL của popup
         const pollTimer = setInterval(() => {
           try {
             if (popup.closed) {
@@ -81,24 +78,24 @@ function Login() {
             if (popup.location.href.startsWith("https://30glow.site")) {
               const hash = popup.location.hash.substring(1);
               const params = new URLSearchParams(hash);
+              console.log(params);
 
               const loginData = {
-                check: params.get("check"),
+                check: params.get("check") === "1",
                 uid: params.get("uid"),
                 token: params.get("token"),
                 expiry: parseInt(params.get("expiry"), 10),
               };
 
-              popup.close(); // Đóng popup
-              clearInterval(pollTimer); // Dừng polling
+              popup.close();
+              clearInterval(pollTimer);
 
-              // Gọi hàm xử lý sau khi đăng nhập thành công
               console.log(loginData);
 
               loginWithGoogle(loginData);
             }
           } catch (error) {
-            // Bỏ qua lỗi cross-origin cho đến khi popup chuyển về cùng domain
+            console.error("Error polling popup:", error);
           }
         }, 500);
       } else {
