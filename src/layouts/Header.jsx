@@ -305,7 +305,7 @@ function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item as={NavLink} to="/dat-lich">
                           <i className="bi bi-calendar-check me-2" />
-                          Đặt lịch
+                          Lịch đặt
                         </Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item href="#" role="button" onClick={handleLogout}>
