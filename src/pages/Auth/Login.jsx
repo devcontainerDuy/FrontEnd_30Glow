@@ -75,7 +75,7 @@ function Login() {
             }
 
             // Kiểm tra khi popup chuyển hướng về frontend
-            if (popup.location.href.startsWith("http://localhost:5173/")) {
+            if (popup.location.href.startsWith("https://30glow.site/")) {
               const hash = popup.location.hash.substring(1);
               const params = new URLSearchParams(hash);
               console.log(params);
