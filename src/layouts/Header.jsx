@@ -13,9 +13,9 @@ function Header() {
   const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [groupedCategories, setGroupedCategories] = useState({});
-  const services = useSelector((state) => state.serviceCart.items);
   const [collections, setCollections] = useState([]);
-  const [setServices] = useState([]);
+  const services = useSelector((state) => state.serviceCart.items);
+  const [servicess, setServices] = useState([]);
   const [groupedServices, setGroupedServices] = useState({});
   const { user, logout, cartItems } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
@@ -114,8 +114,6 @@ function Header() {
       setGroupedServices(groupedServices);
     }
   }, [categories, collections, services]);
-
-  console.log("user", user);
 
   return (
     <>
@@ -300,7 +298,7 @@ function Header() {
                           <i className="bi bi-box me-2" />
                           Hóa đơn
                         </Dropdown.Item>
-                        <Dropdown.Item as={NavLink} to="/dat-lich">
+                        <Dropdown.Item as={NavLink} to="/lich-dat">
                           <i className="bi bi-calendar-check me-2" />
                           Lịch đặt
                         </Dropdown.Item>
@@ -327,6 +325,10 @@ function Header() {
                         <Dropdown.Divider />
                         <Dropdown.Item as={NavLink} to="/dang-ky">
                           <i className="bi bi-person-add me-2"></i> Đăng ký
+                        </Dropdown.Item>
+                        <Dropdown.Item as={NavLink} to="/lich-dat">
+                          <i className="bi bi-calendar-check me-2" />
+                          Lịch đặt
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>

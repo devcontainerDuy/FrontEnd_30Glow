@@ -67,12 +67,7 @@ function CollectionServices() {
       </Helmet>
       <Headers />
       <Container className="my-3">
-        <BreadcrumbComponent
-          props={[
-            { name: "Dịch vụ", url: "/dich-vu" },
-            { name: collection.name, url: `/bo-suu-tap/${collection.slug}` },
-          ]}
-        />
+        <BreadcrumbComponent props={[{ name: collection.name, url: `/nhom-dich-vu/${collection.slug}` }]} />
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100">
             <div className="ms-2">
@@ -86,7 +81,6 @@ function CollectionServices() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              <option value="sale">Dịch vụ có sale</option>
             </FormSelect>
           </div>
         </div>

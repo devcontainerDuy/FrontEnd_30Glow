@@ -90,7 +90,7 @@ function Index() {
         <meta name="description" content="Danh sách dịch vụ của chúng tôi" />
       </Helmet>
       <Headers />
-      <BreadcrumbComponent props={[{ name: "Dịch vụ", url: "/dich-vu" }]} />
+      <BreadcrumbComponent props={[{ name: "Tất cả dịch vụ", url: "/dich-vu" }]} />
       <Container className="my-3">
         {/* Header và Bộ lọc */}
         <div className="d-flex justify-content-between mb-3">
@@ -105,8 +105,6 @@ function Index() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              <option value="newest">Dịch vụ mới</option>
-              <option value="sale">Dịch vụ có sale</option>
             </FormSelect>
           </div>
         </div>
