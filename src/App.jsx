@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Route, Routes } from "react-router-dom";
 import "notyf/notyf.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,11 +33,17 @@ import ProductDetail from "./pages/Product/ProductDetail";
 import ShoppingCart from "./pages/Cart/ShoppingCart";
 import CollectionServices from "./pages/Service/CollectionService";
 import BrandProducts from "./pages/Brand/BrandProducts";
+import LocationForm from "./pages/Cart/LocationForm";
+import PaymentProduct from "./pages/Cart/PaymentProduct";
+import Post from "./pages/Post/IndexPost";
+import OrderServices from "./pages/Profile/OrderSV";
+import SuccessfulPayment from "./pages/Cart/SuccessfulPayment";
 
 function App() {
   const { user } = useContext(AuthenContext);
   return (
     <Routes>
+      <Route path="/test" element={<LocationForm />} />
       <Route path="/" element={<Home />} />
       <Route path="/gioi-thieu" element={<About />} />
       <Route path="/lien-he" element={<Contact />} />
@@ -49,8 +56,12 @@ function App() {
       <Route path="/dich-vu" element={<Service />} />
       <Route path="/dich-vu/:slug" element={<Show />} />
       <Route path="/nhom-dich-vu/:slug" element={<CollectionServices />} />
+      <Route path="/lich-dat" element={<OrderServices />} />
+      
+      <Route path="/tin-tuc" element={<Post />} />
+      <Route path="/dat-hang-thanh-cong" element={<SuccessfulPayment />} />
 
-      <Route path="/thanh-toan" element={<ThanhToan />} />
+      <Route path="/thanh-toan-sanpham" element={<PaymentProduct />} />
       {!user ? (
         <>
           <Route path="/dang-ky" element={<Register />} />
@@ -67,7 +78,7 @@ function App() {
         </>
       )}
       <Route path="/quen-mat-khau" element={<Forgot />} />
-      <Route path="/doi-mat-khau" element={<ResetPass />} />
+      <Route path="/reset-password/" element={<ResetPass />} />
       <Route path="/*" element={<Notfound />} />
     </Routes>
   );

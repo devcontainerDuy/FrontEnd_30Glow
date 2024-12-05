@@ -1,17 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Table,
-  Button,
-  Form,
-  Alert,
-  Card,
-} from "react-bootstrap";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import { Container, Row, Col, Table, Button, Form, Alert, Card } from "react-bootstrap";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 
@@ -54,9 +45,7 @@ function ThanhToan() {
 
   const fetchProvinces = async () => {
     try {
-      const response = await axios.get(
-        "https://provinces.open-api.vn/api/?depth=2"
-      );
+      const response = await axios.get("https://provinces.open-api.vn/api/?depth=2");
       setProvinces(response.data);
     } catch (error) {
       console.error("Error fetching provinces:", error);
@@ -65,9 +54,7 @@ function ThanhToan() {
 
   const fetchDistricts = async (city) => {
     try {
-      const response = await axios.get(
-        `https://provinces.open-api.vn/api/p/${city}?depth=2`
-      );
+      const response = await axios.get(`https://provinces.open-api.vn/api/p/${city}?depth=2`);
       setDistricts(response.data.districts);
       setWards([]); // Reset wards when a new city is selected
     } catch (error) {
@@ -77,9 +64,7 @@ function ThanhToan() {
 
   const fetchWards = async (district) => {
     try {
-      const response = await axios.get(
-        `https://provinces.open-api.vn/api/d/${district}?depth=2`
-      );
+      const response = await axios.get(`https://provinces.open-api.vn/api/d/${district}?depth=2`);
       setWards(response.data.wards);
     } catch (error) {
       console.error("Error fetching wards:", error);
@@ -107,12 +92,8 @@ function ThanhToan() {
     // Update full address when ward is selected
     else if (name === "ward") {
       const selectedWard = wards.find((ward) => ward.code === value);
-      const selectedDistrict = districts.find(
-        (district) => district.code === formData.district
-      );
-      const selectedCity = provinces.find(
-        (province) => province.code === formData.city
-      );
+      const selectedDistrict = districts.find((district) => district.code === formData.district);
+      const selectedCity = provinces.find((province) => province.code === formData.city);
 
       // Update address only if all are selected
       if (selectedWard && selectedDistrict && selectedCity) {
@@ -204,11 +185,7 @@ function ThanhToan() {
                     <tr key={index}>
                       <td className="text-center">
                         <img
-                          src={
-                            item.image
-                              ? `${import.meta.env.VITE_URL}${item.image}`
-                              : "path/to/default-image.jpg"
-                          }
+                          src={item.image ? `${import.meta.env.VITE_URL}${item.image}` : "path/to/default-image.jpg"}
                           style={{
                             width: "60px",
                             height: "60px",
@@ -228,12 +205,7 @@ function ThanhToan() {
               <Form.Group controlId="discountCode">
                 <Form.Label>Nhập mã giảm giá</Form.Label>
                 <Form className="d-flex">
-                  <Form.Control
-                    type="text"
-                    placeholder="Nhập mã giảm giá"
-                    className="me-2"
-                    style={{ flex: 1, height: "48px" }}
-                  />
+                  <Form.Control type="text" placeholder="Nhập mã giảm giá" className="me-2" style={{ flex: 1, height: "48px" }} />
                   <Button variant="success" style={{ height: "48px" }}>
                     Áp dụng
                   </Button>
@@ -256,9 +228,7 @@ function ThanhToan() {
               </div>
               <div className="d-flex justify-content-between align-items-center text-danger fw-bold">
                 <h5 className="mb-0">Tổng cộng:</h5>
-                <span>
-                  {Intl.NumberFormat("vi-VN").format(totalPrice + PhiGH)} đ
-                </span>
+                <span>{Intl.NumberFormat("vi-VN").format(totalPrice + PhiGH)} đ</span>
               </div>
             </Card>
 
@@ -290,14 +260,7 @@ function ThanhToan() {
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label>Họ và tên</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="fullName"
-                  placeholder="Nhập họ và tên"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  required
-                />
+                <Form.Control type="text" name="fullName" placeholder="Nhập họ và tên" value={formData.fullName} onChange={handleChange} required />
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -317,13 +280,7 @@ function ThanhToan() {
                 <>
                   <Form.Group className="mb-3">
                     <Form.Label>Tỉnh/Thành phố</Form.Label>
-                    <select
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      required
-                      className="form-control"
-                    >
+                    <select name="city" value={formData.city} onChange={handleChange} required className="form-control">
                       <option value="">Vui lòng chọn</option>
                       {provinces.map((province) => (
                         <option key={province.code} value={province.code}>
@@ -335,13 +292,7 @@ function ThanhToan() {
 
                   <Form.Group className="mb-3">
                     <Form.Label>Quận/Huyện</Form.Label>
-                    <select
-                      name="district"
-                      value={formData.district}
-                      onChange={handleChange}
-                      required
-                      className="form-control"
-                    >
+                    <select name="district" value={formData.district} onChange={handleChange} required className="form-control">
                       <option value="">Vui lòng chọn</option>
                       {districts.map((district) => (
                         <option key={district.code} value={district.code}>
@@ -353,13 +304,7 @@ function ThanhToan() {
 
                   <Form.Group className="mb-3">
                     <Form.Label>Phường/Xã</Form.Label>
-                    <select
-                      name="ward"
-                      value={formData.ward}
-                      onChange={handleChange}
-                      required
-                      className="form-control"
-                    >
+                    <select name="ward" value={formData.ward} onChange={handleChange} required className="form-control">
                       <option value="">Vui lòng chọn</option>
                       {wards.map((ward) => (
                         <option key={ward.code} value={ward.code}>
@@ -373,38 +318,17 @@ function ThanhToan() {
 
               <Form.Group className="mb-3">
                 <Form.Label>Số điện thoại</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="phone"
-                  placeholder="Nhập số điện thoại"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
+                <Form.Control type="text" name="phone" placeholder="Nhập số điện thoại" value={formData.phone} onChange={handleChange} required />
               </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  placeholder="Nhập email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
+                <Form.Control type="email" name="email" placeholder="Nhập email" value={formData.email} onChange={handleChange} required />
               </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Ghi chú</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  name="note"
-                  placeholder="Nhập ghi chú"
-                  value={formData.note}
-                  onChange={handleChange}
-                  rows={3}
-                />
+                <Form.Control as="textarea" name="note" placeholder="Nhập ghi chú" value={formData.note} onChange={handleChange} rows={3} />
               </Form.Group>
 
               <Button

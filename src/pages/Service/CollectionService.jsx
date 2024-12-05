@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, FormSelect } from "react-bootstrap";
-import Footers from "../../layouts/Footer";
-import Headers from "../../layouts/Header";
+import Footers from "@layouts/Footer";
+import Headers from "@layouts/Header";
 import CardService from "../../components/CardService";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -19,7 +19,7 @@ function CollectionServices() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [servicesPerPage] = useState(10);
+  const [servicesPerPage] = useState(8);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -67,12 +67,7 @@ function CollectionServices() {
       </Helmet>
       <Headers />
       <Container className="my-3">
-        <BreadcrumbComponent
-          props={[
-            { name: "Dịch vụ", url: "/dich-vu" },
-            { name: collection.name, url: `/bo-suu-tap/${collection.slug}` },
-          ]}
-        />
+        <BreadcrumbComponent props={[{ name: collection.name, url: `/nhom-dich-vu/${collection.slug}` }]} />
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100">
             <div className="ms-2">
@@ -86,7 +81,6 @@ function CollectionServices() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              <option value="sale">Dịch vụ có sale</option>
             </FormSelect>
           </div>
         </div>
@@ -95,7 +89,7 @@ function CollectionServices() {
         ) : error ? (
           <p>Có lỗi xảy ra: {error.message}</p>
         ) : (
-          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             {paginatedServices.length > 0 ? (
               paginatedServices.map((service) => <CardService key={service.id} {...service} />)
             ) : (

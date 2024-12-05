@@ -1,14 +1,14 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, Badge } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { A11y, Autoplay, FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/reducers/shoppingCartSlice";

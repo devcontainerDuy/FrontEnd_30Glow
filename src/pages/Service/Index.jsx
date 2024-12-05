@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
-import Footers from "../../layouts/Footer";
-import Headers from "../../layouts/Header";
+import Footers from "@layouts/Footer";
+import Headers from "@layouts/Header";
 import CardService from "../../components/CardService";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import Paginated from "../../components/Paginated";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -15,7 +15,7 @@ function Index() {
   const [allServices, setAllServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [page, setPage] = useState(1);
-  const [servicesPerPage] = useState(10);
+  const [servicesPerPage] = useState(8);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -90,7 +90,7 @@ function Index() {
         <meta name="description" content="Danh sách dịch vụ của chúng tôi" />
       </Helmet>
       <Headers />
-      <BreadcrumbComponent props={[{ name: "Dịch vụ", url: "/dich-vu" }]} />
+      <BreadcrumbComponent props={[{ name: "Tất cả dịch vụ", url: "/dich-vu" }]} />
       <Container className="my-3">
         {/* Header và Bộ lọc */}
         <div className="d-flex justify-content-between mb-3">
@@ -105,8 +105,6 @@ function Index() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              <option value="newest">Dịch vụ mới</option>
-              <option value="sale">Dịch vụ có sale</option>
             </FormSelect>
           </div>
         </div>
@@ -117,7 +115,7 @@ function Index() {
         ) : error ? (
           <p>Có lỗi xảy ra: {error.message}</p>
         ) : (
-          <Row className="row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-md-3 row-cols-sm-2 g-4">
+          <Row className="row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             {paginatedServices.length > 0 ? paginatedServices.map((service, index) => <CardService key={index} {...service} />) : <h3 className="text-center">Không có dịch vụ</h3>}
           </Row>
         )}

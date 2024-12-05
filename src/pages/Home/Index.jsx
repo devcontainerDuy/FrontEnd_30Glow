@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Footer from "../../layouts/Footer";
-import Header from "../../layouts/Header";
+import Footer from "@layouts/Footer";
+import Header from "@layouts/Header";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -71,28 +71,30 @@ function Index() {
 
   const postList = [
     {
-      name: "Bài viết số 1",
-      slug: "bai-viet-so-1",
-      image: "./src/assets/images/blog/01.webp",
-      createdAt: "2024-10-19",
-      author: "Nguyễn Văn A",
-      content: "Nội dung tóm tắt của bài viết số 1...",
+      name: "Làm thế nào để chọn dầu gội phù hợp với da đầu?",
+      slug: "chon-dau-goi-phu-hop",
+      image: "https://i.pinimg.com/736x/77/ac/25/77ac25c3b4b1cc810cc0afe803923ae2.jpg",
+      createdAt: "2024-11-02",
+      author: "Lê Minh Hằng",
+      content: "Chọn dầu gội đúng không chỉ giúp làm sạch da đầu mà còn cải thiện sức khỏe tóc đáng kể. Hãy cùng tìm hiểu cách xác định loại da đầu và chọn sản phẩm phù hợp nhất.",
     },
     {
-      name: "Hướng dẫn học React",
-      slug: "huong-dan-hoc-react",
-      image: "./src/assets/images/blog/02.webp",
-      createdAt: "2024-10-18",
-      author: "Trần Thị B",
-      content: "React là một thư viện JavaScript...",
+      name: "Khám phá dịch vụ chăm sóc da chuyên sâu tại spa",
+      slug: "cham-soc-da-chuyen-sau-tai-spa",
+      image: "https://i.pinimg.com/736x/13/95/30/13953045964276a03b5bf63ca6e72813.jpg",
+      createdAt: "2024-10-28",
+      author: "Trần Quỳnh Hoa",
+      content:
+        "Dành thời gian chăm sóc da tại các spa không chỉ mang lại làn da khỏe mạnh mà còn giúp bạn thư giãn sau những ngày làm việc căng thẳng. Cùng khám phá các liệu trình làm đẹp da nổi bật tại các spa uy tín.",
     },
     {
-      name: "Khám phá thế giới lập trình",
-      slug: "kham-pha-the-gioi-lap-trinh",
-      image: "./src/assets/images/blog/03.webp",
-      createdAt: "2024-10-17",
-      author: "Lê Văn C",
-      content: "Lập trình là một lĩnh vực thú vị...",
+      name: "Bí quyết chăm sóc tóc nhuộm để luôn óng mượt",
+      slug: "bi-quyet-cham-soc-toc-nhuom",
+      image: "https://i.pinimg.com/736x/f8/66/9c/f8669caae105949e4b20d9ee701e4dc4.jpg",
+      createdAt: "2024-11-05",
+      author: "Phạm Hải Yến",
+      content:
+        "Tóc nhuộm rất dễ bị hư tổn nếu không được chăm sóc đúng cách. Trong bài viết này, chúng tôi sẽ chia sẻ những mẹo nhỏ giúp tóc nhuộm luôn bền màu và bóng khỏe, từ cách chọn dầu gội đến sản phẩm dưỡng tóc phù hợp.",
     },
   ];
   return (
@@ -196,9 +198,11 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
           </div>
         </div>
-        <Row className="row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+        <Row className="row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-4 g-4">
           {serviceIndex && serviceIndex.length > 0 ? (
-            serviceIndex.map((item, index) => <CardService key={index} {...item} />)
+            serviceIndex.slice(0, 4).map((item, index) => (
+              <CardService key={index} {...item} />
+            ))
           ) : (
             <Col xs="12" className="mx-auto w-100">
               <h3 className="text-center pt-3">Không có dịch vụ</h3>
@@ -217,7 +221,7 @@ function Index() {
         </div>
         <Swiper
           modules={[Navigation, Pagination, Autoplay, A11y]}
-          slidesPerView={2} // Hiển thị 2 sản phẩm mỗi lần 
+          slidesPerView={1}
           spaceBetween={20}
           loop={true}
           autoplay={{
@@ -225,12 +229,12 @@ function Index() {
             disableOnInteraction: false,
           }}
           navigation={true}
-
           breakpoints={{
-            640: { slidesPerView: 2, spaceBetween: 10 },
-            768: { slidesPerView: 3, spaceBetween: 15 },
+            // 640: { slidesPerView: 2, spaceBetween: 10 },
+            768: { slidesPerView: 2, spaceBetween: 15 },
+            // 992: { slidesPerView: 3, spaceBetween: 20 },
             1024: { slidesPerView: 4, spaceBetween: 20 },
-            1200: { slidesPerView: 5, spaceBetween: 20 },
+            1200: { slidesPerView: 4, spaceBetween: 20 },
           }}
         >
           {productIndex.length > 0 ? (
@@ -251,30 +255,30 @@ function Index() {
       {/* Start banner section */}
       <Container className="my-5">
         <Swiper
-        style={{
-          "--swiper-navigation-color": "#000000",
-          "border-radius": "5px"
-        }}
+          style={{
+            "--swiper-navigation-color": "#000000",
+            "border-radius": "5px",
+          }}
           slidesPerView={1}
           spaceBetween={30}
           loop={true}
           navigation={true}
-          modules={[ Navigation]}
+          modules={[Navigation]}
           className="mySwiper"
         >
           <SwiperSlide>
             <Link to="/san-pham">
-            <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
+              <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
             <Link to="/san-pham">
-            <img src="https://daugoiduoclieunguyenxuan.vn/wp-content/uploads/2022/05/Banner-web-NX_1920x650-1.jpg" className="img-fluid" alt="..." />
+              <img src="https://daugoiduoclieunguyenxuan.vn/wp-content/uploads/2022/05/Banner-web-NX_1920x650-1.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
             <Link to="/san-pham">
-            <img src="https://www.beautycos.co.uk/media/amasty/shopby/option_images/loreal_paris.jpg" className="img-fluid" alt="..." />
+              <img src="https://www.beautycos.co.uk/media/amasty/shopby/option_images/loreal_paris.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
         </Swiper>
@@ -289,7 +293,7 @@ function Index() {
           </div>
         </Row>
 
-        <Row className="row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
+        <Row className="row-cols-2 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
           {postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className="text-center">Không có bài đăng</h3>}
         </Row>
         {/*end row*/}

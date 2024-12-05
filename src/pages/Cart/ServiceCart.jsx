@@ -1,24 +1,15 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
-import Header from "../../layouts/Header";
+import Header from "@layouts/Header";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "../../layouts/Footer";
+import Footer from "@layouts/Footer";
 import { Helmet } from "react-helmet";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 import axios from "axios";
 import { clearServiceCart, removeFromServiceCart } from "../../store/reducers/serviceCartSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 function ServiceCart() {
-  const notyf = new Notyf({
-    position: {
-      x: "right",
-      y: "top",
-    },
-  });
-
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -36,11 +27,12 @@ function ServiceCart() {
 
   const handleRemoveService = (id) => {
     dispatch(removeFromServiceCart(id));
+        window.notyf.success("Đã xóa dịch vụ!");
   };
 
   const handleClearServices = () => {
     dispatch(clearServiceCart());
-    notyf.success("Đã xóa tất cả dịch vụ!");
+    window.notyf.success("Đã xóa tất cả dịch vụ!");
   };
 
   useEffect(() => {}, [services]);
@@ -59,6 +51,10 @@ function ServiceCart() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  useEffect(() => {
+    const newTotal = services.reduce((acc, item) => acc + item.price, 0);
+    setTotal(newTotal);
+  }, [services]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -106,7 +102,7 @@ function ServiceCart() {
           "Content-Type": "application/json",
         },
       });
-      notyf.success("Đặt lịch hẹn thành công!");
+      window.notyf.success("Đặt lịch hẹn thành công!");
 
       dispatch(clearServiceCart());
 
@@ -115,7 +111,7 @@ function ServiceCart() {
       }, 1000);
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
-      notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+      window.notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
     }
   };
 
@@ -158,7 +154,7 @@ function ServiceCart() {
                   <h5 className="mb-2" style={{ textAlign: "center" }}>
                     <i className="bi bi-calendar-heart , fs-1"></i> <hr></hr>
                     <strong style={{ color: "red" }}>
-                      Bạn chưa có lịch đặt nào. <Link to="/san-pham">Đặt lịch ngay!!</Link>
+                      Bạn chưa có lịch đặt nào. <Link to="/dich-vu">Đặt lịch ngay!!</Link>
                     </strong>
                   </h5>
                 </div>
@@ -204,21 +200,11 @@ function ServiceCart() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <button
-                    onClick={chuyenTrang}
-                    style={{
-                      margin: "10px",
-                      padding: "10px 20px",
-                      width: "490px",
-                      backgroundColor: "blue",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Đặt hẹn ngay !
-                  </button>
+                  <Button variant="primary" className="w-100 mt-3">
+                    <Link to="/dich-vu" className="text-decoration-none text-light">
+                      Tiếp tục mua hàng
+                    </Link>
+                  </Button>
                 </Form>
               </div>
             </Col>
