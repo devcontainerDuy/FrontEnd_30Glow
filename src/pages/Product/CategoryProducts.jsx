@@ -7,6 +7,7 @@ import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Col, Container, Row, FormSelect } from "react-bootstrap";
 import BreadcrumbComponent from "@components/BreadcrumbComponent";
+import Paginated from "../../components/Paginated";
 
 function CategoryProducts() {
   const { slug } = useParams();
@@ -15,16 +16,21 @@ function CategoryProducts() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [filter, setFilter] = useState("default");
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
 
-  // Lấy dữ liệu danh mục và sản phẩm
+  const PRODUCTS_PER_PAGE = 8; // Số sản phẩm mỗi trang
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(import.meta.env.VITE_API_URL + "/categories/" + slug);
-        setCategory(response.data.data);
-        setProducts(response.data.data.products);
-        setFilteredProducts(response.data.data.products); // Đặt sản phẩm lọc mặc định
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/categories/${slug}?page=${page}`);
+        const data = response.data.data;
+        setCategory(data);
+        setProducts(data.products);
+        setFilteredProducts(data.products);
+        setTotalPage(Math.ceil(data.products.length / PRODUCTS_PER_PAGE)); // Tổng số trang
         setLoading(false);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
@@ -32,9 +38,8 @@ function CategoryProducts() {
       }
     };
     fetchProducts();
-  }, [slug]);
+  }, [slug, page]);
 
-  // Xử lý thay đổi bộ lọc
   const handleFilterChange = (e) => {
     const selectedFilter = e.target.value;
     setFilter(selectedFilter);
@@ -46,10 +51,18 @@ function CategoryProducts() {
       sortedProducts.sort((a, b) => b.price - a.price);
     } else if (selectedFilter === "low-to-high") {
       sortedProducts.sort((a, b) => a.price - b.price);
-    } else if (selectedFilter === "newest") {
-      sortedProducts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     }
     setFilteredProducts(sortedProducts);
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const getProductsByPage = () => {
+    const start = (page - 1) * PRODUCTS_PER_PAGE;
+    const end = start + PRODUCTS_PER_PAGE;
+    return filteredProducts.slice(start, end);
   };
 
   return (
@@ -59,7 +72,7 @@ function CategoryProducts() {
         <meta name="description" content="meo meo meo" />
       </Helmet>
       <Header />
-      <Container className="my-3">
+      <Container className="my-3 pb-3">
         <BreadcrumbComponent
           props={[
             { name: "Sản phẩm", url: "/san-pham" },
@@ -72,14 +85,12 @@ function CategoryProducts() {
               <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Danh mục: {category.name}</h3>
             </div>
           </div>
-          {/* Bộ lọc sản phẩm */}
           <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
             <FormSelect value={filter} onChange={handleFilterChange} style={{ width: "200px" }}>
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
-              {/* <option value="newest">Sản phẩm mới</option> */}
               <option value="sale">Sản phẩm có sale</option>
             </FormSelect>
           </div>
@@ -87,15 +98,20 @@ function CategoryProducts() {
         {loading ? (
           <p>Đang tải sản phẩm...</p>
         ) : (
-          <Row className="row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => <CardProduct key={product.id} {...product} />)
-            ) : (
-              <Col xs="12" className="mx-auto w-100">
-                <h3 className="text-center pt-3">Không có sản phẩm nào thuộc danh mục này.</h3>
-              </Col>
+          <>
+            <Row className="row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">
+              {getProductsByPage().length > 0 ? (
+                getProductsByPage().map((product) => <CardProduct key={product.id} {...product} />)
+              ) : (
+                <Col xs="12" className="mx-auto w-100">
+                  <h3 className="text-center pt-3">Không có sản phẩm nào thuộc danh mục này.</h3>
+                </Col>
+              )}
+            </Row>
+            {filteredProducts.length > PRODUCTS_PER_PAGE && (
+              <Paginated current={page} total={totalPage} handle={handlePageChange} />
             )}
-          </Row>
+          </>
         )}
       </Container>
       <Footer />
