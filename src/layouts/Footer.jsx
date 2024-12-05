@@ -57,28 +57,11 @@ function Footer() {
               <div className="col">
                 <div className="footer-widget-9">
                   <h5 className="mb-3 fw-bold">Theo dõi chúng tôi</h5>
-                  {/* <div className="social-link d-flex align-items-center gap-2">
-                    <a>
-                      <i className="bi bi-facebook" />
-                    </a>
-                    <a>
-                      <i className="bi bi-twitter" />
-                    </a>
-                    <a>
-                      <i className="bi bi-linkedin" />
-                    </a>
-                    <a>
-                      <i className="bi bi-youtube" />
-                    </a>
-                    <a>
-                      <i className="bi bi-instagram" />
-                    </a>
-                  </div> */}
                   {/* <Row className="justify-content-center"> */}
                     {/* <Col lg={8}> */}
                       <div className="ratio ratio-16x9 mb-2 mt-2">
                         <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.7270395810484!2d106.72730731480036!3d10.832619692278672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175274d65c5d21b%3A0x2998b5877b545b04!2zVHLGsOG7nW5nIENhbyDEkMOgbmggRlBUIFBvbHl0ZWNobmlj!5e0!3m2!1sen!2s!4v1697964429726!5m2!1sen!2s"
+                          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4659.852175036253!2d106.62774942730233!3d10.853109682813123!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752b6c59ba4c97%3A0x535e784068f1558b!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1sen!2sus!4v1733378756715!5m2!1sen!2sus"
                           width="600"
                           height="450"
                           style={{ border: 0 }}

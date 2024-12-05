@@ -37,6 +37,8 @@ import LocationForm from "./pages/Cart/LocationForm";
 import PaymentProduct from "./pages/Cart/PaymentProduct";
 import Post from "./pages/Post/IndexPost";
 import OrderServices from "./pages/Profile/OrderSV";
+import SuccessfulPayment from "./pages/Cart/SuccessfulPayment";
+
 function App() {
   const { user } = useContext(AuthenContext);
   return (
@@ -57,6 +59,7 @@ function App() {
       <Route path="/lich-dat" element={<OrderServices />} />
       
       <Route path="/tin-tuc" element={<Post />} />
+      <Route path="/dat-hang-thanh-cong" element={<SuccessfulPayment />} />
 
       <Route path="/thanh-toan-sanpham" element={<PaymentProduct />} />
       {!user ? (

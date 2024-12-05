@@ -175,13 +175,16 @@ function Header() {
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
                       {Object.values(groupedCategories).map((group, index) => (
                         <Col key={index}>
-                          <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent?.slug}`}>
+                          {/* <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent?.slug}`}>
+                            {group.parent?.name}
+                          </Dropdown.Header> */}
+                          <Dropdown.Header as={NavLink} className="text-decoration-none">
                             {group.parent?.name}
                           </Dropdown.Header>
                           {group.children.map((child) => (
-                            <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
+                          <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
                               {child?.name}
-                            </Dropdown.Item>
+                          </Dropdown.Item>
                           ))}
                         </Col>
                       ))}
@@ -196,12 +199,6 @@ function Header() {
                 {/* end dropdown */}
 
                 <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
-                  {/* <NavDropdown.Item as={NavLink} to="/thuong-hieu">
-                    Thương hiệu
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to="/thuong-hieu">
-                    Thương hiệu 2
-                  </NavDropdown.Item> */}
                   <Container fluid style={{ width: "35rem" }}>
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
                       {brands.map((brand) => (
@@ -212,13 +209,13 @@ function Header() {
                         </Col>
                       ))}
                     </Row>
-                    <Row className="g-0">
+                    {/* <Row className="g-0">
                       <Col>
                         <Dropdown.Header as={NavLink} className="text-decoration-none text-center border-top pt-2" to={"/thuong-hieu"}>
                           Tất cả thương hiệu
                         </Dropdown.Header>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </Container>
                 </NavDropdown>
                 <Nav.Item>
