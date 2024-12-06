@@ -200,9 +200,7 @@ function Index() {
         </div>
         <Row className="row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-4 g-4">
           {serviceIndex && serviceIndex.length > 0 ? (
-            serviceIndex.slice(0, 4).map((item, index) => (
-              <CardService key={index} {...item} />
-            ))
+            serviceIndex.slice(0, 4).map((item, index) => <CardService key={index} {...item} />)
           ) : (
             <Col xs="12" className="mx-auto w-100">
               <h3 className="text-center pt-3">Không có dịch vụ</h3>
@@ -219,36 +217,38 @@ function Index() {
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM BÁN CHẠY</h3>
           </div>
         </div>
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay, A11y]}
-          slidesPerView={1}
-          spaceBetween={20}
-          loop={true}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          navigation={true}
-          breakpoints={{
-            // 640: { slidesPerView: 2, spaceBetween: 10 },
-            768: { slidesPerView: 2, spaceBetween: 15 },
-            // 992: { slidesPerView: 3, spaceBetween: 20 },
-            1024: { slidesPerView: 4, spaceBetween: 20 },
-            1200: { slidesPerView: 4, spaceBetween: 20 },
-          }}
-        >
+        <Row>
           {productIndex.length > 0 ? (
-            productIndex.map((product, index) => (
-              <SwiperSlide key={index}>
-                <CardProduct {...product} />
-              </SwiperSlide>
-            ))
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, A11y]}
+              slidesPerView={1}
+              spaceBetween={20}
+              loop={true}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              navigation={true}
+              breakpoints={{
+                // 640: { slidesPerView: 2, spaceBetween: 10 },
+                768: { slidesPerView: 2, spaceBetween: 15 },
+                // 992: { slidesPerView: 3, spaceBetween: 20 },
+                1024: { slidesPerView: 4, spaceBetween: 20 },
+                1200: { slidesPerView: 4, spaceBetween: 20 },
+              }}
+            >
+              {productIndex.map((product, index) => (
+                <SwiperSlide key={index}>
+                  <CardProduct {...product} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           ) : (
-            <SwiperSlide>
+            <Col xs="12">
               <h3 className="text-center pt-3">Không có sản phẩm</h3>
-            </SwiperSlide>
+            </Col>
           )}
-        </Swiper>
+        </Row>
       </Container>
       {/* End product section */}
 

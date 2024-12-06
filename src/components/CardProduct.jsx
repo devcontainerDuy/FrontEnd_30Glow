@@ -7,7 +7,7 @@ export default function CardProduct({ name, slug, price, discount, gallery, cate
   return (
     <>
       <Col>
-        <Card className="card h-100">
+        <Card className="h-100" style={{ minHeight: "458px" }}>
           <div className="position-relative overflow-hidden">
             {discount > 0 ? (
               <div className="d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0">
@@ -19,13 +19,13 @@ export default function CardProduct({ name, slug, price, discount, gallery, cate
               </div>
             ) : null}
             <Link to={`/san-pham/${slug}`}>
-              <Image src={import.meta.env.VITE_URL + (gallery?.find((item) => item.status === 1)?.image || "")} width={100} height={300} className="card-img-top" fluid alt={slug} />
+              <Image src={import.meta.env.VITE_URL + (gallery || "")} width={100} height={300} className="card-img-top" fluid alt={slug} />
             </Link>
           </div>
           <Card.Body>
             <div className="text-start">
               <Link to={`/san-pham/${slug}`} className="text-decoration-none link-underline-opacity-100-hover">
-                <h6 className="mb-1 fw-bold text-truncate" title={name}>
+                <h6 className="mb-1 fw-bold text-title" title={name}>
                   {name}
                 </h6>
               </Link>
@@ -68,7 +68,8 @@ export default function CardProduct({ name, slug, price, discount, gallery, cate
 CardProduct.propTypes = {
   name: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
-  gallery: PropTypes.array.isRequired,
+  gallery: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   discount: PropTypes.string.isRequired,
+  category: PropTypes.object,
 };

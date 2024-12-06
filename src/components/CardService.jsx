@@ -7,7 +7,7 @@ export default function CardService({ name, slug, price, compare_price, discount
 
   return (
     <Col className="d-flex align-items-stretch mb-4">
-      <Card className="card h-100">
+      <Card className="h-100" style={{ minHeight: "358px" }}>
         <div className="position-relative overflow-hidden">
           {sale > 0 && (
             <div className="d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0">
@@ -18,26 +18,14 @@ export default function CardService({ name, slug, price, compare_price, discount
               </p>
             </div>
           )}
-          <div className="d-flex justify-content-center align-items-center">
-            <Link to={`/dich-vu/${slug}`}>
-              <Image
-                src={`${import.meta.env.VITE_URL}${image}`}
-                className="card-img-top w-100"
-                fluid
-                alt={name}
-                style={{
-                  objectFit: "cover",
-                  height: "100%",
-                  width: "100%",
-                }}
-              />
-            </Link>
-          </div>
+          <Link to={`/dich-vu/${slug}`}>
+            <Image src={`${import.meta.env.VITE_URL}${image}`} className="card-img-top" fluid alt={name} style={{ minHeight: "332px" }} />
+          </Link>
         </div>
-        <Card.Body className="d-flex flex-column">
-          <div className="text-start flex-grow-1">
+        <Card.Body>
+          <div className="text-start">
             <Link to={`/dich-vu/${slug}`} className="text-decoration-none link-underline-opacity-100-hover">
-              <h6 className="mb-1 fw-bold text-truncate" title={name}>
+              <h6 className="mb-1 fw-bold text-title" title={name}>
                 {name}
               </h6>
             </Link>

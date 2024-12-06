@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Card, Col, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function CardPost({ name, slug, image, createdAt, author, content }) {
+export default function CardPost({ name, slug, image, createdAt, content }) {
   return (
     <Col className="col-12 col-md-6">
       <Card className="h-100">
