@@ -257,7 +257,7 @@ function Index() {
         <Swiper
           style={{
             "--swiper-navigation-color": "#000000",
-            "border-radius": "5px",
+            "border-radius": "12px",
           }}
           slidesPerView={1}
           spaceBetween={30}
@@ -267,17 +267,17 @@ function Index() {
           className="mySwiper"
         >
           <SwiperSlide>
-            <Link to="/san-pham">
+            <Link to="/thuong-hieu/la-roche-posay">
               <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
-            <Link to="/san-pham">
+            <Link to="/thuong-hieu/nguyen-xuan">
               <img src="https://daugoiduoclieunguyenxuan.vn/wp-content/uploads/2022/05/Banner-web-NX_1920x650-1.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
-            <Link to="/san-pham">
+            <Link to="/thuong-hieu/loreal">
               <img src="https://www.beautycos.co.uk/media/amasty/shopby/option_images/loreal_paris.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
