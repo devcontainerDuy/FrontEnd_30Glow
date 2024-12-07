@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "@layouts/Header";
 import Footer from "@layouts/Footer";
 import axios from "axios";
@@ -10,10 +10,19 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuthenContext from "@context/AuthenContext";
 
 function ProductPayment() {
-  const { cartItems } = useAuthenContext();
+  const navigate = useNavigate();
+  const { cartItems, user, token } = useAuthenContext();
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+  const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(0);
 
   const subtotal = cartItems.reduce((sum, item) => {
     const price = item.product?.discount > 0 ? item.product?.price - (item.product?.price * item.product?.discount) / 100 : item.product?.price;
@@ -28,7 +37,7 @@ function ProductPayment() {
     provinceId: "",
     districtId: "",
     wardId: "",
-    addressDetail: "", // Thêm trường địa chỉ chi tiết
+    houseNumber: "",
   });
 
   const [loading, setLoading] = useState({
@@ -36,6 +45,14 @@ function ProductPayment() {
     districts: false,
     wards: false,
   });
+
+  useEffect(() => {
+    setUserInfo(user);
+    if (user.address) {
+      const addressParts = user?.address?.split(", ");
+      setFormData({ houseNumber: addressParts[0] || "" });
+    }
+  }, [user]);
 
   // Fetch Provinces
   useEffect(() => {
@@ -111,8 +128,42 @@ function ProductPayment() {
     const wardName = wards.find((w) => w.id === formData.wardId)?.name || "";
 
     // Ghép chuỗi địa chỉ hoàn chỉnh
-    const fullAddress = `${formData.addressDetail}, ${wardName}, ${districtName}, ${provinceName}`;
-    console.log("Địa chỉ hoàn chỉnh:", fullAddress);
+    const fullAddress = `${formData.houseNumber}, ${wardName}, ${districtName}, ${provinceName}`;
+    console.log(paymentMethod);
+
+    axios
+      .post(
+        import.meta.env.VITE_API_URL + "/bills",
+        {
+          name: userInfo.name,
+          email: userInfo.email,
+          phone: userInfo.phone,
+          address: fullAddress,
+          note: note,
+          payment_method: paymentMethod,
+          payment_status: 0,
+          total: total,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.check === true) {
+          if (paymentMethod == 0) {
+            navigate("/dat-hang-thanh-cong");
+          } else if (paymentMethod == 1) {
+            navigate("/dat-hang?orderId=" + response.data.uid + "&orderTotal=" + response.data.total);
+          }
+        } else {
+          window.notyf.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        window.notyf.error(error.response.data.message);
+      });
   };
   return (
     <>
@@ -130,13 +181,13 @@ function ProductPayment() {
                 <Col md={6}>
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Họ và tên</Form.Label>
-                    <Form.Control type="text" placeholder="Nhập họ và tên" required />
+                    <Form.Control type="text" value={userInfo.name} onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })} placeholder="Nhập họ và tên" required />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group className="mb-3" controlId="phone">
                     <Form.Label>Số điện thoại</Form.Label>
-                    <Form.Control type="tel" placeholder="Nhập số điện thoại" required />
+                    <Form.Control type="text" value={userInfo.phone} onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} placeholder="Nhập số điện thoại" required />
                   </Form.Group>
                 </Col>
               </Row>
@@ -196,15 +247,15 @@ function ProductPayment() {
                 </Col>
               </Row>
 
-              <Form.Group className="mb-3" controlId="addressDetail">
+              <Form.Group className="mb-3" controlId="houseNumber">
                 <Form.Label>Địa chỉ</Form.Label>
-                <Form.Control type="text" placeholder="Số nhà, tên đường..." value={formData.addressDetail} onChange={handleInputChange} required />
+                <Form.Control type="text" placeholder="Số nhà, tên đường..." value={formData.houseNumber} onChange={handleInputChange} required />
               </Form.Group>
 
               {/* Ghi chú đơn hàng */}
               <Form.Group className="mb-3" controlId="formNote">
                 <Form.Label>Ghi chú đơn hàng</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Thêm ghi chú nếu có" />
+                <Form.Control as="textarea" rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Thêm ghi chú nếu có" />
               </Form.Group>
 
               {/* Hình thức thanh toán */}
@@ -223,6 +274,7 @@ function ProductPayment() {
                     id="paymentCOD"
                     className="mb-2"
                     defaultChecked
+                    onChange={() => setPaymentMethod(0)}
                   />
                   <Form.Check
                     type="radio"
@@ -235,6 +287,7 @@ function ProductPayment() {
                     name="paymentMethod"
                     id="paymentBankTransfer"
                     className="mb-2"
+                    onChange={() => setPaymentMethod(1)}
                   />
                 </div>
               </Form.Group>
@@ -255,9 +308,9 @@ function ProductPayment() {
                   </Col>
                   <Col xs={9}>
                     <div className="d-flex">
-                      {/* <Link to={`/san-pham/${items.product?.slug}`} className="text-decoration-none h6 link-hover-underline link-dark "> */}
-                      <span className="h6 link-dark">{items.product?.name || "Product Name"}</span>
-                      {/* </Link> */}
+                      <Link to={`/san-pham/${items.product?.slug}`} className="text-decoration-none h6 link-hover-underline link-dark ">
+                        <span className="h6 link-dark">{items.product?.name || "Product Name"}</span>
+                      </Link>
                       <div className="ms-2">{items.product.discount > 0 && <span className="badge text-bg-danger "> {items.product?.discount} %</span>}</div>
                     </div>
                     {items.product?.discount > 0 ? (

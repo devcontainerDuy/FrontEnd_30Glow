@@ -38,9 +38,16 @@ import PaymentProduct from "./pages/Cart/PaymentProduct";
 import Post from "./pages/Post/IndexPost";
 import OrderServices from "./pages/Profile/OrderSV";
 import SuccessfulPayment from "./pages/Cart/SuccessfulPayment";
+import SuccessfulOrder from "./pages/Cart/SuccessfulOrder";
+import OrderSuccessful from "./pages/Cart/OrderSuccessful";
 
 function App() {
   const { user } = useContext(AuthenContext);
+
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 100);
+
   return (
     <Routes>
       <Route path="/test" element={<LocationForm />} />
@@ -48,7 +55,6 @@ function App() {
       <Route path="/gioi-thieu" element={<About />} />
       <Route path="/lien-he" element={<Contact />} />
       <Route path="/dat-lich" element={<ServiceCart />} />
-      <Route path="/thanh-toan-san-pham" element={<ProductPayment />} />
       <Route path="/san-pham" element={<Product />} />
       <Route path="/thuong-hieu" element={<Brand />} />
       <Route path="/thuong-hieu/:slug" element={<BrandProducts />} />
@@ -57,10 +63,10 @@ function App() {
       <Route path="/dich-vu/:slug" element={<Show />} />
       <Route path="/nhom-dich-vu/:slug" element={<CollectionServices />} />
       <Route path="/lich-dat" element={<OrderServices />} />
-      
       <Route path="/tin-tuc" element={<Post />} />
-      <Route path="/dat-hang-thanh-cong" element={<SuccessfulPayment />} />
-
+      <Route path="/dat-hang" element={<OrderSuccessful />} />
+      <Route path="/dat-hang-thanh-cong" element={<SuccessfulOrder />} />
+      <Route path="/thanh-toan-thanh-cong" element={<SuccessfulPayment />} />
       <Route path="/thanh-toan-sanpham" element={<PaymentProduct />} />
       {!user ? (
         <>
@@ -75,11 +81,14 @@ function App() {
           <Route path="/hoa-don" element={<Order />} />
           <Route path="/san-pham/:slug" element={<ProductDetail />} />
           <Route path="/gio-hang" element={<ShoppingCart />} />
+          <Route path="/thanh-toan-san-pham" element={<ProductPayment />} />
         </>
       )}
       <Route path="/quen-mat-khau" element={<Forgot />} />
-      <Route path="/reset-password/" element={<ResetPass />} />
-      <Route path="/*" element={<Notfound />} />
+      <Route path="/thay-doi-mat-khau/" element={<ResetPass />} />
+      {setInterval(() => {
+        <Route path="/*" element={<Notfound />} />;
+      }, 1000)}
     </Routes>
   );
 }

@@ -39,7 +39,7 @@ function Account() {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`${import.meta.env.VITE_API_URL}/customers/${user.uid}`, changedFields, { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/customers/edit`, changedFields, { headers: { Authorization: `Bearer ${token}` } });
       window.notyf.success(response.data.message);
       setIsEditing(false);
     } catch (error) {
