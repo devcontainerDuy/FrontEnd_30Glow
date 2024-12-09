@@ -65,8 +65,10 @@ function App() {
       <Route path="/lich-dat" element={<OrderServices />} />
       <Route path="/tin-tuc" element={<Post />} />
       <Route path="/dat-hang" element={<OrderSuccessful />} />
+      {/* Thanh toán VNPay */}
       <Route path="/dat-hang-thanh-cong" element={<SuccessfulOrder />} />
       <Route path="/thanh-toan-thanh-cong" element={<SuccessfulPayment />} />
+      {/* Thanh toán VNPay */}
       <Route path="/thanh-toan-sanpham" element={<PaymentProduct />} />
       {!user ? (
         <>

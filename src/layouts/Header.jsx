@@ -182,9 +182,9 @@ function Header() {
                             {group.parent?.name}
                           </Dropdown.Header>
                           {group.children.map((child) => (
-                          <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
+                            <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
                               {child?.name}
-                          </Dropdown.Item>
+                            </Dropdown.Item>
                           ))}
                         </Col>
                       ))}
@@ -228,11 +228,63 @@ function Header() {
                     Tin tức
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item className="d-block d-lg-none">
-                  <Nav.Link as={NavLink} to="/tai-khoan">
-                    Tài khoản
-                  </Nav.Link>
-                </Nav.Item>
+                <Navbar.Brand className="d-block d-lg-none m-0 p-0">
+                  {user ? (
+                    <>
+                      <NavDropdown autoClose="outside" className="ms-1">
+                        <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic1" title={"Khách hàng"} className="dropdown-user text-decoration-none text-dark">
+                          <Nav.Link as={NavLink} to="/tai-khoan">
+                            Tài khoản
+                          </Nav.Link>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu align="end">
+                          <Dropdown.Header className="fw-semibold">{user?.name}</Dropdown.Header>
+                          <Dropdown.Item as={NavLink} to="/tai-khoan">
+                            <i className="bi bi-person-circle me-2" />
+                            Tài khoản
+                          </Dropdown.Item>
+                          <Dropdown.Item as={NavLink} to="/hoa-don">
+                            <i className="bi bi-box me-2" />
+                            Hóa đơn
+                          </Dropdown.Item>
+                          <Dropdown.Item as={NavLink} to="/lich-dat">
+                            <i className="bi bi-calendar-check me-2" />
+                            Lịch đặt
+                          </Dropdown.Item>
+                          <Dropdown.Divider />
+                          <Dropdown.Item href="#" role="button" onClick={handleLogout}>
+                            <i className="bi bi-box-arrow-right me-2" />
+                            Đăng xuất
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </NavDropdown>
+                    </>
+                  ) : (
+                    <>
+                      <Dropdown autoClose="outside" className="ms-1">
+                        <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic" title="Tài khoản" className="dropdown-user text-decoration-none text-dark">
+                          <Nav.Link>Tài khoản</Nav.Link>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu align="end">
+                          <Dropdown.Header className="fw-semibold">Tài khoản</Dropdown.Header>
+                          <Dropdown.Item as={NavLink} to="/dang-nhap">
+                            <i className="bi bi bi-door-open me-2"></i> Đăng nhập
+                          </Dropdown.Item>
+                          <Dropdown.Divider />
+                          <Dropdown.Item as={NavLink} to="/dang-ky">
+                            <i className="bi bi-person-add me-2"></i> Đăng ký
+                          </Dropdown.Item>
+                          <Dropdown.Item as={NavLink} to="/lich-dat">
+                            <i className="bi bi-calendar-check me-2" />
+                            Lịch đặt
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </>
+                  )}
+                </Navbar.Brand>
               </Nav>
 
               {/* end header */}
@@ -253,7 +305,17 @@ function Header() {
                   <Nav.Link as={NavLink} to="/gio-hang" className="col-6 d-md-none">
                     <Button variant="outline-primary" className="w-100">
                       <span className="me-2">Giỏ hàng</span>
-                      <span class="badge text-bg-danger"> {(user && cartItems.length) || 0 || (!user && shoppingCart.length)}</span>
+                      <span class="badge text-bg-danger">
+                        {user && user !== null ? (
+                          <>
+                            <span>{cartItems.length || 0}</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>{shoppingCart.length || 0}</span>
+                          </>
+                        )}
+                      </span>
                     </Button>
                   </Nav.Link>
                 </div>
