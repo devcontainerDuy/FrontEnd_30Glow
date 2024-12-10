@@ -252,6 +252,10 @@ function Header() {
                             <i className="bi bi-calendar-check me-2" />
                             Lịch đặt
                           </Dropdown.Item>
+                          <Dropdown.Item as={NavLink} to="/lich-dat">
+                            <i className="bi bi-calendar-check me-2" />
+                            Lịch đặt
+                          </Dropdown.Item>
                           <Dropdown.Divider />
                           <Dropdown.Item href="#" role="button" onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right me-2" />
@@ -276,10 +280,10 @@ function Header() {
                           <Dropdown.Item as={NavLink} to="/dang-ky">
                             <i className="bi bi-person-add me-2"></i> Đăng ký
                           </Dropdown.Item>
-                          <Dropdown.Item as={NavLink} to="/lich-dat">
+                          {/* <Dropdown.Item as={NavLink} to="/lich-dat">
                             <i className="bi bi-calendar-check me-2" />
                             Lịch đặt
-                          </Dropdown.Item>
+                          </Dropdown.Item> */}
                         </Dropdown.Menu>
                       </Dropdown>
                     </>
@@ -387,10 +391,6 @@ function Header() {
                         <Dropdown.Divider />
                         <Dropdown.Item as={NavLink} to="/dang-ky">
                           <i className="bi bi-person-add me-2"></i> Đăng ký
-                        </Dropdown.Item>
-                        <Dropdown.Item as={NavLink} to="/lich-dat">
-                          <i className="bi bi-calendar-check me-2" />
-                          Lịch đặt
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
