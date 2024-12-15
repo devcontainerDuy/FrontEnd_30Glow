@@ -374,8 +374,8 @@ function Detail() {
             <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Sản phẩm liên quan</h3>
           </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {relatedProducts.map((product, index) => (
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          {relatedProducts.slice(0, 4).map((product, index) => (
             <CardProduct key={index} {...product} />
           ))}
         </Row>

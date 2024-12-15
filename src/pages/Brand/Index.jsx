@@ -6,7 +6,7 @@ import { Container, FormSelect } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
 import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
-import CardBrand from "../../components/CardBrand.jsx";
+// import CardBrand from "../../components/CardBrand.jsx";
 import CardProduct from "../../components/CardProduct.jsx";
 import Paginated from "../../components/Paginated.jsx";
 
@@ -98,8 +98,8 @@ function Index() {
           <p className="text-center">Đang tải...</p>
         ) : (
           <Row className="row-cols-1 row-cols-lg-5 g-4">
-            {getFilteredProducts().map((product) => (
-              <CardProduct key={product.id} {...product} />
+            {getFilteredProducts().map((product, index) => (
+              <CardProduct key={index} {...product} />
             ))}
           </Row>
         )}
