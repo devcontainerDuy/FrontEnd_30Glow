@@ -121,7 +121,7 @@ function Header() {
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
           <Navbar.Brand as={NavLink} to="/" end>
-            <Image src={logo} width={100} fluid />
+            <Image src={logo} width={100} fluid alt="logo" />
           </Navbar.Brand>
           {/* start header */}
 
@@ -133,7 +133,7 @@ function Header() {
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand as={NavLink} to="/">
-                  <Image src={logo} width={80} fluid />
+                  <Image src={logo} width={80} fluid alt="logo" />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>

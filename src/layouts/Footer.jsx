@@ -15,7 +15,7 @@ function Footer() {
             <div className="row row-cols-1 row-cols-lg-4 g-4">
               <div className="col">
                 <div className="footer-widget-6">
-                  <Image src={logo} width={100} className="logo-img mb-3" alt="Logo" />
+                  <Image src={logo} width={100} className="logo-img mb-3" alt="logo" />
                   <h5 className="mb-3 fw-bold">Về chúng tôi</h5>
                   <p className="mb-2">Chúng tôi không chỉ là nơi bạn có thể đặt lịch làm tóc để có mái tóc đẹp tự tin, mà còn là địa điểm tuyệt vời để khám phá các sản phẩm chăm sóc tóc và da mặt.</p>
                   <Link className="link-dark" to={"/gioi-thieu"}>Đọc thêm</Link>
