@@ -3,63 +3,41 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 export default function CardService({ name, slug, price, compare_price, discount, image }) {
-  const sale = compare_price > 0 ? Math.round(((compare_price - price) / compare_price) * 100) : 0;
+  const sale = compare_price > 0 ? Math.round(((compare_price - price) / compare_price) * 100) : discount;
 
   return (
     <Col className="d-flex align-items-stretch mb-4">
-      <Card className="flex-fill">
+      <Card className="h-100" style={{ minHeight: "358px" }}>
         <div className="position-relative overflow-hidden">
-          {discount > 0 && (
+          {sale > 0 && (
             <div className="d-flex align-items-center justify-content-center gap-2 mx-auto position-absolute start-0">
               <p className="my-3 h6">
                 <span className="text-bg-danger">
-                  <span className="fw-bold m-2">{discount || sale}% OFF</span>
+                  <span className="fw-bold m-2">{sale}% OFF</span>
                 </span>
               </p>
             </div>
           )}
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{
-              width: "100%",
-              height: "30vh",
-              overflow: "hidden",
-            }}
-          >
-            <Link to={`/dich-vu/${slug}`}>
-              <Image
-                src={`${import.meta.env.VITE_URL}${image}`}
-                className="card-img-top w-100"
-                fluid
-                alt={name}
-                style={{
-                  objectFit: "cover",
-                  height: "100%",
-                  width: "100%",
-                }}
-              />
-            </Link>
-          </div>
+          <Link to={`/dich-vu/${slug}`}>
+            <Image src={`${import.meta.env.VITE_URL}${image}`} className="card-img-top" fluid alt={name} style={{ minHeight: "332px" }} />
+          </Link>
         </div>
-        <Card.Body className="d-flex flex-column">
-          <div className="text-start flex-grow-1">
+        <Card.Body>
+          <div className="text-start">
             <Link to={`/dich-vu/${slug}`} className="text-decoration-none link-underline-opacity-100-hover">
-              <h6 className="mb-1 fw-bold text-truncate" title={name}>
+              <h6 className="mb-1 fw-bold text-title" title={name}>
                 {name}
               </h6>
             </Link>
-            {/* <div className="ratings mb-1 h6">
-              {[...Array(5)].map((_, index) => (
-                <i key={index} className="bi bi-star-fill text-warning" />
-              ))}
-            </div> */}
             <div className="d-md-flex justify-content-between align-items-center">
-              <p className="me-md-2 mb-0 text-decoration-line-through mb-0">
-                {compare_price.toLocaleString("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                })}
-              </p>
+              {compare_price > price && (
+                <p className="me-md-2 mb-0 text-decoration-line-through text-secondary mb-0">
+                  {compare_price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
+              )}
               <p className="fw-bold text-danger mb-0">
                 {price.toLocaleString("vi-VN", {
                   style: "currency",

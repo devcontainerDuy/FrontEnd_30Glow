@@ -6,18 +6,20 @@ import axios from "axios";
 import useAuthenContext from "../context/AuthenContext";
 import { useSelector } from "react-redux";
 import logo from "@img/logo30GLOW.png";
+import Swal from "sweetalert2";
 
 function Header() {
   // services
   const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [groupedCategories, setGroupedCategories] = useState({});
-  const services = useSelector((state) => state.serviceCart.items);
   const [collections, setCollections] = useState([]);
-  const [setServices] = useState([]);
+  const services = useSelector((state) => state.serviceCart.items);
+  const [servicess, setServices] = useState([]);
   const [groupedServices, setGroupedServices] = useState({});
   const { user, logout, cartItems } = useAuthenContext();
   const shoppingCart = useSelector((state) => state.shoppingCart.items);
+  const [brands, setBrands] = useState([]);
 
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
 
@@ -34,6 +36,16 @@ function Header() {
       console.error(error);
     }
   };
+
+  const getBrands = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/brands");
+      return setBrands(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getCollections = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + "/services-collections");
@@ -42,6 +54,7 @@ function Header() {
       console.error(error);
     }
   };
+
   const getServices = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + "/services");
@@ -50,12 +63,29 @@ function Header() {
       console.error(error);
     }
   };
-  console.log(services, collections);
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Đăng xuất?",
+      text: "Bạn chắc chẫn muốn đăng xuất?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Đăng xuất",
+      cancelButtonText: "Quay lại",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+      }
+    });
+  };
 
   useEffect(() => {
     getCategories();
     getCollections();
     getServices();
+    getBrands();
   }, []);
 
   useEffect(() => {
@@ -85,15 +115,13 @@ function Header() {
     }
   }, [categories, collections, services]);
 
-  console.log("user", user);
-
   return (
     <>
       {/*start top header*/}
       <Navbar expand="xl" className="bg-body-tertiary sticky-top">
         <Container>
           <Navbar.Brand as={NavLink} to="/" end>
-            <Image src={logo} width={100} fluid />
+            <Image src={logo} width={100} fluid alt="logo" />
           </Navbar.Brand>
           {/* start header */}
 
@@ -105,7 +133,7 @@ function Header() {
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel">
                 <Navbar.Brand as={NavLink} to="/">
-                  <Image src={logo} width={80} fluid />
+                  <Image src={logo} width={80} fluid alt="logo" />
                 </Navbar.Brand>
               </Offcanvas.Title>
             </Offcanvas.Header>
@@ -147,7 +175,10 @@ function Header() {
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
                       {Object.values(groupedCategories).map((group, index) => (
                         <Col key={index}>
-                          <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent?.slug}`}>
+                          {/* <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent?.slug}`}>
+                            {group.parent?.name}
+                          </Dropdown.Header> */}
+                          <Dropdown.Header as={NavLink} className="text-decoration-none">
                             {group.parent?.name}
                           </Dropdown.Header>
                           {group.children.map((child) => (
@@ -168,12 +199,24 @@ function Header() {
                 {/* end dropdown */}
 
                 <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
-                  <NavDropdown.Item as={NavLink} to="/thuong-hieu">
-                    Thương hiệu
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to="/thuong-hieu">
-                    Thương hiệu 2
-                  </NavDropdown.Item>
+                  <Container fluid style={{ width: "35rem" }}>
+                    <Row className="g-0 row-cols-1 row-cols-lg-2">
+                      {brands.map((brand) => (
+                        <Col key={brand.id}>
+                          <Dropdown.Item as={NavLink} className="text-decoration-none" to={`/thuong-hieu/${brand.slug}`}>
+                            {brand.name}
+                          </Dropdown.Item>
+                        </Col>
+                      ))}
+                    </Row>
+                    {/* <Row className="g-0">
+                      <Col>
+                        <Dropdown.Header as={NavLink} className="text-decoration-none text-center border-top pt-2" to={"/thuong-hieu"}>
+                          Tất cả thương hiệu
+                        </Dropdown.Header>
+                      </Col>
+                    </Row> */}
+                  </Container>
                 </NavDropdown>
                 <Nav.Item>
                   <Nav.Link as={NavLink} to="/lien-he">
@@ -185,11 +228,67 @@ function Header() {
                     Tin tức
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item className="d-block d-lg-none">
-                  <Nav.Link as={NavLink} to="/tai-khoan">
-                    Tài khoản
-                  </Nav.Link>
-                </Nav.Item>
+                <Navbar.Brand className="d-block d-lg-none m-0 p-0">
+                  {user ? (
+                    <>
+                      <NavDropdown autoClose="outside" className="ms-1">
+                        <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic1" title={"Khách hàng"} className="dropdown-user text-decoration-none text-dark">
+                          <Nav.Link as={NavLink} to="/tai-khoan">
+                            Tài khoản
+                          </Nav.Link>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu align="end">
+                          <Dropdown.Header className="fw-semibold">{user?.name}</Dropdown.Header>
+                          <Dropdown.Item as={NavLink} to="/tai-khoan">
+                            <i className="bi bi-person-circle me-2" />
+                            Tài khoản
+                          </Dropdown.Item>
+                          <Dropdown.Item as={NavLink} to="/hoa-don">
+                            <i className="bi bi-box me-2" />
+                            Hóa đơn
+                          </Dropdown.Item>
+                          <Dropdown.Item as={NavLink} to="/lich-dat">
+                            <i className="bi bi-calendar-check me-2" />
+                            Lịch đặt
+                          </Dropdown.Item>
+                          <Dropdown.Item as={NavLink} to="/lich-dat">
+                            <i className="bi bi-calendar-check me-2" />
+                            Lịch đặt
+                          </Dropdown.Item>
+                          <Dropdown.Divider />
+                          <Dropdown.Item href="#" role="button" onClick={handleLogout}>
+                            <i className="bi bi-box-arrow-right me-2" />
+                            Đăng xuất
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </NavDropdown>
+                    </>
+                  ) : (
+                    <>
+                      <Dropdown autoClose="outside" className="ms-1">
+                        <Dropdown.Toggle as={NavLink} variant="link" id="dropdown-basic" title="Tài khoản" className="dropdown-user text-decoration-none text-dark">
+                          <Nav.Link>Tài khoản</Nav.Link>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu align="end">
+                          <Dropdown.Header className="fw-semibold">Tài khoản</Dropdown.Header>
+                          <Dropdown.Item as={NavLink} to="/dang-nhap">
+                            <i className="bi bi bi-door-open me-2"></i> Đăng nhập
+                          </Dropdown.Item>
+                          <Dropdown.Divider />
+                          <Dropdown.Item as={NavLink} to="/dang-ky">
+                            <i className="bi bi-person-add me-2"></i> Đăng ký
+                          </Dropdown.Item>
+                          {/* <Dropdown.Item as={NavLink} to="/lich-dat">
+                            <i className="bi bi-calendar-check me-2" />
+                            Lịch đặt
+                          </Dropdown.Item> */}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </>
+                  )}
+                </Navbar.Brand>
               </Nav>
 
               {/* end header */}
@@ -210,7 +309,17 @@ function Header() {
                   <Nav.Link as={NavLink} to="/gio-hang" className="col-6 d-md-none">
                     <Button variant="outline-primary" className="w-100">
                       <span className="me-2">Giỏ hàng</span>
-                      <span class="badge text-bg-danger"> {(user && cartItems.length) || 0 || (!user && shoppingCart.length)}</span>
+                      <span class="badge text-bg-danger">
+                        {user && user !== null ? (
+                          <>
+                            <span>{cartItems.length || 0}</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>{shoppingCart.length || 0}</span>
+                          </>
+                        )}
+                      </span>
                     </Button>
                   </Nav.Link>
                 </div>
@@ -227,7 +336,15 @@ function Header() {
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/gio-hang" className="ms-1" title="Giỏ hàng">
                   <i className="bi bi-cart2 position-relative fs-5">
-                    <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{(user && cartItems.length) || 0 || (!user && shoppingCart.length)}</span>
+                    {user && user !== null ? (
+                      <>
+                        <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{cartItems.length || 0}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger">{shoppingCart.length || 0}</span>
+                      </>
+                    )}
                   </i>
                 </Nav.Link>
                 {user ? (
@@ -247,12 +364,12 @@ function Header() {
                           <i className="bi bi-box me-2" />
                           Hóa đơn
                         </Dropdown.Item>
-                        <Dropdown.Item as={NavLink} to="/dat-lich">
+                        <Dropdown.Item as={NavLink} to="/lich-dat">
                           <i className="bi bi-calendar-check me-2" />
-                          Đặt lịch
+                          Lịch đặt
                         </Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item href="#" role="button" onClick={logout}>
+                        <Dropdown.Item href="#" role="button" onClick={handleLogout}>
                           <i className="bi bi-box-arrow-right me-2" />
                           Đăng xuất
                         </Dropdown.Item>
@@ -287,19 +404,13 @@ function Header() {
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
-                    <Form.Control
-                      type="search"
-                      placeholder="Nhập từ khóa tìm kiếm..."
-                      aria-label="Search"
-                      className="mb-3"
-                    />
+                    <Form.Control type="search" placeholder="Nhập từ khóa tìm kiếm..." aria-label="Search" className="mb-3" />
                     <Button variant="primary" className="w-100">
                       Tìm kiếm
                     </Button>
                   </Form>
                 </Modal.Body>
               </Modal>
-
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>

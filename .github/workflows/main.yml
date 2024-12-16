@@ -1,14 +1,15 @@
 name: 🚀 Deploy on push to main
 
-on:
+on: 
   push:
-    branches:
-      - main
+    branches:    
+      - main 
 
 jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
+
 
     steps:
     - name: 🚚 Get latest code
@@ -24,22 +25,18 @@ jobs:
         npm install
         npm run build
 
-    - name: 📂 Set up SSH key for deployment
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        
-    - name: 🛠️ Add server to known_hosts
-      run: ssh-keyscan -H ${{ secrets.SERVER }} >> ~/.ssh/known_hosts
+    - name: List output files
+      run: find dist/ -print
 
-    - name: 🗑️ Remove old files on server
-      run: |
-        ssh ${{ secrets.USER }}@${{ secrets.SERVER }} "rm -rf /home/iddemomorin/htdocs/demo.morin.id.vn/*"
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    
-    - name: 🚀 Deploy via SSH
-      run: |
-        rsync -avz --no-perms --omit-dir-times dist/ ${{ secrets.USER }}@${{ secrets.SERVER }}:/home/iddemomorin/htdocs/demo.morin.id.vn
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+          server: ${{ secrets.SERVER }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          local-dir: dist/
+          exclude: |
+            **/.git**
+            **/.git*/**
+            **/node_modules/**
+            **/.**

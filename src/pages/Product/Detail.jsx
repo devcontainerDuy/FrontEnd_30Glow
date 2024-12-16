@@ -1,14 +1,14 @@
 /* eslint-disable*/
 import React, { useEffect, useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, Badge } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CardProduct from "../../components/CardProduct";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { A11y, Autoplay, FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/reducers/shoppingCartSlice";
@@ -374,8 +374,8 @@ function Detail() {
             <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Sản phẩm liên quan</h3>
           </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {relatedProducts.map((product, index) => (
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          {relatedProducts.slice(0, 4).map((product, index) => (
             <CardProduct key={index} {...product} />
           ))}
         </Row>

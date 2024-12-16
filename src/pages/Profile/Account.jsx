@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
-import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
+import { Container, Row, Col, Form, Button, InputGroup, Card } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import BreadcrumbComponent from "../../components/BreadcrumbComponent";
-import { AuthenContext } from "../../context/AuthenContext";
+import BreadcrumbComponent from "@components/BreadcrumbComponent";
+import { AuthenContext } from "@context/AuthenContext";
 import axios from "axios";
 
 function Account() {
@@ -39,7 +39,7 @@ function Account() {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`${import.meta.env.VITE_API_URL}/customers/${user.uid}`, changedFields, { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/customers/edit`, changedFields, { headers: { Authorization: `Bearer ${token}` } });
       window.notyf.success(response.data.message);
       setIsEditing(false);
     } catch (error) {
@@ -74,76 +74,92 @@ function Account() {
       <BreadcrumbComponent props={[{ name: "Tài khoản", url: "/tai-khoan" }]} />
       <Container className="pb-5">
         <Row className="mt-2">
-          <h4>Thông tin tài khoản</h4>
-          <Col md={6}>
-            <Form onSubmit={handleSave}>
-              <Form.Group controlId="name" className="mb-3">
-                <Form.Label>Tên</Form.Label>
-                <Form.Control type="text" name="name" value={userInfo.name} onChange={handleChange} placeholder="Nhập tên của bạn..." disabled={!isEditing} />
-              </Form.Group>
-              <Form.Group controlId="email" className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" name="email" value={userInfo.email} onChange={handleChange} placeholder="Nhập địa chỉ email..." disabled={!isEditing} />
-              </Form.Group>
-              <Form.Group controlId="phone" className="mb-3">
-                <Form.Label>Số điện thoại</Form.Label>
-                <Form.Control type="tel" name="phone" value={userInfo.phone} onChange={handleChange} placeholder="Nhập số điện thoại..." disabled={!isEditing} />
-              </Form.Group>
-              <Form.Group controlId="address" className="mb-3">
-                <Form.Label>Địa chỉ</Form.Label>
-                <Form.Control type="text" name="address" value={userInfo.address} onChange={handleChange} placeholder="Nhập địa chỉ..." disabled={!isEditing} />
-              </Form.Group>
-              {isEditing ? (
-                <>
-                  <Button variant="primary" type="submit">
-                    Lưu thay đổi
-                  </Button>
-                  <Button variant="secondary" type="button" onClick={handleCancel} className="ms-2">
-                    Hủy
-                  </Button>
-                </>
-              ) : (
-                <Button variant="primary" type="button" onClick={handleEdit}>
-                  Chỉnh sửa
-                </Button>
-              )}
-            </Form>
+          <Col xs={12} className="mb-3">
+            <h4>Thông tin tài khoản</h4>
           </Col>
           <Col md={6}>
-            <Form>
-              <Form.Group controlId="currentPassword" className="mb-3">
-                <Form.Label>Mật khẩu hiện tại</Form.Label>
-                <InputGroup>
-                  <Form.Control type={showPassword.currentPassword ? "text" : "password"} placeholder="Mật khẩu hiện tại" disabled={!isEditing} />
-                  <Button variant="outline-secondary" onClick={() => togglePasswordVisibility("currentPassword")}>
-                    <FontAwesomeIcon icon={showPassword.currentPassword ? faEyeSlash : faEye} />
-                  </Button>
-                </InputGroup>
-              </Form.Group>
-              <Form.Group controlId="newPassword" className="mb-3">
-                <Form.Label>Mật khẩu mới</Form.Label>
-                <InputGroup>
-                  <Form.Control type={showPassword.newPassword ? "text" : "password"} placeholder="Mật khẩu mới" disabled={!isEditing} />
-                  <Button variant="outline-secondary" onClick={() => togglePasswordVisibility("newPassword")}>
-                    <FontAwesomeIcon icon={showPassword.newPassword ? faEyeSlash : faEye} />
-                  </Button>
-                </InputGroup>
-              </Form.Group>
-              <Form.Group controlId="confirmPassword" className="mb-3">
-                <Form.Label>Xác nhận mật khẩu mới</Form.Label>
-                <InputGroup>
-                  <Form.Control type={showPassword.confirmPassword ? "text" : "password"} placeholder="Xác nhận mật khẩu mới" disabled={!isEditing} />
-                  <Button variant="outline-secondary" onClick={() => togglePasswordVisibility("confirmPassword")}>
-                    <FontAwesomeIcon icon={showPassword.confirmPassword ? faEyeSlash : faEye} />
-                  </Button>
-                </InputGroup>
-              </Form.Group>
-              {isEditing && (
-                <Button variant="primary" type="button">
-                  Đổi mật khẩu
-                </Button>
-              )}
-            </Form>
+            <Card>
+              <Card.Header>
+                <Card.Title>Thông tin cá nhân</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <Form onSubmit={handleSave}>
+                  <Form.Group controlId="name" className="mb-3">
+                    <Form.Label>Tên</Form.Label>
+                    <Form.Control type="text" name="name" value={userInfo.name} onChange={handleChange} placeholder="Nhập tên của bạn..." disabled={!isEditing} />
+                  </Form.Group>
+                  <Form.Group controlId="email" className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" name="email" value={userInfo.email} onChange={handleChange} placeholder="Nhập địa chỉ email..." disabled={!isEditing} />
+                  </Form.Group>
+                  <Form.Group controlId="phone" className="mb-3">
+                    <Form.Label>Số điện thoại</Form.Label>
+                    <Form.Control type="tel" name="phone" value={userInfo.phone} onChange={handleChange} placeholder="Nhập số điện thoại..." disabled={!isEditing} />
+                  </Form.Group>
+                  <Form.Group controlId="address" className="mb-3">
+                    <Form.Label>Địa chỉ</Form.Label>
+                    <Form.Control type="text" name="address" value={userInfo.address} onChange={handleChange} placeholder="Nhập địa chỉ..." disabled={!isEditing} />
+                  </Form.Group>
+                  {isEditing ? (
+                    <>
+                      <Button variant="primary" type="submit">
+                        Lưu thay đổi
+                      </Button>
+                      <Button variant="secondary" type="button" onClick={handleCancel} className="ms-2">
+                        Hủy
+                      </Button>
+                    </>
+                  ) : (
+                    <Button variant="primary" type="button" onClick={handleEdit}>
+                      Chỉnh sửa
+                    </Button>
+                  )}
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={6}>
+            <Card>
+              <Card.Header>
+                <Card.Title>Đổi mật khẩu</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <Form>
+                  <Form.Group controlId="currentPassword" className="mb-3">
+                    <Form.Label>Mật khẩu hiện tại</Form.Label>
+                    <InputGroup>
+                      <Form.Control type={showPassword.currentPassword ? "text" : "password"} placeholder="Mật khẩu hiện tại" disabled={!isEditing} />
+                      <Button variant="outline-secondary" onClick={() => togglePasswordVisibility("currentPassword")}>
+                        <FontAwesomeIcon icon={showPassword.currentPassword ? faEyeSlash : faEye} />
+                      </Button>
+                    </InputGroup>
+                  </Form.Group>
+                  <Form.Group controlId="newPassword" className="mb-3">
+                    <Form.Label>Mật khẩu mới</Form.Label>
+                    <InputGroup>
+                      <Form.Control type={showPassword.newPassword ? "text" : "password"} placeholder="Mật khẩu mới" disabled={!isEditing} />
+                      <Button variant="outline-secondary" onClick={() => togglePasswordVisibility("newPassword")}>
+                        <FontAwesomeIcon icon={showPassword.newPassword ? faEyeSlash : faEye} />
+                      </Button>
+                    </InputGroup>
+                  </Form.Group>
+                  <Form.Group controlId="confirmPassword" className="mb-3">
+                    <Form.Label>Xác nhận mật khẩu mới</Form.Label>
+                    <InputGroup>
+                      <Form.Control type={showPassword.confirmPassword ? "text" : "password"} placeholder="Xác nhận mật khẩu mới" disabled={!isEditing} />
+                      <Button variant="outline-secondary" onClick={() => togglePasswordVisibility("confirmPassword")}>
+                        <FontAwesomeIcon icon={showPassword.confirmPassword ? faEyeSlash : faEye} />
+                      </Button>
+                    </InputGroup>
+                  </Form.Group>
+                  {isEditing && (
+                    <Button variant="primary" type="button">
+                      Đổi mật khẩu
+                    </Button>
+                  )}
+                </Form>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Container>

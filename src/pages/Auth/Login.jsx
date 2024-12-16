@@ -1,18 +1,19 @@
-import { useState } from "react";
-import Header from "../../layouts/Header";
-import Footer from "../../layouts/Footer";
+import { useEffect, useState } from "react";
+import Header from "@layouts/Header";
+import Footer from "@layouts/Footer";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
-import useAuthenContext from "../../context/AuthenContext";
+import useAuthenContext from "@context/AuthenContext";
+import axios from "axios";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "", rememberToken: false });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuthenContext();
+  const { loginWithGoogle, login } = useAuthenContext();
 
   const validate = () => {
     let newErrors = {};
@@ -45,6 +46,73 @@ function Login() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/google`);
+      const { check, url } = response.data;
+
+      if (check) {
+        const width = 400;
+        const height = 600;
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+
+        const popup = window.open(url, "GoogleLogin", `width=${width},height=${height},top=${top},left=${left}`);
+
+        if (!popup) {
+          window.notyf.error("Popup bị chặn! Hãy cho phép bật popup trên trình duyệt.");
+          return;
+        }
+
+        const pollTimer = setInterval(() => {
+          try {
+            if (popup.closed) {
+              clearInterval(pollTimer);
+              window.notyf.error("Đăng nhập bị hủy.");
+              return;
+            }
+
+            // Kiểm tra khi popup chuyển hướng về frontend
+            if (popup.location.href.startsWith("https://30glow.site/")) {
+              const hash = popup.location.hash.substring(1);
+              const params = new URLSearchParams(hash);
+              console.log(params);
+
+              const loginData = {
+                check: params.get("check") === "1",
+                uid: params.get("uid"),
+                token: params.get("token"),
+                expiry: parseInt(params.get("expiry"), 10),
+              };
+
+              popup.close();
+              clearInterval(pollTimer);
+
+              console.log(loginData);
+
+              loginWithGoogle(loginData);
+            }
+          } catch (error) {
+            console.error("Error polling popup:", error);
+          }
+        }, 500);
+      } else {
+        window.notyf.error("Không thể lấy URL đăng nhập Google.");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Server Error:", error.response.data);
+        window.notyf.error(error.response.data.message || "Có lỗi xảy ra khi đăng nhập với Google.");
+      } else if (error.request) {
+        console.error("Network Error:", error.request);
+        window.notyf.error("Không thể kết nối đến server.");
+      } else {
+        console.error("Error:", error.message);
+        window.notyf.error("Có lỗi xảy ra khi đăng nhập với Google.");
+      }
+    }
   };
 
   return (
@@ -90,7 +158,7 @@ function Login() {
                   Đăng nhập
                 </Button>
 
-                <Button variant="outline-primary" className="w-100">
+                <Button variant="outline-primary" className="w-100" onClick={handleGoogleLogin}>
                   Đăng nhập với Google
                 </Button>
               </Form>

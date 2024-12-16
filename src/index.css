@@ -160,3 +160,12 @@ button:focus-visible {
 .dropdown-user::after {
   display: none;
 }
+
+.text-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 3rem;
+}
