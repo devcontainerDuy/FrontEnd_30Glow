@@ -58,7 +58,7 @@ function Show() {
               alt="Hình ảnh dịch vụ"
               className="img-fluid"
               style={{
-                maxHeight: "400px",
+                maxHeight: "500px",
                 objectFit: "cover",
                 borderRadius: "10px",
                 boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
