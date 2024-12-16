@@ -69,34 +69,23 @@ function Index() {
     Product();
   }, []);
 
-  const postList = [
-    {
-      name: "Làm thế nào để chọn dầu gội phù hợp với da đầu?",
-      slug: "chon-dau-goi-phu-hop",
-      image: "https://i.pinimg.com/736x/77/ac/25/77ac25c3b4b1cc810cc0afe803923ae2.jpg",
-      createdAt: "2024-11-02",
-      author: "Lê Minh Hằng",
-      content: "Chọn dầu gội đúng không chỉ giúp làm sạch da đầu mà còn cải thiện sức khỏe tóc đáng kể. Hãy cùng tìm hiểu cách xác định loại da đầu và chọn sản phẩm phù hợp nhất.",
-    },
-    {
-      name: "Khám phá dịch vụ chăm sóc da chuyên sâu tại spa",
-      slug: "cham-soc-da-chuyen-sau-tai-spa",
-      image: "https://i.pinimg.com/736x/13/95/30/13953045964276a03b5bf63ca6e72813.jpg",
-      createdAt: "2024-10-28",
-      author: "Trần Quỳnh Hoa",
-      content:
-        "Dành thời gian chăm sóc da tại các spa không chỉ mang lại làn da khỏe mạnh mà còn giúp bạn thư giãn sau những ngày làm việc căng thẳng. Cùng khám phá các liệu trình làm đẹp da nổi bật tại các spa uy tín.",
-    },
-    {
-      name: "Bí quyết chăm sóc tóc nhuộm để luôn óng mượt",
-      slug: "bi-quyet-cham-soc-toc-nhuom",
-      image: "https://i.pinimg.com/736x/f8/66/9c/f8669caae105949e4b20d9ee701e4dc4.jpg",
-      createdAt: "2024-11-05",
-      author: "Phạm Hải Yến",
-      content:
-        "Tóc nhuộm rất dễ bị hư tổn nếu không được chăm sóc đúng cách. Trong bài viết này, chúng tôi sẽ chia sẻ những mẹo nhỏ giúp tóc nhuộm luôn bền màu và bóng khỏe, từ cách chọn dầu gội đến sản phẩm dưỡng tóc phù hợp.",
-    },
-  ];
+  const [postList, setPostList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://dashboard.30glow.site/api/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.check) {
+          setPostList(data.data.data);
+        }
+        setLoading(false); // Kết thúc tải
+      })
+      .catch((error) => {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        setLoading(false);
+      });
+  }, []);
   return (
     <>
       <Helmet>
@@ -293,8 +282,26 @@ function Index() {
           </div>
         </Row>
 
-        <Row className="row-cols-2 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
-          {postList ? postList.map((post, index) => <CardPost key={index} {...post} />) : <h3 className="text-center">Không có bài đăng</h3>}
+        <Row className="row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
+          {loading ? (
+            <h3 className="text-center">Đang tải...</h3>
+          ) : postList && postList.length > 0 ? (
+            postList
+            .filter((post) => post.highlighted === 1)
+            .slice(0, 3).map((post) => (
+              <CardPost
+                key={post.id}
+                name={post.title}
+                slug={post.slug}
+                image={`https://dashboard.30glow.site${post.image}`}
+                createdAt={post.created_at}
+                author="30GLOW" 
+                content={post.summary}
+              />
+            ))
+          ) : (
+            <h3 className="text-center">Không có bài đăng</h3>
+          )}
         </Row>
         {/*end row*/}
       </Container>

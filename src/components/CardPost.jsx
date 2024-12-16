@@ -17,7 +17,7 @@ export default function CardPost({ name, slug, image, createdAt, content }) {
           </div>
           <Card.Title className="fw-bold mt-3 h5">{name}</Card.Title>
           <p className="mb-0">{content}</p>
-          <Link to={`/bai-viet/${slug}`} className="btn btn-outline-dark mt-3">
+          <Link to={`/tin-tuc/${slug}`} className="btn btn-outline-dark mt-3">
             Xem thêm
           </Link>
         </Card.Body>
