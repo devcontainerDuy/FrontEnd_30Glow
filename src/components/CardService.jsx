@@ -31,14 +31,14 @@ export default function CardService({ name, slug, price, compare_price, discount
             </Link>
             <div className="d-md-flex justify-content-between align-items-center">
               {compare_price > price && (
-                <p className="me-md-2 mb-0 text-decoration-line-through text-secondary mb-0">
+                <p className="me-md-2 mb-0 text-decoration-line-through text-secondary">
                   {compare_price.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   })}
                 </p>
               )}
-              <p className="fw-bold text-danger mb-0">
+              <p className={`fw-bold mb-0 ${compare_price > price ? "text-danger" : "text-black"}`}>
                 {price.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",

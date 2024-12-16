@@ -22,10 +22,10 @@ function Show() {
         if (response.data?.check) {
           setChiTietDV(response.data.data);
         } else {
-             window.notyf.error("Dữ liệu không hợp lệ");
+          window.notyf.error("Dữ liệu không hợp lệ");
         }
       } catch (error) {
-           window.notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
+        window.notyf.error("Có lỗi xảy ra khi tải dữ liệu.");
       }
     };
     fetchChiTietDV();
@@ -70,11 +70,17 @@ function Show() {
             <div className="p-4 border rounded shadow-sm bg-light">
               <h4 className="text-primary-emphasis fw-bold fs-4">{ChiTietDV ? ChiTietDV.name : "Tên dịch vụ"}</h4>
               <div className="d-flex align-items-center mt-2">
-                <h5 className="text-decoration-line-through text-muted me-3">{ChiTietDV ? ChiTietDV.compare_price.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</h5>
-                <h5 className="fw-bold text-danger">{ChiTietDV ? ChiTietDV.price.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</h5>
-                <Badge bg="success" className="p-2 ms-3">
-                  {ChiTietDV?.discount}%
-                </Badge>
+                {ChiTietDV && ChiTietDV.compare_price > ChiTietDV.price && (
+                  <h5 className="text-decoration-line-through text-muted me-3">{ChiTietDV.compare_price.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</h5>
+                )}
+                <h5 className={`fw-bold ${ChiTietDV && ChiTietDV.compare_price > ChiTietDV.price ? "text-danger" : "text-black"}`}>
+                  {ChiTietDV ? ChiTietDV.price.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}
+                </h5>
+                {ChiTietDV && ChiTietDV.discount > 0 && (
+                  <Badge bg="success" className="p-2 ms-3">
+                    {ChiTietDV.discount}%
+                  </Badge>
+                )}
               </div>
               <h5 className="mt-4 fw-bold text-primary-emphasis">Nội dung dịch vụ:</h5>
               <div>{ChiTietDV ? <p dangerouslySetInnerHTML={{ __html: ChiTietDV.content }} /> : <p>Đang tải nội dung...</p>}</div>
