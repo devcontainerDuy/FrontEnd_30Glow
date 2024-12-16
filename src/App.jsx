@@ -40,6 +40,7 @@ import OrderServices from "./pages/Profile/OrderSV";
 import SuccessfulPayment from "./pages/Cart/SuccessfulPayment";
 import SuccessfulOrder from "./pages/Cart/SuccessfulOrder";
 import OrderSuccessful from "./pages/Cart/OrderSuccessful";
+import PostDetail from "./pages/Post/PostDetail";
 
 function App() {
   const { user } = useContext(AuthenContext);
@@ -64,6 +65,8 @@ function App() {
       <Route path="/nhom-dich-vu/:slug" element={<CollectionServices />} />
       <Route path="/lich-dat" element={<OrderServices />} />
       <Route path="/tin-tuc" element={<Post />} />
+      <Route path="/tin-tuc/:slug" element={<PostDetail />} />
+
       <Route path="/dat-hang" element={<OrderSuccessful />} />
       {/* Thanh toán VNPay */}
       <Route path="/dat-hang-thanh-cong" element={<SuccessfulOrder />} />

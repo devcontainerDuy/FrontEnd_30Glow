@@ -233,7 +233,7 @@ function ServiceCart() {
               </Table>
               <div className="d-flex justify-content-between">
                 <Button variant="outline-secondary" onClick={() => navigate("/dich-vu")} className="text-decoration-none text-body-emphasis">
-                  <i className="bi bi-arrow-right ms-2"> Tiếp tục mua hàng </i>
+                  <i className="bi bi-arrow-right ms-2"> Tiếp tục đặt lịch </i>
                 </Button>
                 <Button variant="outline-danger" onClick={handleClearServices} className="mb-2">
                   <span> Xóa tất cả</span> <i className="bi bi-cart-x"></i>
