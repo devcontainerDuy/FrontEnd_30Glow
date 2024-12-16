@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
 import Header from "@layouts/Header";
@@ -27,7 +28,7 @@ function ServiceCart() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Đặt giá trị khởi tạo cho form nếu người dùng đã đăng nhập
+    //  giá trị khởi tạo cho form nếu người dùng đã đăng nhập
     if (user) {
       setFormData((prev) => ({
         ...prev,
@@ -81,17 +82,17 @@ function ServiceCart() {
     }
 
     if (validateForm()) {
-      setLoading(true); // Bắt đầu trạng thái loading
+      setLoading(true);
 
       // Kết hợp ngày và giờ
-      const appointmentTime = `${formData.appointmentDate} ${formData.time}:00`; // Đảm bảo định dạng đúng
+      const appointmentTime = `${formData.appointmentDate} ${formData.time}:00`;
 
       const appointment = {
         id_user: null,
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
-        time: appointmentTime, // Sử dụng thời gian đã kết hợp
+        time: appointmentTime,
       };
       const ids = services.map((item) => item.id).filter((id) => id !== null);
       if (ids.length === 0) {
@@ -106,7 +107,6 @@ function ServiceCart() {
   };
   const addNewOrder = async (DataOrder) => {
     try {
-      // console.log("Dữ liệu gửi đến API:", DataOrder); // Log dữ liệu gửi
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/bookings`, DataOrder, {
         headers: {
           "Content-Type": "application/json",

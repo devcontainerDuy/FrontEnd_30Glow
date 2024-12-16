@@ -162,17 +162,14 @@ function getStatusBadge(status) {
 }
 
 function OrderServices() {
-  const [showModal, setShowModal] = useState(false); // Quản lý hiển thị modal
-  const [selectedOrderServices, setSelectedOrderServices] = useState(null); // Đơn hàng được chọn
-  const [orderServicesList, setOrderServicesList] = useState(orderService); // Chuyển orderService sang state
+  const [showModal, setShowModal] = useState(false); 
+  const [selectedOrderServices, setSelectedOrderServices] = useState(null); 
+  const [orderServicesList, setOrderServicesList] = useState(orderService); 
 
-  // Hàm mở modal với thông tin chi tiết của đơn hàng
   const handleShowModal = (orderServices) => {
     setSelectedOrderServices(orderServices);
     setShowModal(true);
   };
-
-  // Hàm đóng modal
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedOrderServices(null);
@@ -180,7 +177,7 @@ function OrderServices() {
   const handleCancelOrderServices = (orderServicesId) => {
     const updatedOrderService = orderServicesList.map((orderServices) => {
       if (orderServices.id === orderServicesId) {
-        return { ...orderServices, status: "Đã hủy" }; // Cập nhật trạng thái
+        return { ...orderServices, status: "Đã hủy" }; 
       }
       return orderServices;
     });

@@ -18,7 +18,7 @@ function Post() {
         if (data.check) {
           setPostList(data.data.data); 
         }
-        setLoading(false); // Kết thúc tải
+        setLoading(false); 
       })
       .catch((error) => {
         console.error("Lỗi khi tải dữ liệu:", error);
@@ -52,7 +52,7 @@ function Post() {
                 slug={post.slug}
                 image={`https://dashboard.30glow.site${post.image}`}
                 createdAt={post.created_at}
-                author="30GLOW" // Tạm đặt author cố định
+                author="30GLOW" 
                 content={post.summary}
               />
             ))
@@ -60,7 +60,6 @@ function Post() {
             <h3 className="text-center">Không có bài đăng</h3>
           )}
         </Row>
-        {/*end row*/}
       </Container>
       <Footers />
     </>
