@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Card, Col, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function CardPost({ name, slug, image, createdAt, content }) {
+export default function CardPost({ name, slug, image, createdAt, content, collection }) {
   return (
     <Col className="col-12 col-md-6">
       <Card className="h-100">
@@ -14,6 +14,12 @@ export default function CardPost({ name, slug, image, createdAt, content }) {
               <i className="bi bi-calendar me-2" />
               {createdAt}
             </p>
+            {collection && (
+              <p className="mb-1 ms-auto">
+                <i className="bi bi-tag me-2" />
+                {collection.name}
+              </p>
+            )}
           </div>
           <Card.Title className="fw-bold mt-3 h5">{name}</Card.Title>
           <p className="mb-0">{content}</p>
@@ -33,4 +39,8 @@ CardPost.propTypes = {
   createdAt: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
+  collection: PropTypes.shape({
+    name: PropTypes.string,
+    slug: PropTypes.string,
+  }),
 };

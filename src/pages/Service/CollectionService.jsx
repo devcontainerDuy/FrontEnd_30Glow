@@ -39,14 +39,14 @@ function CollectionServices() {
     fetchServices();
   }, [slug]);
 
-  // Xử lý thay đổi bộ lọc
   const handleFilterChange = (e) => {
     const selectedFilter = e.target.value;
     setFilter(selectedFilter);
-
     let sortedServices = [...services];
     if (selectedFilter === "sale") {
       sortedServices = sortedServices.filter((service) => service.discount > 0);
+    } else if (selectedFilter === "best-sale") {
+      sortedServices = sortedServices.filter((service) => service.discount > 0).sort((a, b) => b.discount - a.discount);
     } else if (selectedFilter === "high-to-low") {
       sortedServices.sort((a, b) => b.price - a.price);
     } else if (selectedFilter === "low-to-high") {
@@ -81,6 +81,7 @@ function CollectionServices() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
+              <option value="best-sale">Giảm giá tốt nhất</option>
             </FormSelect>
           </div>
         </div>
