@@ -68,12 +68,7 @@ function PostDetail() {
             </Row>
             <Row className="mb-4">
               <Col>
-                <img
-                  src={`https://dashboard.30glow.site${post.image}`}
-                  alt={post.title}
-                  className="img-fluid rounded mx-auto d-block"
-                  style={{ width: "800px", height: "500px", objectFit: "cover" }}
-                />
+                <img src={`https://dashboard.30glow.site${post.image}`} alt={post.title} className="img-fluid rounded mx-auto d-block" style={{ width: "100%", height: "500px", objectFit: "cover" }} />
               </Col>
             </Row>
             <Row>
@@ -83,9 +78,9 @@ function PostDetail() {
               </Col>
               <Col md={5}>
                 <Row className="row-cols-1 g-4">
-                  <div className=" bg-info bg-opacity-10 border border-info  rounded p-4">
+                  <div className=" border border-danger  rounded p-3">
                     {" "}
-                    <h2 className="text-danger ">Bài viết nổi bật</h2>
+                    <h2 className="text-danger fw-bold ">Bài viết nổi bật</h2>
                     {loading ? (
                       <h3 className="text-center">Đang tải...</h3>
                     ) : postList && postList.length > 0 ? (

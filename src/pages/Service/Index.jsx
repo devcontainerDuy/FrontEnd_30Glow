@@ -45,20 +45,22 @@ function Index() {
     }
   };
 
-  const getFilteredServices = () => {
-    let sortedServices = [...allServices];
+const getFilteredServices = () => {
+  let sortedServices = [...allServices];
+  if (filter === "sale") {
+    sortedServices = sortedServices.filter((service) => service.discount > 0);
+  } else if (filter === "best-sale") {
+    sortedServices = sortedServices.filter((service) => service.discount > 0).sort((a, b) => b.discount - a.discount);
+  } else if (filter === "high-to-low") {
+    sortedServices.sort((a, b) => b.price - a.price);
+  } else if (filter === "low-to-high") {
+    sortedServices.sort((a, b) => a.price - b.price);
+  } else if (filter === "newest") {
+    sortedServices.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  }
+  return sortedServices;
+};
 
-    if (filter === "sale") {
-      sortedServices = sortedServices.filter((service) => service.discount > 0);
-    } else if (filter === "high-to-low") {
-      sortedServices.sort((a, b) => b.price - a.price);
-    } else if (filter === "low-to-high") {
-      sortedServices.sort((a, b) => a.price - b.price);
-    } else if (filter === "newest") {
-      sortedServices.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    }
-    return sortedServices;
-  };
 
   const updateFilteredServices = () => {
     const newFilteredServices = getFilteredServices();
@@ -104,6 +106,7 @@ function Index() {
               <option value="default">Mặc định</option>
               <option value="high-to-low">Giá cao nhất</option>
               <option value="low-to-high">Giá thấp nhất</option>
+              <option value="best-sale">Giảm giá tốt nhất</option>
             </FormSelect>
           </div>
         </div>
@@ -117,11 +120,7 @@ function Index() {
           </Row>
         )}
 
-        <Paginated
-          current={page}
-          total={Math.ceil(filteredServices.length / servicesPerPage)} 
-          handle={handlePageChange}
-        />
+        <Paginated current={page} total={Math.ceil(filteredServices.length / servicesPerPage)} handle={handlePageChange} />
       </Container>
 
       <Container className="my-2 pb-5">
