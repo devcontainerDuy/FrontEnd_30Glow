@@ -5,7 +5,8 @@ import { Container, Row, Col, Badge, Button, Modal, Table } from "react-bootstra
 import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { AuthenContext } from "@context/AuthenContext";  // Import AuthenContext để lấy token
+import { AuthenContext } from "@context/AuthenContext";
+import { ProgressBar } from "react-bootstrap";
 import axios from "axios";
 
 
@@ -56,6 +57,27 @@ function Order() {
     }
   };
 
+  function getOrderProgress(status) {
+    switch (status) {
+      case 0:
+        return { percentage: 10, label: "Chờ xử lý" };
+      case 1:
+        return { percentage: 30, label: "Đã được xác nhận" };
+      case 2:
+        return { percentage: 50, label: "Đã giao vận chuyển" };
+      case 3:
+        return { percentage: 70, label: "Đang giao hàng" };
+      case 4:
+        return { percentage: 100, label: "Đã nhận hàng" };
+      case 5:
+        return { percentage: 100, label: "Đã hủy đơn" };
+      case 6:
+        return { percentage: 100, label: "Đã hoàn trả" };
+      default:
+        return { percentage: 0, label: "Chưa xác định" };
+    }
+  }
+
   // Giả lập hàm lấy trạng thái đơn hàng
   function getStatusBadge(status) {
     switch (status) {
@@ -102,7 +124,7 @@ function Order() {
       <Header />
       <BreadcrumbComponent props={[{ name: "Hóa đơn", url: "/hoa-don" }]} />
       <Container className="mb-5 mt-4">
-        <h3 className="mb-4"><i className="bi bi-list me-2"/>Danh sách hóa đơn</h3>
+        <h3 className="mb-4"><i className="bi bi-list me-2" />Danh sách hóa đơn</h3>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -137,17 +159,32 @@ function Order() {
       </Container>
 
       {/* Modal chi tiết hóa đơn */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={handleCloseModal} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Thông tin chi tiết Đơn hàng #{selectedOrder?.uid}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <h5>Thông tin khách hàng</h5>
+          {/* Thanh ProgressBar */}
+          <h6 className="mt-3">Tiến độ đơn hàng</h6>
+          <ProgressBar
+            now={getOrderProgress(selectedOrder?.status).percentage}
+            label={getOrderProgress(selectedOrder?.status).label}
+            variant={
+              selectedOrder?.status === 4 ? "success" :
+                selectedOrder?.status === 5 || selectedOrder?.status === 6 ? "danger" : "info"
+            }
+            style={{ height: "25px", marginBottom: "20px" }}
+          />
           <p><strong>Tên:</strong> {selectedOrder?.name}</p>
           <p><strong>Email:</strong> {selectedOrder?.email}</p>
           <p><strong>Số điện thoại:</strong> {selectedOrder?.phone}</p>
           <p><strong>Địa chỉ:</strong> {selectedOrder?.address}</p>
           <p><strong>Ghi chú:</strong> {selectedOrder?.note}</p>
+          <div className="d-flex justify-content-between mb-3">
+            {/* <p><strong>Trạng thái đơn hàng:</strong> {getStatusBadge(selectedOrder?.status)}</p> */}
+            <p><strong>Trạng thái thanh toán:</strong> {getPaymentStatus(selectedOrder?.payment_status)}</p>
+          </div>
 
           <h5 className="mt-3">Sản phẩm trong đơn hàng</h5>
           <Table striped bordered hover>
@@ -173,14 +210,11 @@ function Order() {
             </tbody>
           </Table>
 
-          <h5>Tổng tiền: {parseFloat(selectedOrder?.total).toLocaleString()} VND</h5>
-          <p><strong>Trạng thái đơn hàng:</strong> {getStatusBadge(selectedOrder?.status)}</p>
-
-          {/* Trạng thái thanh toán */}
-          <p><strong>Trạng thái thanh toán:</strong> {getPaymentStatus(selectedOrder?.payment_status)}</p>
+          <h5 className="fw-bold">Tổng tiền: {parseFloat(selectedOrder?.total).toLocaleString()} VND</h5>
         </Modal.Body>
+
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant="danger" onClick={handleCloseModal}>
             Đóng
           </Button>
         </Modal.Footer>
