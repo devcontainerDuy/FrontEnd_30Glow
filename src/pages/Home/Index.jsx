@@ -10,7 +10,6 @@ import CardPost from "../../components/CardPost";
 import CardService from "../../components/CardService";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
 function Index() {
   const [slideIndex, setSlideIndex] = useState([]);
