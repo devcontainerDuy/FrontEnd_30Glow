@@ -214,7 +214,7 @@ function Order() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseModal}>
+          <Button variant="secondary" onClick={handleCloseModal}>
             Đóng
           </Button>
         </Modal.Footer>
