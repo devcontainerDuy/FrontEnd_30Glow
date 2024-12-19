@@ -24,7 +24,7 @@ function SuccessfulOrder() {
                   <Button variant="outline-success" className="d-flex align-items-center justify-content-center" onClick={() => navigate("/")}>
                     <i className="bi bi-house-door-fill me-2"></i> Về trang chủ
                   </Button>
-                  <Button variant="primary" className="d-flex align-items-center justify-content-center" onClick={() => navigate("/order-details")}>
+                  <Button variant="primary" className="d-flex align-items-center justify-content-center" onClick={() => navigate("/hoa-don")}>
                     <i className="bi bi-card-list me-2"></i> Xem chi tiết
                   </Button>
                 </div>

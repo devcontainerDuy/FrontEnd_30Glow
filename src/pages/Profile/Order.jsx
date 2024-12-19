@@ -118,6 +118,35 @@ function Order() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+  const handleCancelOrder = async (orderId) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/bills/${orderId}/cancel`,
+        {}, // Payload có thể để trống nếu API không yêu cầu
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.check) {
+        alert("Đơn hàng đã được hủy thành công.");
+        setShowModal(false);
+        // Cập nhật lại danh sách đơn hàng
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.uid === orderId ? { ...order, status: 5 } : order
+          )
+        );
+      } else {
+        alert("Không thể hủy đơn hàng.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi hủy đơn hàng:", error);
+      alert("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    }
+  };
+
 
   return (
     <>
@@ -144,7 +173,7 @@ function Order() {
                 <td>{new Date(order.created_at).toLocaleString()}</td>
                 <td>{parseFloat(order.total).toLocaleString()} VND</td>
                 <td>{getStatusBadge(order.status)}</td>
-                <td>
+                <td className="text-center">
                   <Button
                     variant="info"
                     onClick={() => handleShowModal(order.uid)}
@@ -214,10 +243,16 @@ function Order() {
         </Modal.Body>
 
         <Modal.Footer>
+          {selectedOrder?.status === 0 || selectedOrder?.status === 1 ? (
+            <Button variant="danger" onClick={() => handleCancelOrder(selectedOrder?.uid)}>
+              Hủy
+            </Button>
+          ) : null}
           <Button variant="secondary" onClick={handleCloseModal}>
             Đóng
           </Button>
         </Modal.Footer>
+
       </Modal>
 
       <Footer />

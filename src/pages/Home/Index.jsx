@@ -114,7 +114,9 @@ function Index() {
             slideIndex.map((item, index) => (
               <>
                 <SwiperSlide key={index}>
-                  <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
+                  <Link to="/dich-vu">
+                    <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
+                  </Link>
                 </SwiperSlide>
               </>
             ))
@@ -183,7 +185,7 @@ function Index() {
       <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ KHUYẾN MÃI</h3>
           </div>
         </div>
         <Row className="row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-4 g-4">

@@ -49,27 +49,33 @@ function About() {
           <Col md={4}>
             <Card className="border-0 shadow-lg hover-shadow">
               <Card.Body className="text-center">
-                <i className="bi bi-scissors h1 text-primary"></i>
-                <h4 className="mt-3 fw-bold">Tạo kiểu tóc chuyên nghiệp</h4>
-                <p className="text-muted">Cắt, nhuộm, và uốn tóc thời thượng.</p>
+                <Link to="/dich-vu" className="text-decoration-none">
+                  <i className="bi bi-scissors h1 text-primary"></i>
+                  <h4 className="mt-3 fw-bold">Tạo kiểu tóc chuyên nghiệp</h4>
+                  <p className="text-muted">Cắt, nhuộm, và uốn tóc thời thượng.</p>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
           <Col md={4}>
             <Card className="border-0 shadow-lg hover-shadow">
               <Card.Body className="text-center">
-                <i className="bi bi-droplet h1 text-primary"></i>
-                <h4 className="mt-3 fw-bold">Dưỡng tóc phục hồi</h4>
-                <p className="text-muted">Sử dụng sản phẩm chuyên nghiệp để nuôi dưỡng tóc.</p>
+                <Link to="/dich-vu" className="text-decoration-none">
+                  <i className="bi bi-droplet h1 text-primary"></i>
+                  <h4 className="mt-3 fw-bold">Dưỡng tóc phục hồi</h4>
+                  <p className="text-muted">Sử dụng sản phẩm chuyên nghiệp để nuôi dưỡng tóc.</p>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
           <Col md={4}>
             <Card className="border-0 shadow-lg hover-shadow">
               <Card.Body className="text-center">
-                <i className="bi bi-calendar-check h1 text-primary"></i>
-                <h4 className="mt-3 fw-bold">Đặt lịch dễ dàng</h4>
-                <p className="text-muted">Chọn stylist yêu thích chỉ với vài thao tác.</p>
+                <Link to="/dich-vu" className="text-decoration-none">
+                  <i className="bi bi-calendar-check h1 text-primary"></i>
+                  <h4 className="mt-3 fw-bold">Đặt lịch dễ dàng</h4>
+                  <p className="text-muted">Chọn stylist yêu thích chỉ với vài thao tác.</p>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -83,16 +89,16 @@ function About() {
             <div className="col-lg-6">
               <h3 className="text-primary-emphasis fw-bold">Sản phẩm chăm sóc tóc</h3>
               <ul className="list-unstyled">
-                <li className="border-bottom py-2 fs-5 text-muted">Dầu gội và dầu xả cao cấp</li>
-                <li className="border-bottom py-2 fs-5 text-muted">Kem dưỡng và tinh chất phục hồi</li>
-                <li className="py-2 fs-5 text-muted">Sản phẩm tạo kiểu tóc</li>
+                <li className="border-bottom py-2 fs-5 text-muted"><Link to="/danh-muc/dau-goi" className="text-decoration-none text-muted">Dầu gội </Link><Link to="/danh-muc/dau-xa" className="text-decoration-none text-muted">và dầu xả cao cấp</Link></li>
+                <li className="border-bottom py-2 fs-5 text-muted"><Link to="/danh-muc/duong-toc" className="text-decoration-none text-muted">Kem dưỡng và tinh chất phục hồi</Link></li>
+                <li className="py-2 fs-5 text-muted"><Link to="/danh-muc/tao-kieu-toc" className="text-decoration-none text-muted">Sản phẩm tạo kiểu tóc</Link></li>
               </ul>
 
               <h3 className="text-primary-emphasis fw-bold mt-4">Sản phẩm chăm sóc da</h3>
               <ul className="list-unstyled">
-                <li className="border-bottom py-2 fs-5 text-muted">Sữa rửa mặt dịu nhẹ</li>
-                <li className="border-bottom py-2 fs-5 text-muted">Kem dưỡng ẩm hàng ngày</li>
-                <li className="py-2 fs-5 text-muted">Kem chống nắng bảo vệ da</li>
+                <li className="border-bottom py-2 fs-5 text-muted"><Link to="/danh-muc/sua-rua-mat" className="text-decoration-none text-muted">Sữa rửa mặt dịu nhẹ</Link></li>
+                <li className="border-bottom py-2 fs-5 text-muted"><Link to="/danh-muc/duong-am" className="text-decoration-none text-muted">Kem dưỡng ẩm hàng ngày</Link></li>
+                {/* <li className="py-2 fs-5 text-muted"><Link to="/danh-muc" className="text-decoration-none text-muted">Kem chống nắng bảo vệ da</Link></li> */}
               </ul>
             </div>
           </div>

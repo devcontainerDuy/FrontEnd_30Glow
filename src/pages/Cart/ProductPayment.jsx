@@ -122,6 +122,23 @@ function ProductPayment() {
   };
 
   const handleSubmit = () => {
+    if (!formData.provinceId) {
+      window.notyf.error("Vui lòng chọn Tỉnh/Thành phố.");
+      return;
+    }
+    if (!formData.districtId) {
+      window.notyf.error("Vui lòng chọn Quận/Huyện.");
+      return;
+    }
+    if (!formData.wardId) {
+      window.notyf.error("Vui lòng chọn Xã/Phường.");
+      return;
+    }
+    if (!formData.houseNumber) {
+      window.notyf.error("Vui lòng nhập Số nhà, tên đường.");
+      return;
+    }
+
     // Lấy tên tỉnh/thành, quận/huyện, xã/phường từ danh sách
     const provinceName = provinces.find((p) => p.id === formData.provinceId)?.name || "";
     const districtName = districts.find((d) => d.id === formData.districtId)?.name || "";
@@ -176,6 +193,7 @@ function ProductPayment() {
         <Row className="p-3 border rounded">
           <Col md={7} className="border-end pt-1">
             <h4>Thông tin thanh toán</h4>
+            {/* <p>đn</p> */}
             <Form className="mt-3" noValidate>
               <Row>
                 <Col md={6}>

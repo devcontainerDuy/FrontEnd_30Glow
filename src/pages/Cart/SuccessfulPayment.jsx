@@ -23,20 +23,20 @@ function SuccessfulPayment() {
                   Cảm ơn bạn đã tin tưởng và mua sắm tại 30GLOW. Đơn hàng của bạn đã được xác nhận và đang được xử lý.
                 </p>
                 <div className="mt-4 d-flex justify-content-center gap-3">
-                    <Button
-                        variant="outline-success"
-                        className="d-flex align-items-center justify-content-center"
-                        onClick={() => navigate("/")}
-                    >
-                        <i className="bi bi-house-door-fill me-2"></i> Về trang chủ
-                    </Button>
-                    <Button
-                        variant="primary"
-                        className="d-flex align-items-center justify-content-center"
-                        onClick={() => navigate("/order-details")}
-                    >
-                        <i className="bi bi-card-list me-2"></i> Xem chi tiết
-                    </Button>
+                  <Button
+                    variant="outline-success"
+                    className="d-flex align-items-center justify-content-center"
+                    onClick={() => navigate("/")}
+                  >
+                    <i className="bi bi-house-door-fill me-2"></i> Về trang chủ
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="d-flex align-items-center justify-content-center"
+                    onClick={() => navigate("/hoa-don")}
+                  >
+                    <i className="bi bi-card-list me-2"></i> Xem chi tiết
+                  </Button>
                 </div>
 
               </Card.Body>
