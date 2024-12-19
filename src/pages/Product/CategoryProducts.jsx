@@ -19,7 +19,7 @@ function CategoryProducts() {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
-  const PRODUCTS_PER_PAGE = 8; // Số sản phẩm mỗi trang
+  const PRODUCTS_PER_PAGE = 8;
 
   useEffect(() => {
     const fetchProducts = async () => {

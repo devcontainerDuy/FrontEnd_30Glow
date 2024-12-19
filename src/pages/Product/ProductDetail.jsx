@@ -31,6 +31,8 @@ function ProductDetail() {
       });
   }, [slug]);
 
+  const sale = productDetail?.price - productDetail?.price * (productDetail?.discount / 100);
+
   const handleAddToCart = () => {
     const newItem = { id_product: productDetail.id, quantity: quantity || 1 };
 
@@ -124,18 +126,18 @@ function ProductDetail() {
       comments.map((comment) =>
         comment.id === id
           ? {
-              ...comment,
-              replies: [
-                ...comment.replies,
-                {
-                  name: "Tên người dùng", // Tên người dùng
-                  avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
-                  content: reply,
-                  date: new Date().toLocaleDateString("vi-VN"),
-                },
-              ],
-              showReplyInput: false,
-            }
+            ...comment,
+            replies: [
+              ...comment.replies,
+              {
+                name: "Tên người dùng", // Tên người dùng
+                avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
+                content: reply,
+                date: new Date().toLocaleDateString("vi-VN"),
+              },
+            ],
+            showReplyInput: false,
+          }
           : comment
       )
     );
@@ -215,20 +217,24 @@ function ProductDetail() {
 
             <div className="d-flex align-items-center gap-3">
               <h4 className="text-danger fw-bold">
-                {productDetail.price?.toLocaleString("vi-VN", {
+                {sale?.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
               </h4>
-              <p className="fw-bold text-decoration-line-through text-muted mb-0 fs-5">
-                {productDetail.price?.toLocaleString("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                })}
-              </p>
-              <Badge bg="success" className="p-2">
-                {productDetail.discount}%
-              </Badge>
+              {productDetail.discount > 0 ? (
+                <>
+                  <p className="fw-bold text-decoration-line-through text-muted mb-0 fs-5">
+                    {productDetail.price?.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </p>
+                  <Badge bg="success" className="p-2">
+                    {productDetail.discount}%
+                  </Badge>
+                </>
+              ) : null}
             </div>
 
             <div className="align-items-center py-0">
