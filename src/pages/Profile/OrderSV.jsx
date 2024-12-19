@@ -11,12 +11,12 @@ const orderService = [
   {
     id: 1,
     date: "2023-11-01",
-    status: "Đã giao hàng",
+    status: "Đã hủy",
     total: "1,500,000 VND",
     customer: {
       name: "Nguyễn Văn A",
       phone: "0901234567",
-      note: "Tôi sẽ đến sớm hơn 15p",
+      note: "Tôi bận ! ",
     },
     services: [
       { id: 1, name: "Dịch vụ 1", quantity: 2, price: 500000, total: 1000000 },
@@ -32,23 +32,10 @@ const orderService = [
     customer: {
       name: "Lê Thị B",
       phone: "0987654321",
-      note: "Yêu cầu giao vào buổi chiều",
+      note: "Tôi sẽ đến đúng giờgiờ",
     },
     services: [{ id: 3, name: "Dịch vụ 3", quantity: 1, price: 750000, total: 750000 }],
     details: "Thông tin chi tiết đơn hàng #2",
-  },
-  {
-    id: 3,
-    date: "2023-10-20",
-    status: "Khách hàng từ chối nhận",
-    total: "0 VND",
-    customer: {
-      name: "Trần C",
-      phone: "0912345678",
-      note: "Đơn hàng đã bị từ chối",
-    },
-    services: [{ id: 4, name: "Dịch vụ 4", quantity: 1, price: 0, total: 0 }],
-    details: "Thông tin chi tiết đơn hàng #3",
   },
   {
     id: 4,
@@ -58,72 +45,19 @@ const orderService = [
     customer: {
       name: "Phạm D",
       phone: "0934567890",
-      note: "Yêu cầu giao vào ngày nghỉ",
+      note: "",
     },
     services: [{ id: 5, name: "Dịch vụ 5", quantity: 1, price: 2000000, total: 2000000 }],
     details: "Thông tin chi tiết đơn hàng #4",
-  },
-  {
-    id: 5,
-    date: "2023-11-12",
-    status: "Đã giao đơn vị vận chuyển",
-    total: "500,000 VND",
-    customer: {
-      name: "Ngô E",
-      phone: "0923456789",
-      note: "Giao hàng giờ hành chính",
-    },
-    services: [{ id: 6, name: "Dịch vụ 6", quantity: 2, price: 250000, total: 500000 }],
-    details: "Thông tin chi tiết đơn hàng #5",
-  },
-  {
-    id: 6,
-    date: "2023-11-15",
-    status: "Đang giao hàng",
-    total: "1,200,000 VND",
-    customer: {
-      name: "Lý F",
-      phone: "0915678901",
-      address: "987 Đường MNO, Quận 6, TP. HCM",
-      note: "Giao trước 18h",
-    },
-    services: [{ id: 7, name: "Dịch vụ 7", quantity: 1, price: 1200000, total: 1200000 }],
-    details: "Thông tin chi tiết đơn hàng #6",
-  },
-  {
-    id: 7,
-    date: "2023-11-18",
-    status: "Đã hoàn trả",
-    total: "0 VND",
-    customer: {
-      name: "Hoàng G",
-      phone: "0931234567",
-      address: "123 Đường PQR, Quận 7, TP. HCM",
-      note: "Khách yêu cầu hoàn trả hàng",
-    },
-    services: [{ id: 8, name: "Dịch vụ 8", quantity: 1, price: 0, total: 0 }],
-    details: "Thông tin chi tiết đơn hàng #7",
   },
 ];
 
 function getStatusBadge(status) {
   switch (status) {
-    case "Đã giao hàng":
-      return (
-        <Badge bg="success">
-          <FontAwesomeIcon icon={faCheckCircle} /> Đã hoàn thành
-        </Badge>
-      );
     case "Đang chờ xử lý":
       return (
         <Badge bg="warning" text="dark">
           <FontAwesomeIcon icon={faClock} /> Đang chờ xử lý
-        </Badge>
-      );
-    case "Khách hàng từ chối nhận":
-      return (
-        <Badge bg="danger">
-          <FontAwesomeIcon icon={faTimesCircle} /> Khách hàng không đến
         </Badge>
       );
     case "Đã xác nhận":
@@ -132,19 +66,6 @@ function getStatusBadge(status) {
           <FontAwesomeIcon icon={faClipboard} /> Đã xác nhận
         </Badge>
       );
-    case "Đã giao đơn vị vận chuyển":
-      return (
-        <Badge bg="primary">
-          <FontAwesomeIcon icon={faTruck} /> Đang ở tiệm
-        </Badge>
-      );
-    case "Đang giao hàng":
-      return (
-        <Badge bg="secondary">
-          <FontAwesomeIcon icon={faTruck} /> Khách hẹn ngày sau
-        </Badge>
-      );
-    case "Đã hoàn trả":
       return (
         <Badge bg="dark">
           <FontAwesomeIcon icon={faTimesCircle} /> Đã hoàn trả
@@ -162,9 +83,9 @@ function getStatusBadge(status) {
 }
 
 function OrderServices() {
-  const [showModal, setShowModal] = useState(false); 
-  const [selectedOrderServices, setSelectedOrderServices] = useState(null); 
-  const [orderServicesList, setOrderServicesList] = useState(orderService); 
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrderServices, setSelectedOrderServices] = useState(null);
+  const [orderServicesList, setOrderServicesList] = useState(orderService);
 
   const handleShowModal = (orderServices) => {
     setSelectedOrderServices(orderServices);
@@ -177,7 +98,7 @@ function OrderServices() {
   const handleCancelOrderServices = (orderServicesId) => {
     const updatedOrderService = orderServicesList.map((orderServices) => {
       if (orderServices.id === orderServicesId) {
-        return { ...orderServices, status: "Đã hủy" }; 
+        return { ...orderServices, status: "Đã hủy" };
       }
       return orderServices;
     });
