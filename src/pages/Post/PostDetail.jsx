@@ -73,10 +73,10 @@ function PostDetail() {
             </Row>
             <Row>
               {/* Chia 2 cột */}
-              <Col md={7}>
+              <Col md={8}>
                 <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
               </Col>
-              <Col md={5}>
+              <Col md={4}>
                 <Row className="row-cols-1 g-4">
                   <div className=" border border-danger  rounded p-3">
                     {" "}
