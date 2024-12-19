@@ -87,6 +87,7 @@ function PostDetail() {
                 </Row>
               </Col>
             </Row>
+
             <Row className="mt-5">
               <Col>
                 <div className="text-start border-0 rounded-0 border-start border-primary border-5 mb-3">
@@ -96,19 +97,21 @@ function PostDetail() {
                 </div>
                 <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                   {relatedPosts.length > 0 ? (
-                    relatedPosts
-                      .slice(0, 4)
-                      .map((relatedPost) => (
-                        <CardPost
-                          key={relatedPost.id}
-                          name={relatedPost.title}
-                          slug={relatedPost.slug}
-                          image={`https://dashboard.30glow.site${relatedPost.image}`}
-                          author="30GLOW"
-                          content={relatedPost.summary}
-                          collection={relatedPost.collection}
-                        />
-                      ))
+                    relatedPosts.slice(0, 4).map((relatedPost) => (
+                      <CardPost
+                        key={relatedPost.id}
+                        name={
+                          <Link to={`/tin-tuc/${relatedPost.slug}`} className="card-title text-decoration-none">
+                            {relatedPost.title}
+                          </Link>
+                        }
+                        slug={relatedPost.slug}
+                        image={`https://dashboard.30glow.site${relatedPost.image}`}
+                        author="30GLOW"
+                        content={relatedPost.summary}
+                        collection={relatedPost.collection}
+                      />
+                    ))
                   ) : (
                     <h3 className="text-center">Không có bài viết liên quan</h3>
                   )}

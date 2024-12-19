@@ -23,6 +23,7 @@ export default function CardPost({ title, slug, image, created_at, summary, coll
           </div>
           <Card.Title className="fw-bold mt-3 h5 text-title ">{title}</Card.Title>
           <p className="mb-0 text-title ">{summary}</p>
+
           <Link to={`/tin-tuc/${slug}`} className="btn btn-outline-dark mt-3">
             Xem thêm
           </Link>

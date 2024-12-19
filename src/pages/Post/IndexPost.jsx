@@ -6,6 +6,7 @@ import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 import CardPost from "../../components/CardPost";
 import Paginated from "../../components/Paginated";
+import { Link } from "react-router-dom";
 
 function Post() {
   const [postList, setPostList] = useState([]);
