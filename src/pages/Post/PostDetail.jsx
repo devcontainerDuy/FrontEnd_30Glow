@@ -5,12 +5,14 @@ import Footers from "@layouts/Footer";
 import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 import { Link, useParams } from "react-router-dom";
+import CardPost from "@components/CardPost";
 
 function PostDetail() {
-  const { slug } = useParams(); // Lấy slug từ URL
+  const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [postList, setPostList] = useState([]);
+  const [relatedPosts, setRelatedPosts] = useState([]);
 
   useEffect(() => {
     fetch("https://dashboard.30glow.site/api/posts")
@@ -19,7 +21,7 @@ function PostDetail() {
         if (data.check) {
           setPostList(data.data.data);
         }
-        setLoading(false); // Kết thúc tải
+        setLoading(false); 
       })
       .catch((error) => {
         console.error("Lỗi khi tải dữ liệu:", error);
@@ -33,6 +35,7 @@ function PostDetail() {
       .then((data) => {
         if (data.check) {
           setPost(data.data);
+          setRelatedPosts(data.data.related); 
         }
         setLoading(false);
       })
@@ -108,6 +111,34 @@ function PostDetail() {
                       <h3 className="text-center">Không có bài viết nổi bật</h3>
                     )}
                   </div>
+                </Row>
+              </Col>
+            </Row>
+            <Row className="mt-5">
+              <Col>
+                <div className="text-start border-0 rounded-0 border-start border-primary border-5 mb-3">
+                  <div className="ms-2">
+                    <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
+                  </div>
+                </div>
+                <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                  {relatedPosts.length > 0 ? (
+                    relatedPosts
+                      .slice(0, 4)
+                      .map((relatedPost) => (
+                        <CardPost
+                          key={relatedPost.id}
+                          name={relatedPost.title}
+                          slug={relatedPost.slug}
+                          image={`https://dashboard.30glow.site${relatedPost.image}`}
+                          author="30GLOW"
+                          content={relatedPost.summary}
+                          collection={relatedPost.collection}
+                        />
+                      ))
+                  ) : (
+                    <h3 className="text-center">Không có bài viết liên quan</h3>
+                  )}
                 </Row>
               </Col>
             </Row>

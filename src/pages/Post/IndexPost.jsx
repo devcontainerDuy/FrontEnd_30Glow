@@ -27,8 +27,6 @@ function Post() {
 
   const filteredPosts = () => {
     switch (filter) {
-      case "post-new":
-        return postList.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       case "post-hot":
         return postList.filter((post) => post.highlighted === 1);
       case "default":
@@ -75,7 +73,6 @@ function Post() {
           <span className="me-2">Lọc:</span>
           <FormSelect value={filter} onChange={handleFilterChange} style={{ width: "200px" }}>
             <option value="default">Tất cả bài viết</option>
-            <option value="post-new">Bài viết mới nhất</option>
             <option value="post-hot">Bài viết nổi bật</option>
           </FormSelect>
         </div>
