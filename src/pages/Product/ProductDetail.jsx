@@ -224,9 +224,9 @@ function ProductDetail() {
               ) : null}
             </div>
 
-            <div className="align-items-center py-0">
+            {/* <div className="align-items-center py-0">
               <span className="fw-semibold text-secondary">Số lượng trong kho: {productDetail?.in_stock}</span>
-            </div>
+            </div> */}
 
             <Form className="d-flex gap-3 mt-3">
               <div className="d-flex align-items-center border rounded">

@@ -217,11 +217,11 @@ function Order() {
                     variant="info"
                     onClick={() => handleShowModal(order.uid)}
                   >
-                    <FontAwesomeIcon icon={faInfoCircle} /> Xem chi tiết
+                    <FontAwesomeIcon icon={faInfoCircle} /> Chi tiết đơn hàng
                   </Button>
                 </td>
               </tr>
-            ))}
+            )) || "Không có hóa đơn"}
           </tbody>
         </Table>
       </Container>
