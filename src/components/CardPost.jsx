@@ -21,8 +21,8 @@ export default function CardPost({ name, slug, image, createdAt, content, collec
               </p>
             )}
           </div>
-          <Card.Title className="fw-bold mt-3 h5">{name}</Card.Title>
-          <p className="mb-0">{content}</p>
+          <Card.Title className="fw-bold mt-3 h5 card-title text-title">{name}</Card.Title>
+          <p className="mb-0 text-title ">{content}</p>
           <Link to={`/tin-tuc/${slug}`} className="btn btn-outline-dark mt-3">
             Xem thêm
           </Link>

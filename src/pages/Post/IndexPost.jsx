@@ -6,6 +6,7 @@ import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 import CardPost from "../../components/CardPost";
 import Paginated from "../../components/Paginated";
+import { Link } from "react-router-dom";
 
 function Post() {
   const [postList, setPostList] = useState([]);
@@ -84,7 +85,11 @@ function Post() {
             currentPosts.map((post) => (
               <CardPost
                 key={post.id}
-                name={post.title}
+                name={
+                  <Link to={`/tin-tuc/${post.slug}`} className="card-title text-decoration-none">
+                    {post.title}
+                  </Link>
+                }
                 slug={post.slug}
                 image={`https://dashboard.30glow.site${post.image}`}
                 createdAt={post.created_at}
