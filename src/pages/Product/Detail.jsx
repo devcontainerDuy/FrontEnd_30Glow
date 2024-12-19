@@ -81,6 +81,8 @@ function Detail() {
   const [productDetail, setProductDetail] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
 
+  const sale = productDetail?.price - productDetail?.price * (productDetail?.discount / 100);
+
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/products/${slug}`)
@@ -237,20 +239,24 @@ function Detail() {
 
             <div className="d-flex align-items-center gap-3">
               <h4 className="text-danger fw-bold">
-                {productDetail.price?.toLocaleString("vi-VN", {
+              {sale?.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
               </h4>
-              <p className="fw-bold text-decoration-line-through text-muted mb-0 fs-5">
-                {productDetail.price?.toLocaleString("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                })}
-              </p>
-              <Badge bg="success" className="p-2">
-                {productDetail.discount}%
-              </Badge>
+              {productDetail.discount > 0 ? (
+                <>
+                  <p className="fw-bold text-decoration-line-through text-muted mb-0 fs-5">
+                    {productDetail.price?.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </p>
+                  <Badge bg="success" className="p-2">
+                    {productDetail.discount}%
+                  </Badge>
+                </>
+              ) : null}
             </div>
 
             {/* <div className="align-items-center py-0">

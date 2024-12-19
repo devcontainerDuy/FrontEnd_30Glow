@@ -7,16 +7,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBillWave, faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom";
-import useAuthenContext from "@context/AuthenContext";
+import { increaseQuantity, decreaseQuantity, removeFromCart, clearCart } from "@store/reducers/shoppingCartSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function PaymentProduct() {
-  const { cartItems } = useAuthenContext();
+  const products = useSelector((state) => state.shoppingCart.items);
+  const dispatch = useDispatch();
+  const [cartItems, setCartItems] = useState([]);
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+  const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(0);
+  const navigate = useNavigate();
+  console.log("Giỏ hàng: ", cartItems);
 
   const subtotal = cartItems.reduce((sum, item) => {
-    const price = item.product?.discount > 0 ? item.product?.price - (item.product?.price * item.product?.discount) / 100 : item.product?.price;
+    const price = item?.discount > 0 ? item?.price - (item?.price * item?.discount) / 100 : item?.price;
     return sum + price * item?.quantity;
   }, 0);
 
@@ -28,7 +40,7 @@ function PaymentProduct() {
     provinceId: "",
     districtId: "",
     wardId: "",
-    addressDetail: "", // Thêm trường địa chỉ chi tiết
+    houseNumber: "", // Thêm trường địa chỉ chi tiết
   });
 
   const [loading, setLoading] = useState({
@@ -36,6 +48,16 @@ function PaymentProduct() {
     districts: false,
     wards: false,
   });
+
+  useEffect(() => {
+    if (products.length > 0) {
+      axios.post(import.meta.env.VITE_API_URL + "/carts/loadCart", { cartItems: products }).then((res) => {
+        setCartItems(res.data.data);
+      });
+    } else {
+      setCartItems([]);
+    }
+  }, [products]);
 
   // Fetch Provinces
   useEffect(() => {
@@ -105,14 +127,63 @@ function PaymentProduct() {
   };
 
   const handleSubmit = () => {
+    if (!formData.provinceId) {
+      window.notyf.error("Vui lòng chọn Tỉnh/Thành phố.");
+      return;
+    }
+    if (!formData.districtId) {
+      window.notyf.error("Vui lòng chọn Quận/Huyện.");
+      return;
+    }
+    if (!formData.wardId) {
+      window.notyf.error("Vui lòng chọn Xã/Phường.");
+      return;
+    }
+    if (!formData.houseNumber) {
+      window.notyf.error("Vui lòng nhập Số nhà, tên đường.");
+      return;
+    }
+
     // Lấy tên tỉnh/thành, quận/huyện, xã/phường từ danh sách
     const provinceName = provinces.find((p) => p.id === formData.provinceId)?.name || "";
     const districtName = districts.find((d) => d.id === formData.districtId)?.name || "";
     const wardName = wards.find((w) => w.id === formData.wardId)?.name || "";
 
     // Ghép chuỗi địa chỉ hoàn chỉnh
-    const fullAddress = `${formData.addressDetail}, ${wardName}, ${districtName}, ${provinceName}`;
-    console.log("Địa chỉ hoàn chỉnh:", fullAddress);
+    const fullAddress = `${formData.houseNumber}, ${wardName}, ${districtName}, ${provinceName}`;
+    console.log(paymentMethod);
+
+    axios
+      .post(import.meta.env.VITE_API_URL + "/bills", {
+        name: userInfo.name,
+        email: userInfo.email,
+        phone: userInfo.phone,
+        address: fullAddress,
+        note: note,
+        payment_method: paymentMethod,
+        payment_status: 0,
+        total: total,
+        cart: cartItems.map((item) => ({
+          id_product: item.id,
+          quantity: item.quantity,
+          unit_price: (item.price - (item.price * item.discount) / 100) * item.quantity,
+        })),
+      })
+      .then((response) => {
+        if (response.data.check === true) {
+          if (paymentMethod == 0) {
+            navigate("/dat-hang-thanh-cong");
+          } else if (paymentMethod == 1) {
+            navigate("/dat-hang?orderId=" + response.data.uid + "&orderTotal=" + response.data.total);
+          }
+          dispatch(clearCart());
+        } else {
+          window.notyf.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        window.notyf.error(error.response.data.message);
+      });
   };
   return (
     <>
@@ -127,16 +198,22 @@ function PaymentProduct() {
             <h4>Thông tin thanh toán</h4>
             <Form className="mt-3" noValidate>
               <Row>
-                <Col md={6}>
+                <Col md={12}>
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Họ và tên</Form.Label>
-                    <Form.Control type="text" placeholder="Nhập họ và tên" required />
+                    <Form.Control type="text" placeholder="Nhập họ và tên" value={userInfo.name} onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })} required />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group className="mb-3" controlId="phone">
                     <Form.Label>Số điện thoại</Form.Label>
-                    <Form.Control type="tel" placeholder="Nhập số điện thoại" required />
+                    <Form.Control type="tel" placeholder="Nhập số điện thoại" value={userInfo.phone} onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} required />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Địa chỉ email</Form.Label>
+                    <Form.Control type="tel" placeholder="Nhập địa chỉ email" value={userInfo.email} onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} required />
                   </Form.Group>
                 </Col>
               </Row>
@@ -198,15 +275,69 @@ function PaymentProduct() {
 
               <Form.Group className="mb-3" controlId="addressDetail">
                 <Form.Label>Địa chỉ</Form.Label>
-                <Form.Control type="text" placeholder="Số nhà, tên đường..." value={formData.addressDetail} onChange={handleInputChange} required />
+                <Form.Control type="text" placeholder="Số nhà, tên đường..." value={formData.houseNumber} onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })} required />
               </Form.Group>
 
               {/* Ghi chú đơn hàng */}
               <Form.Group className="mb-3" controlId="formNote">
                 <Form.Label>Ghi chú đơn hàng</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Thêm ghi chú nếu có" />
+                <Form.Control as="textarea" rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Thêm ghi chú nếu có" />
               </Form.Group>
 
+              <p>Thời gian giao hàng từ 3 – 5 ngày đối với ngoại thành</p>
+              <p>Giao hàng nhanh trong ngày với khu vực Hồ Chí Minh</p>
+            </Form>
+          </Col>
+
+          <Col md={5} className="pt-1">
+            <h4>Đơn hàng của bạn</h4>
+            <p className="text-muted">Tổng sản phẩm: {totalItems || 0}</p>
+            <div className="order-summary mt-3" style={{ maxHeight: "300px", overflowY: "auto" }}>
+              {cartItems?.map((items, index) => (
+                <Row key={index} className="align-items-center mb-3" style={{ borderBottom: "1px solid #dee2e6", width: "500px" }}>
+                  <Col xs={2}>
+                    <Image src={import.meta.env.VITE_URL + items?.gallery} fluid rounded />
+                  </Col>
+                  <Col xs={9}>
+                    <div className="d-flex">
+                      {/* <Link to={`/san-pham/${items.product?.slug}`} className="text-decoration-none h6 link-hover-underline link-dark "> */}
+                      <span className="h6 link-dark">{items?.name || "Product Name"}</span>
+                      {/* </Link> */}
+                      <div className="ms-2">{items?.discount > 0 && <span className="badge text-bg-danger "> {items?.discount} %</span>}</div>
+                    </div>
+                    {items?.discount > 0 ? (
+                      <>
+                        <div>
+                          <p className="mb-0 text-danger">
+                            <del>{items?.price?.toLocaleString() || "0"}₫</del>
+                          </p>
+                          <p className="fw-bold">{(items.price - (items.price * items.discount) / 100).toLocaleString()}₫</p>
+                        </div>
+                      </>
+                    ) : (
+                      <p className="fw-bold">{items.price?.toLocaleString() || "0"}₫</p>
+                    )}
+                  </Col>
+                  <Col xs={1} className="text-end">
+                    <p className="mb-0">x{items.quantity}</p>
+                  </Col>
+                </Row>
+              ))}
+            </div>
+            {/* <hr /> */}
+
+            {/* <Form.Group className="mb-3" controlId="formVoucher">
+              <Form.Label className="fs-5 fw-bold">Mã Voucher</Form.Label>
+              <div className="d-flex flex-column flex-md-row gap-2">
+                <Form.Control className="flex-grow-1" type="text" placeholder="Nhập mã giảm giá" />
+                <Button variant="outline-success" className="w-50 w-md-auto">
+                  Áp dụng
+                </Button>
+              </div>
+            </Form.Group> */}
+
+            <hr />
+            <Form className="mt-3" noValidate>
               {/* Hình thức thanh toán */}
               <Form.Group className="mb-3" controlId="formPaymentMethod">
                 <Form.Label className="mb-2 fs-5 fw-bold">Hình thức thanh toán</Form.Label>
@@ -223,6 +354,7 @@ function PaymentProduct() {
                     id="paymentCOD"
                     className="mb-2"
                     defaultChecked
+                    onChange={() => setPaymentMethod(0)}
                   />
                   <Form.Check
                     type="radio"
@@ -235,62 +367,11 @@ function PaymentProduct() {
                     name="paymentMethod"
                     id="paymentBankTransfer"
                     className="mb-2"
+                    onChange={() => setPaymentMethod(1)}
                   />
                 </div>
               </Form.Group>
-
-              <p>Thời gian giao hàng từ 3 – 5 ngày đối với ngoại thành</p>
-              <p>Giao hàng nhanh trong ngày với khu vực Hồ Chí Minh</p>
             </Form>
-          </Col>
-
-          <Col md={5} className="pt-1">
-            <h4>Đơn hàng của bạn</h4>
-            <p className="text-muted">Tổng sản phẩm: {totalItems || 0}</p>
-            <div className="order-summary mt-3" style={{ maxHeight: "300px", overflowY: "auto" }}>
-              {cartItems?.map((items, index) => (
-                <Row key={index} className="align-items-center mb-3" style={{ borderBottom: "1px solid #dee2e6", width: "500px" }}>
-                  <Col xs={2}>
-                    <Image src={import.meta.env.VITE_URL + items.product?.image} fluid rounded />
-                  </Col>
-                  <Col xs={9}>
-                    <div className="d-flex">
-                      {/* <Link to={`/san-pham/${items.product?.slug}`} className="text-decoration-none h6 link-hover-underline link-dark "> */}
-                      <span className="h6 link-dark">{items.product?.name || "Product Name"}</span>
-                      {/* </Link> */}
-                      <div className="ms-2">{items.product.discount > 0 && <span className="badge text-bg-danger "> {items.product?.discount} %</span>}</div>
-                    </div>
-                    {items.product?.discount > 0 ? (
-                      <>
-                        <div>
-                          <p className="mb-0 text-danger">
-                            <del>{items.product?.price?.toLocaleString() || "0"}₫</del>
-                          </p>
-                          <p className="fw-bold">{(items.product.price - (items.product.price * items.product.discount) / 100).toLocaleString()}₫</p>
-                        </div>
-                      </>
-                    ) : (
-                      <p className="fw-bold">{items.product?.price?.toLocaleString() || "0"}₫</p>
-                    )}
-                  </Col>
-                  <Col xs={1} className="text-end">
-                    <p className="mb-0">x{items.quantity}</p>
-                  </Col>
-                </Row>
-              ))}
-            </div>
-            <hr />
-
-            <Form.Group className="mb-3" controlId="formVoucher">
-              <Form.Label className="fs-5 fw-bold">Mã Voucher</Form.Label>
-              <div className="d-flex flex-column flex-md-row gap-2">
-                <Form.Control className="flex-grow-1" type="text" placeholder="Nhập mã giảm giá" />
-                <Button variant="outline-success" className="w-50 w-md-auto">
-                  Áp dụng
-                </Button>
-              </div>
-            </Form.Group>
-
             <hr />
             <div className="d-flex justify-content-between">
               <h6>Tạm tính</h6>
@@ -307,9 +388,9 @@ function PaymentProduct() {
                 {shippingFee === 0
                   ? "Miễn phí"
                   : new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(shippingFee)}
+                    style: "currency",
+                    currency: "VND",
+                  }).format(shippingFee)}
               </p>
             </div>
             <hr />
