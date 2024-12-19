@@ -41,6 +41,7 @@ import SuccessfulPayment from "./pages/Cart/SuccessfulPayment";
 import SuccessfulOrder from "./pages/Cart/SuccessfulOrder";
 import OrderSuccessful from "./pages/Cart/OrderSuccessful";
 import PostDetail from "./pages/Post/PostDetail";
+import PaymentFailed from "./pages/Cart/PaymentFailed";
 
 function App() {
   const { user } = useContext(AuthenContext);
@@ -71,6 +72,7 @@ function App() {
       {/* Thanh toán VNPay */}
       <Route path="/dat-hang-thanh-cong" element={<SuccessfulOrder />} />
       <Route path="/thanh-toan-thanh-cong" element={<SuccessfulPayment />} />
+      <Route path="/thanh-toan-that-bai" element={<PaymentFailed />} />
       {/* Thanh toán VNPay */}
       <Route path="/thanh-toan-sanpham" element={<PaymentProduct />} />
       {!user ? (

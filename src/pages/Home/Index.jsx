@@ -181,30 +181,11 @@ function Index() {
       </Container>
       {/* End buy section */}
 
-      {/* Start service section */}
-      <Container className="my-5">
+            {/* Start product section */}
+            <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ KHUYẾN MÃI</h3>
-          </div>
-        </div>
-        <Row className="row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-4 g-4">
-          {serviceIndex && serviceIndex.length > 0 ? (
-            serviceIndex.slice(0, 4).map((item, index) => <CardService key={index} {...item} />)
-          ) : (
-            <Col xs="12" className="mx-auto w-100">
-              <h3 className="text-center pt-3">Không có dịch vụ</h3>
-            </Col>
-          )}
-        </Row>
-      </Container>
-      {/* End service section */}
-
-      {/* Start product section */}
-      <Container className="my-5">
-        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
-          <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM BÁN CHẠY</h3>
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM NỔI BẬT</h3>
           </div>
         </div>
         <Row>
@@ -241,6 +222,25 @@ function Index() {
         </Row>
       </Container>
       {/* End product section */}
+
+      {/* Start service section */}
+      <Container className="my-5">
+        <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
+          <div className="ms-2">
+            <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ NỔI BẬT</h3>
+          </div>
+        </div>
+        <Row className="row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-4 g-4">
+          {serviceIndex && serviceIndex.length > 0 ? (
+            serviceIndex.slice(0, 4).map((item, index) => <CardService key={index} {...item} />)
+          ) : (
+            <Col xs="12" className="mx-auto w-100">
+              <h3 className="text-center pt-3">Không có dịch vụ</h3>
+            </Col>
+          )}
+        </Row>
+      </Container>
+      {/* End service section */}
 
       {/* Start banner section */}
       <Container className="my-5">
