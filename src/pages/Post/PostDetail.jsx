@@ -6,42 +6,35 @@ import BreadcrumbComponent from "@components/BreadcrumbComponent";
 import { Helmet } from "react-helmet";
 import { Link, useParams } from "react-router-dom";
 import CardPost from "@components/CardPost";
+import axios from "axios";
 
 function PostDetail() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [postList, setPostList] = useState([]);
+  const [highlightedPosts, setHighlightedPosts] = useState([]);
   const [relatedPosts, setRelatedPosts] = useState([]);
 
   useEffect(() => {
-    fetch("https://dashboard.30glow.site/api/posts")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.check) {
-          setPostList(data.data.data);
-        }
-        setLoading(false); 
+    axios
+      .get(import.meta.env.VITE_API_URL + "/posts/highlighted")
+      .then((res) => {
+        setHighlightedPosts(res.data.data);
       })
-      .catch((error) => {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        setLoading(false);
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
   useEffect(() => {
-    fetch(`https://dashboard.30glow.site/api/posts/${slug}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.check) {
-          setPost(data.data);
-          setRelatedPosts(data.data.related); 
-        }
+    axios
+      .get(import.meta.env.VITE_API_URL + `/posts/${slug}`)
+      .then((res) => {
+        setPost(res.data.data);
         setLoading(false);
       })
-      .catch((error) => {
-        console.error("Lỗi khi tải dữ liệu chi tiết bài viết:", error);
-        setLoading(false);
+      .catch((err) => {
+        console.log(err);
       });
   }, [slug]);
 
@@ -81,36 +74,16 @@ function PostDetail() {
               </Col>
               <Col md={4}>
                 <Row className="row-cols-1 g-4">
-                  <div className=" border border-danger  rounded p-3">
-                    {" "}
-                    <h2 className="text-danger fw-bold ">Bài viết nổi bật</h2>
-                    {loading ? (
-                      <h3 className="text-center">Đang tải...</h3>
-                    ) : postList && postList.length > 0 ? (
-                      postList
-                        .filter((post) => post.highlighted === 1)
-                        .slice(0, 2)
-                        .map((post) => (
-                          <Col key={post.id} className="mb-4">
-                            <div className="card">
-                              <Link to={`/tin-tuc/${post.slug}`}>
-                                <img src={`https://dashboard.30glow.site${post.image}`} alt={post.title} className="card-img-top" style={{ height: "180px", objectFit: "cover" }} />
-                              </Link>
-
-                              <div className="card-body">
-                                <Link to={`/tin-tuc/${post.slug}`}>
-                                  <h5 className="card-title">{post.title}</h5>
-                                </Link>
-
-                                <p className="card-text">{post.created_at}</p>
-                              </div>
-                            </div>
-                          </Col>
-                        ))
-                    ) : (
-                      <h3 className="text-center">Không có bài viết nổi bật</h3>
-                    )}
-                  </div>
+                  {/* <div className=" border border-danger  rounded p-3"> */}
+                  <h2 className="text-danger fw-bold ">Bài viết nổi bật</h2>
+                  {loading ? (
+                    <h3 className="text-center">Đang tải...</h3>
+                  ) : highlightedPosts && highlightedPosts.length > 0 ? (
+                    highlightedPosts.slice(0, 2).map((post, index) => <CardPost key={index} {...post} />)
+                  ) : (
+                    <h3 className="text-center">Không có bài viết nổi bật</h3>
+                  )}
+                  {/* </div> */}
                 </Row>
               </Col>
             </Row>
@@ -118,7 +91,7 @@ function PostDetail() {
               <Col>
                 <div className="text-start border-0 rounded-0 border-start border-primary border-5 mb-3">
                   <div className="ms-2">
-                    <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">DỊCH VỤ HOT</h3>
+                    <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">BÀI VIẾT LIÊN QUAN</h3>
                   </div>
                 </div>
                 <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">

@@ -81,16 +81,10 @@ function Post() {
           {loading ? (
             <h3 className="text-center">Đang tải...</h3>
           ) : currentPosts.length > 0 ? (
-            currentPosts.map((post) => (
+            currentPosts.map((post, index) => (
               <CardPost
-                key={post.id}
-                name={post.title}
-                slug={post.slug}
-                image={`https://dashboard.30glow.site${post.image}`}
-                createdAt={post.created_at}
-                author="30GLOW"
-                content={post.summary}
-                collection={post.collection}
+                key={index}
+                {...post}
               />
             ))
           ) : (

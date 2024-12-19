@@ -68,28 +68,48 @@ function Index() {
     Product();
   }, []);
 
-  const [postList, setPostList] = useState([]);
+  const [highlightedPosts, setHighlightedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    fetch("https://dashboard.30glow.site/api/posts")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.check) {
-          setPostList(data.data.data);
-        }
-        setLoading(false); // Kết thúc tải
+    setLoading(true);
+    axios
+      .get(import.meta.env.VITE_API_URL + "/posts/highlighted")
+      .then((res) => {
+        setHighlightedPosts(res.data.data);
       })
-      .catch((error) => {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        setLoading(false);
-      });
+      .catch((err) => {
+        console.log(err);
+      }).finally(() => setLoading(false));
   }, []);
   return (
     <>
       <Helmet>
-        <title>Trang chủ - 30GLOW</title>
-        <meta name="description" content="meo meo meo" />
+        <title>30Glow - Hệ thống chuyên gia tóc cao cấp</title>
+
+        {/* <!-- SEO meta tags --> */}
+        <meta name="description"
+          content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp. Chúng tôi giúp bạn có được mái tóc đẹp và phong cách." />
+        <meta name="keywords"
+          content="bán sản phẩm tóc, dịch vụ tóc, cắt tóc, tạo kiểu tóc, nhuộm tóc, chăm sóc tóc, sản phẩm chăm sóc tóc, dịch vụ chăm sóc tóc" />
+        <meta name="author" content="30Glow" />
+        <meta name="robots" content="index, follow" />
+        <meta name="google-site-verification" content="your-site-verification-code" />
+
+        {/* <!-- Open Graph meta tags --> */}
+        <meta property="og:title" content="30Glow - Hệ thống chuyên gia tóc cao cấp" />
+        <meta property="og:description"
+          content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp." />
+        <meta property="og:image" content="your-image-url" />
+        <meta property="og:url" content="your-url" />
+        <meta property="og:site_name" content="30Glow" />
+
+        {/* <!-- Twitter Card meta tags --> */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="30Glow - Hệ thống chuyên gia tóc cao cấp" />
+        <meta name="twitter:description"
+          content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp." />
+        <meta name="twitter:image" content="your-image-url" />
+        <meta name="twitter:site" content="@30Glow" />
       </Helmet>
       <Header />
       {/* Start slider section */}
@@ -181,8 +201,8 @@ function Index() {
       </Container>
       {/* End buy section */}
 
-            {/* Start product section */}
-            <Container className="my-5">
+      {/* Start product section */}
+      <Container className="my-5">
         <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
           <div className="ms-2">
             <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">SẢN PHẨM NỔI BẬT</h3>
@@ -286,20 +306,14 @@ function Index() {
         <Row className="row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
           {loading ? (
             <h3 className="text-center">Đang tải...</h3>
-          ) : postList && postList.length > 0 ? (
-            postList
-            .filter((post) => post.highlighted === 1)
-            .slice(0, 3).map((post) => (
-              <CardPost
-                key={post.id}
-                name={post.title}
-                slug={post.slug}
-                image={`https://dashboard.30glow.site${post.image}`}
-                createdAt={post.created_at}
-                author="30GLOW" 
-                content={post.summary}
-              />
-            ))
+          ) : highlightedPosts && highlightedPosts.length > 0 ? (
+            highlightedPosts
+              .slice(0, 3).map((post, index) => (
+                <CardPost
+                  key={index}
+                  {...post}
+                />
+              ))
           ) : (
             <h3 className="text-center">Không có bài đăng</h3>
           )}
