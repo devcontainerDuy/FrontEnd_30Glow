@@ -176,12 +176,6 @@ function ProductDetail() {
         ]}
       />
       <Container className="my-5">
-        {/* <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100 mb-3">
-          <div className="ms-2">
-            <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Chi tiết sản phẩm</h3>
-          </div>
-        </div> */}
-
         <Row className="g-4">
           <Col lg={5}>
             <Swiper
@@ -203,13 +197,6 @@ function ProductDetail() {
                 </SwiperSlide>
               ))}
             </Swiper>
-            {/* <Swiper onSwiper={setThumbsSwiper} loop={true} spaceBetween={10} slidesPerView={2} freeMode={true} watchSlidesProgress={true} modules={[FreeMode, Navigation, Thumbs]} className="mySwiper">
-              {productDetail.gallery?.map((image, index) => (
-                <SwiperSlide key={index}>
-                  <img className="d-block w-100 rounded" src={`${import.meta.env.VITE_URL}${image?.image}`} alt={`Slide ${index + 1}`} />
-                </SwiperSlide>
-              ))}
-            </Swiper> */}
           </Col>
 
           <Col lg={7} className="d-flex flex-column gap-3">
@@ -380,8 +367,8 @@ function ProductDetail() {
             <h3 className="mb-0 h3 fw-bold text-primary-emphasis">Sản phẩm liên quan</h3>
           </div>
         </div>
-        <Row className="row-cols-1 row-cols-lg-5 g-4">
-          {relatedProducts.map((product, index) => (
+        <Row className="row-cols-1 row-cols-lg-4 g-4">
+          {relatedProducts.slice(0, 4).map((product, index) => (
             <CardProduct key={index} {...product} />
           ))}
         </Row>

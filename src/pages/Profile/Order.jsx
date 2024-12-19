@@ -111,6 +111,18 @@ function Order() {
         return <Badge bg="secondary">Chưa xác nhận</Badge>;
     }
   }
+
+  function getPaymentMethod(paymentMethod) {
+    switch (paymentMethod) {
+      case 0:
+        return "Thanh toán khi nhận hàng (COD)";
+      case 1:
+        return "Thanh toán bằng VNPay";
+      default:
+        return "Không xác định";
+    }
+  }
+
   const handleShowModal = (orderId) => {
     fetchOrderDetail(orderId);
   };
@@ -120,9 +132,8 @@ function Order() {
   };
   const handleCancelOrder = async (orderId) => {
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/bills/${orderId}/cancel`,
-        {}, // Payload có thể để trống nếu API không yêu cầu
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/bills/${orderId}`, // Đổi từ PUT sang DELETE
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -142,11 +153,39 @@ function Order() {
         alert("Không thể hủy đơn hàng.");
       }
     } catch (error) {
-      console.error("Lỗi khi hủy đơn hàng:", error);
+      console.error("Lỗi khi hủy đơn hàng:", error.response || error);
       alert("Đã xảy ra lỗi. Vui lòng thử lại sau.");
     }
   };
 
+  // const handlePaymentOrder = async (orderId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${import.meta.env.VITE_API_URL}/bills/${orderId}/pay`, // Endpoint thanh toán
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     if (response.data.check) {
+  //       alert("Thanh toán thành công.");
+  //       setShowModal(false);
+  //       // Cập nhật lại danh sách đơn hàng
+  //       setOrders((prevOrders) =>
+  //         prevOrders.map((order) =>
+  //           order.uid === orderId ? { ...order, payment_status: 1 } : order
+  //         )
+  //       );
+  //     } else {
+  //       alert("Không thể thanh toán đơn hàng.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Lỗi khi thanh toán đơn hàng:", error.response || error);
+  //     alert("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+  //   }
+  // };
 
   return (
     <>
@@ -154,7 +193,7 @@ function Order() {
       <BreadcrumbComponent props={[{ name: "Hóa đơn", url: "/hoa-don" }]} />
       <Container className="mb-5 mt-4">
         <h3 className="mb-4"><i className="bi bi-list me-2" />Danh sách hóa đơn</h3>
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>#</th>
@@ -194,7 +233,6 @@ function Order() {
         </Modal.Header>
         <Modal.Body>
           <h5>Thông tin khách hàng</h5>
-          {/* Thanh ProgressBar */}
           <h6 className="mt-3">Tiến độ đơn hàng</h6>
           <ProgressBar
             now={getOrderProgress(selectedOrder?.status).percentage}
@@ -210,8 +248,8 @@ function Order() {
           <p><strong>Số điện thoại:</strong> {selectedOrder?.phone}</p>
           <p><strong>Địa chỉ:</strong> {selectedOrder?.address}</p>
           <p><strong>Ghi chú:</strong> {selectedOrder?.note}</p>
+          <p><strong>Hình thức thanh toán:</strong> {getPaymentMethod(selectedOrder?.payment_method)}</p>
           <div className="d-flex justify-content-between mb-3">
-            {/* <p><strong>Trạng thái đơn hàng:</strong> {getStatusBadge(selectedOrder?.status)}</p> */}
             <p><strong>Trạng thái thanh toán:</strong> {getPaymentStatus(selectedOrder?.payment_status)}</p>
           </div>
 
@@ -242,12 +280,20 @@ function Order() {
           <h5 className="fw-bold">Tổng tiền: {parseFloat(selectedOrder?.total).toLocaleString()} VND</h5>
         </Modal.Body>
 
+
         <Modal.Footer>
           {selectedOrder?.status === 0 || selectedOrder?.status === 1 ? (
             <Button variant="danger" onClick={() => handleCancelOrder(selectedOrder?.uid)}>
-              Hủy
+              Hủy đơn hàng
             </Button>
           ) : null}
+
+          {/* {(selectedOrder?.payment_status === 0 || selectedOrder?.payment_status === 2) ? (
+            <Button variant="primary" onClick={() => handlePaymentOrder(selectedOrder?.uid)}>
+              Thanh toán
+            </Button>
+          ) : null} */}
+
           <Button variant="secondary" onClick={handleCloseModal}>
             Đóng
           </Button>
