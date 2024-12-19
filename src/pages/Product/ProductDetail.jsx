@@ -126,18 +126,18 @@ function ProductDetail() {
       comments.map((comment) =>
         comment.id === id
           ? {
-            ...comment,
-            replies: [
-              ...comment.replies,
-              {
-                name: "Tên người dùng", // Tên người dùng
-                avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
-                content: reply,
-                date: new Date().toLocaleDateString("vi-VN"),
-              },
-            ],
-            showReplyInput: false,
-          }
+              ...comment,
+              replies: [
+                ...comment.replies,
+                {
+                  name: "Tên người dùng", // Tên người dùng
+                  avatar: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png", // URL avatar
+                  content: reply,
+                  date: new Date().toLocaleDateString("vi-VN"),
+                },
+              ],
+              showReplyInput: false,
+            }
           : comment
       )
     );
@@ -224,14 +224,14 @@ function ProductDetail() {
               ) : null}
             </div>
 
-            {/* <div className="align-items-center py-0">
+            <div className="align-items-center py-0">
               <span className="fw-semibold text-secondary">Số lượng trong kho: {productDetail?.in_stock}</span>
-            </div> */}
+            </div>
 
             <Form className="d-flex gap-3 mt-3">
               <div className="d-flex align-items-center border rounded">
                 <Button variant="light" onClick={() => handleQuantityChange(-1)}>
-                  <i class="bi bi-dash-lg" />
+                  <i className="bi bi-dash-lg" />
                 </Button>
                 <Form.Control type="text" value={quantity} readOnly className="text-center border-0" style={{ width: "60px" }} />
                 <Button variant="light" onClick={() => handleQuantityChange(1)}>
