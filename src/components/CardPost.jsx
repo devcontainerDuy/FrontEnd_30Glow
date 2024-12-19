@@ -2,17 +2,17 @@ import PropTypes from "prop-types";
 import { Card, Col, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function CardPost({ name, slug, image, createdAt, content, collection }) {
+export default function CardPost({ title, slug, image, created_at, summary, collection }) {
   return (
-    <Col className="col-12 col-md-6">
-      <Card className="h-100">
+    <Col>
+      <Card >
         {/* Sử dụng các lớp Bootstrap cho ảnh */}
-        <Image src={image} className="card-img-top rounded-0" alt={slug} style={{ height: "230px", objectFit: "cover" }} />
+        <Image src={import.meta.env.VITE_URL + image} className="card-img-top rounded-0" alt={slug} style={{ height: "230px", objectFit: "cover" }} />
         <Card.Body>
           <div className="d-flex align-items-center gap-4">
             <p className="mb-0">
               <i className="bi bi-calendar me-2" />
-              {createdAt}
+              {created_at}
             </p>
             {collection && (
               <p className="mb-1 ms-auto">
@@ -21,8 +21,9 @@ export default function CardPost({ name, slug, image, createdAt, content, collec
               </p>
             )}
           </div>
-          <Card.Title className="fw-bold mt-3 h5 card-title text-title">{name}</Card.Title>
-          <p className="mb-0 text-title ">{content}</p>
+          <Card.Title className="fw-bold mt-3 h5 text-title ">{title}</Card.Title>
+          <p className="mb-0 text-title ">{summary}</p>
+
           <Link to={`/tin-tuc/${slug}`} className="btn btn-outline-dark mt-3">
             Xem thêm
           </Link>
@@ -33,12 +34,11 @@ export default function CardPost({ name, slug, image, createdAt, content, collec
 }
 
 CardPost.propTypes = {
-  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  created_at: PropTypes.string.isRequired,
+  summary: PropTypes.string.isRequired,
   collection: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
