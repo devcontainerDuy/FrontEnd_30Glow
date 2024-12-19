@@ -11,7 +11,7 @@ import useAuthenContext from "@context/AuthenContext";
 
 function ProductPayment() {
   const navigate = useNavigate();
-  const { cartItems, user, token } = useAuthenContext();
+  const { cartItems, user, token, uid } = useAuthenContext();
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -152,6 +152,7 @@ function ProductPayment() {
       .post(
         import.meta.env.VITE_API_URL + "/bills",
         {
+          uid: uid,
           name: userInfo.name,
           email: userInfo.email,
           phone: userInfo.phone,
@@ -379,9 +380,9 @@ function ProductPayment() {
                 {shippingFee === 0
                   ? "Miễn phí"
                   : new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(shippingFee)}
+                      style: "currency",
+                      currency: "VND",
+                    }).format(shippingFee)}
               </p>
             </div>
             <hr />

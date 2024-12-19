@@ -145,5 +145,5 @@ export const useAuth = () => {
     localStorage.removeItem("expiry");
   };
 
-  return { user, token, loginWithGoogle, login, register, logout };
+  return { user, token, uid, loginWithGoogle, login, register, logout };
 };

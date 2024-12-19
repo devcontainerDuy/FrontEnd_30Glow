@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "@layouts/Header";
 import Footer from "@layouts/Footer";
 import axios from "axios";
@@ -6,8 +6,8 @@ import { Col, Container, Row, Form, Button, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBillWave, faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
-import { Link, useNavigate } from "react-router-dom";
-import { increaseQuantity, decreaseQuantity, removeFromCart, clearCart } from "@store/reducers/shoppingCartSlice";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "@store/reducers/shoppingCartSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function PaymentProduct() {
@@ -155,6 +155,7 @@ function PaymentProduct() {
 
     axios
       .post(import.meta.env.VITE_API_URL + "/bills", {
+        uid: null,
         name: userInfo.name,
         email: userInfo.email,
         phone: userInfo.phone,
@@ -388,9 +389,9 @@ function PaymentProduct() {
                 {shippingFee === 0
                   ? "Miễn phí"
                   : new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(shippingFee)}
+                      style: "currency",
+                      currency: "VND",
+                    }).format(shippingFee)}
               </p>
             </div>
             <hr />
