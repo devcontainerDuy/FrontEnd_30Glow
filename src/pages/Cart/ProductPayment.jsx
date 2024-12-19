@@ -275,41 +275,6 @@ function ProductPayment() {
                 <Form.Label>Ghi chú đơn hàng</Form.Label>
                 <Form.Control as="textarea" rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Thêm ghi chú nếu có" />
               </Form.Group>
-
-              {/* Hình thức thanh toán */}
-              <Form.Group className="mb-3" controlId="formPaymentMethod">
-                <Form.Label className="mb-2 fs-5 fw-bold">Hình thức thanh toán</Form.Label>
-                <div>
-                  <Form.Check
-                    type="radio"
-                    label={
-                      <>
-                        <FontAwesomeIcon icon={faMoneyBillWave} className="me-2 text-success" />
-                        Thanh toán khi nhận hàng (COD)
-                      </>
-                    }
-                    name="paymentMethod"
-                    id="paymentCOD"
-                    className="mb-2"
-                    defaultChecked
-                    onChange={() => setPaymentMethod(0)}
-                  />
-                  <Form.Check
-                    type="radio"
-                    label={
-                      <>
-                        <FontAwesomeIcon icon={faCreditCard} className="me-2 text-primary" />
-                        Chuyển khoản ngân hàng
-                      </>
-                    }
-                    name="paymentMethod"
-                    id="paymentBankTransfer"
-                    className="mb-2"
-                    onChange={() => setPaymentMethod(1)}
-                  />
-                </div>
-              </Form.Group>
-
               <p>Thời gian giao hàng từ 3 – 5 ngày đối với ngoại thành</p>
               <p>Giao hàng nhanh trong ngày với khu vực Hồ Chí Minh</p>
             </Form>
@@ -350,9 +315,9 @@ function ProductPayment() {
                 </Row>
               ))}
             </div>
-            <hr />
+            {/* <hr /> */}
 
-            <Form.Group className="mb-3" controlId="formVoucher">
+            {/* <Form.Group className="mb-3" controlId="formVoucher">
               <Form.Label className="fs-5 fw-bold">Mã Voucher</Form.Label>
               <div className="d-flex flex-column flex-md-row gap-2">
                 <Form.Control className="flex-grow-1" type="text" placeholder="Nhập mã giảm giá" />
@@ -360,8 +325,44 @@ function ProductPayment() {
                   Áp dụng
                 </Button>
               </div>
-            </Form.Group>
+            </Form.Group> */}
 
+            <hr />
+            <Form className="mt-3" noValidate>
+              {/* Hình thức thanh toán */}
+              <Form.Group className="mb-3" controlId="formPaymentMethod">
+                <Form.Label className="mb-2 fs-5 fw-bold">Hình thức thanh toán</Form.Label>
+                <div>
+                  <Form.Check
+                    type="radio"
+                    label={
+                      <>
+                        <FontAwesomeIcon icon={faMoneyBillWave} className="me-2 text-success" />
+                        Thanh toán khi nhận hàng (COD)
+                      </>
+                    }
+                    name="paymentMethod"
+                    id="paymentCOD"
+                    className="mb-2"
+                    defaultChecked
+                    onChange={() => setPaymentMethod(0)}
+                  />
+                  <Form.Check
+                    type="radio"
+                    label={
+                      <>
+                        <FontAwesomeIcon icon={faCreditCard} className="me-2 text-primary" />
+                        Chuyển khoản ngân hàng
+                      </>
+                    }
+                    name="paymentMethod"
+                    id="paymentBankTransfer"
+                    className="mb-2"
+                    onChange={() => setPaymentMethod(1)}
+                  />
+                </div>
+              </Form.Group>
+            </Form>
             <hr />
             <div className="d-flex justify-content-between">
               <h6>Tạm tính</h6>
@@ -378,9 +379,9 @@ function ProductPayment() {
                 {shippingFee === 0
                   ? "Miễn phí"
                   : new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(shippingFee)}
+                    style: "currency",
+                    currency: "VND",
+                  }).format(shippingFee)}
               </p>
             </div>
             <hr />

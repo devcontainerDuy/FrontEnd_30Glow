@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { increaseQuantity, decreaseQuantity, removeFromCart, clearCart } from "../../store/reducers/shoppingCartSlice";
+import { increaseQuantity, decreaseQuantity, removeFromCart, clearCart } from "@store/reducers/shoppingCartSlice";
 import Header from "@layouts/Header";
 import Footer from "@layouts/Footer";
 import { Helmet } from "react-helmet";

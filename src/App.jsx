@@ -68,9 +68,9 @@ function App() {
       <Route path="/tin-tuc" element={<Post />} />
       <Route path="/tin-tuc/:slug" element={<PostDetail />} />
 
-      <Route path="/dat-hang" element={<OrderSuccessful />} />
+      {/* <Route path="/dat-hang" element={<OrderSuccessful />} /> */}
       {/* Thanh toán VNPay */}
-      <Route path="/dat-hang-thanh-cong" element={<SuccessfulOrder />} />
+      <Route path="/dat-hang-thanh-cong" element={<OrderSuccessful />} />
       <Route path="/thanh-toan-thanh-cong" element={<SuccessfulPayment />} />
       <Route path="/thanh-toan-that-bai" element={<PaymentFailed />} />
       {/* Thanh toán VNPay */}
