@@ -173,7 +173,7 @@ function ProductPayment() {
           if (paymentMethod == 0) {
             navigate("/dat-hang-thanh-cong");
           } else if (paymentMethod == 1) {
-            navigate("/dat-hang?orderId=" + response.data.uid + "&orderTotal=" + response.data.total);
+            navigate("/dat-hang-thanh-cong?orderId=" + response.data.uid + "&orderTotal=" + response.data.total);
           }
         } else {
           window.notyf.error(response.data.message);
