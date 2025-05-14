@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,17 +23,22 @@ export default defineConfig({
       "@styles": path.resolve(__dirname, "src/styles"),
     },
   },
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
+  define: {
+    "process.env": {
+      VITE_API_URL: import.meta.env.VITE_API_URL,
     },
   },
+  // server: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "https://cms.30glow.site",
+  //       changeOrigin: true,
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //       },
+  //       rewrite: (path) => path.replace(/^\/api/, ""),
+  //     },
+  //   },
+  // },
 });

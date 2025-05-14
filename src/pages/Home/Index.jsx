@@ -17,21 +17,32 @@ function Index() {
   const [productIndex, setProductIndex] = useState([]);
 
   useEffect(() => {
-    // Call API Slides
-    const Slide = async () => {
-      try {
-        await axios
-          .get(import.meta.env.VITE_API_URL + "/slides")
-          .then((res) => {
-            setSlideIndex(res.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    setSlideIndex([
+      {
+        id: 1,
+        name: "Slide 1",
+        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+      },
+      {
+        id: 2,
+        name: "Slide 2",
+        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+      },
+      {
+        id: 3,
+        name: "Slide 3",
+        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+      },
+      {
+        id: 4,
+        name: "Slide 4",
+        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
+      },
+    ])
 
     // Call API Services
     const Service = async () => {
@@ -87,18 +98,18 @@ function Index() {
         <title>30Glow - Hệ thống chuyên gia tóc cao cấp</title>
 
         {/* <!-- SEO meta tags --> */}
-        <meta name="description"
-          content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp. Chúng tôi giúp bạn có được mái tóc đẹp và phong cách." />
-        <meta name="keywords"
-          content="bán sản phẩm tóc, dịch vụ tóc, cắt tóc, tạo kiểu tóc, nhuộm tóc, chăm sóc tóc, sản phẩm chăm sóc tóc, dịch vụ chăm sóc tóc" />
+        <meta
+          name="description"
+          content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp. Chúng tôi giúp bạn có được mái tóc đẹp và phong cách."
+        />
+        <meta name="keywords" content="bán sản phẩm tóc, dịch vụ tóc, cắt tóc, tạo kiểu tóc, nhuộm tóc, chăm sóc tóc, sản phẩm chăm sóc tóc, dịch vụ chăm sóc tóc" />
         <meta name="author" content="30Glow" />
         <meta name="robots" content="index, follow" />
         <meta name="google-site-verification" content="your-site-verification-code" />
 
         {/* <!-- Open Graph meta tags --> */}
         <meta property="og:title" content="30Glow - Hệ thống chuyên gia tóc cao cấp" />
-        <meta property="og:description"
-          content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp." />
+        <meta property="og:description" content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp." />
         <meta property="og:image" content="your-image-url" />
         <meta property="og:url" content="your-url" />
         <meta property="og:site_name" content="30Glow" />
@@ -106,8 +117,7 @@ function Index() {
         {/* <!-- Twitter Card meta tags --> */}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="30Glow - Hệ thống chuyên gia tóc cao cấp" />
-        <meta name="twitter:description"
-          content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp." />
+        <meta name="twitter:description" content="30Glow là hệ thống chuyên gia tóc cao cấp, cung cấp các sản phẩm và dịch vụ chăm sóc tóc chuyên nghiệp." />
         <meta name="twitter:image" content="your-image-url" />
         <meta name="twitter:site" content="@30Glow" />
       </Helmet>
@@ -130,8 +140,8 @@ function Index() {
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
         >
-          {slideIndex.length > 0 ? (
-            slideIndex.map((item, index) => (
+          {slideIndex ? (
+            slideIndex?.map((item, index) => (
               <>
                 <SwiperSlide key={index}>
                   <Link to="/dich-vu">
@@ -209,7 +219,7 @@ function Index() {
           </div>
         </div>
         <Row>
-          {productIndex.length > 0 ? (
+          {productIndex ? (
             <Swiper
               modules={[Navigation, Pagination, Autoplay, A11y]}
               slidesPerView={1}
@@ -228,7 +238,7 @@ function Index() {
                 1200: { slidesPerView: 4, spaceBetween: 20 },
               }}
             >
-              {productIndex.map((product, index) => (
+              {productIndex?.map((product, index) => (
                 <SwiperSlide key={index}>
                   <CardProduct {...product} />
                 </SwiperSlide>
@@ -282,13 +292,8 @@ function Index() {
             </Link>
           </SwiperSlide>
           <SwiperSlide>
-            <Link to="/thuong-hieu/nguyen-xuan">
-              <img src="https://daugoiduoclieunguyenxuan.vn/wp-content/uploads/2022/05/Banner-web-NX_1920x650-1.jpg" className="img-fluid" alt="..." />
-            </Link>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Link to="/thuong-hieu/loreal">
-              <img src="https://www.beautycos.co.uk/media/amasty/shopby/option_images/loreal_paris.jpg" className="img-fluid" alt="..." />
+            <Link to="/thuong-hieu/la-roche-posay">
+              <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
         </Swiper>
@@ -307,13 +312,7 @@ function Index() {
           {loading ? (
             <h3 className="text-center">Đang tải...</h3>
           ) : highlightedPosts && highlightedPosts.length > 0 ? (
-            highlightedPosts
-              .slice(0, 3).map((post, index) => (
-                <CardPost
-                  key={index}
-                  {...post}
-                />
-              ))
+            highlightedPosts.slice(0, 3).map((post, index) => <CardPost key={index} {...post} />)
           ) : (
             <h3 className="text-center">Không có bài đăng</h3>
           )}

@@ -89,7 +89,7 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const grouped = categories.reduce((item, category) => {
+    const grouped = categories?.reduce((item, category) => {
       const parent = category.parent;
       if (!item[parent.id]) {
         item[parent.id] = { parent, children: [] };
@@ -99,7 +99,7 @@ function Header() {
     }, {});
     setGroupedCategories(grouped);
 
-    if (collections.length > 0 && services.length > 0) {
+    if (collections?.length > 0 && services?.length > 0) {
       const groupedServices = services.reduce((acc, service) => {
         const collectionId = service.id_collection;
         if (!acc[collectionId]) {
@@ -152,7 +152,7 @@ function Header() {
                 <NavDropdown title="Dịch vụ" id="service-dropdown" data-bs-popper="static" active={isActive("/dich-vu" || "/dich-vu/:slug")}>
                   <Container fluid style={{ width: "35rem" }}>
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
-                      {collections.map((collection) => (
+                      {collections?.map((collection) => (
                         <Col key={collection.id}>
                           <Dropdown.Item as={NavLink} className="text-decoration-none" to={`/nhom-dich-vu/${collection.slug}`}>
                             {collection.name}
@@ -173,21 +173,24 @@ function Header() {
                 <NavDropdown title="Sản phẩm" id="product-dropdown" data-bs-popper="static" active={isActive("/san-pham" || "/danh-muc/:slug")}>
                   <Container fluid style={{ width: "24rem" }}>
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
-                      {Object.values(groupedCategories).map((group, index) => (
-                        <Col key={index}>
-                          {/* <Dropdown.Header as={NavLink} className="text-decoration-none" to={`/danh-muc/${group.parent?.slug}`}>
-                            {group.parent?.name}
-                          </Dropdown.Header> */}
-                          <Dropdown.Header as={NavLink} className="text-decoration-none">
-                            {group.parent?.name}
-                          </Dropdown.Header>
-                          {group.children.map((child) => (
-                            <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
-                              {child?.name}
-                            </Dropdown.Item>
-                          ))}
+                      {groupedCategories && Object.keys(groupedCategories).length > 0 ? (
+                        Object.values(groupedCategories).map((group, index) => (
+                          <Col key={index}>
+                            <Dropdown.Header as={NavLink} className="text-decoration-none">
+                              {group.parent?.name}
+                            </Dropdown.Header>
+                            {group.children.map((child) => (
+                              <Dropdown.Item key={child?.id} as={NavLink} to={`/danh-muc/${child?.slug}`}>
+                                {child?.name}
+                              </Dropdown.Item>
+                            ))}
+                          </Col>
+                        ))
+                      ) : (
+                        <Col>
+                          <Dropdown.Item>Loading categories...</Dropdown.Item>
                         </Col>
-                      ))}
+                      )}
                       <Col className="m-0 p-0">
                         <Dropdown.Header as={NavLink} className="text-decoration-none" to={"/san-pham"}>
                           Tất cả sản phẩm
@@ -201,7 +204,7 @@ function Header() {
                 <NavDropdown title="Thương hiệu" id="brand-dropdown" className="d-none d-lg-block">
                   <Container fluid style={{ width: "35rem" }}>
                     <Row className="g-0 row-cols-1 row-cols-lg-2">
-                      {brands.map((brand) => (
+                      {brands?.map((brand) => (
                         <Col key={brand.id}>
                           <Dropdown.Item as={NavLink} className="text-decoration-none" to={`/thuong-hieu/${brand.slug}`}>
                             {brand.name}
