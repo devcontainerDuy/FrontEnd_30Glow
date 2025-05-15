@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "@layouts/Header";
 import Footer from "@layouts/Footer";
@@ -89,11 +89,8 @@ function BrandProducts() {
         ) : (
           <Row className="row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 pb-4">
             {filteredProducts.length > 0 ? (
-              filteredProducts.map((product, index) => {
-                const filteredGallery = product.gallery.filter((i) => i.status === 1);
-                console.log(filteredGallery);
-
-                return <CardProduct key={index} {...product} gallery={filteredGallery[0].image} />;
+              filteredProducts.map((product) => {
+                return <CardProduct key={product.slug} {...product} gallery={product.gallery} />;
               })
             ) : (
               <Col xs="12" className="mx-auto w-100">
@@ -101,7 +98,6 @@ function BrandProducts() {
               </Col>
             )}
           </Row>
-
         )}
       </Container>
       <Footer />
