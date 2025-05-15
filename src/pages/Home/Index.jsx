@@ -277,7 +277,7 @@ function Index() {
         >
           <SwiperSlide>
             <Link to="/thuong-hieu/laborie-derma">
-              <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
+              <img src="https://theskinfit.com/cdn/shop/files/20-L_1500x.png?v=1744376667" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
