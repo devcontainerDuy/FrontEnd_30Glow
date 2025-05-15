@@ -17,26 +17,35 @@ function CollectionServices() {
   const [filteredServices, setFilteredServices] = useState([]);
   const [filter, setFilter] = useState("default");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [servicesPerPage] = useState(8);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchServices = async () => {
       setLoading(true);
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/services-collections/${slug}`);
-        setCollection(response.data.data);
-        setServices(response.data.data.services);
-        setFilteredServices(response.data.data.services);
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu dịch vụ:", error);
-        setError(error);
+        if (isMounted) {
+          const data = response.data?.data || {};
+          setCollection(data);
+          setServices(data.services || []);
+          setFilteredServices(data.services || []);
+        }
+      } catch {
+        if (isMounted) {
+          setCollection({});
+          setServices([]);
+          setFilteredServices([]);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
     fetchServices();
+    return () => {
+      isMounted = false;
+    };
   }, [slug]);
 
   const handleFilterChange = (e) => {
@@ -44,9 +53,11 @@ function CollectionServices() {
     setFilter(selectedFilter);
     let sortedServices = [...services];
     if (selectedFilter === "sale") {
-      sortedServices = sortedServices.filter((service) => service.discount > 0);
+      sortedServices = sortedServices.filter((service) => Number(service.discount) > 0);
     } else if (selectedFilter === "best-sale") {
-      sortedServices = sortedServices.filter((service) => service.discount > 0).sort((a, b) => b.discount - a.discount);
+      sortedServices = sortedServices
+        .filter((service) => Number(service.discount) > 0)
+        .sort((a, b) => Number(b.discount) - Number(a.discount));
     } else if (selectedFilter === "high-to-low") {
       sortedServices.sort((a, b) => b.price - a.price);
     } else if (selectedFilter === "low-to-high") {
@@ -55,6 +66,7 @@ function CollectionServices() {
       sortedServices.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     }
     setFilteredServices(sortedServices);
+    setPage(1);
   };
 
   const paginatedServices = filteredServices.slice((page - 1) * servicesPerPage, page * servicesPerPage);
@@ -67,14 +79,15 @@ function CollectionServices() {
       </Helmet>
       <Headers />
       <Container className="my-3">
-        <BreadcrumbComponent props={[{ name: collection.name, url: `/nhom-dich-vu/${collection.slug}` }]} />
+        <BreadcrumbComponent props={[{ name: collection.name || "Bộ sưu tập", url: `/nhom-dich-vu/${collection.slug || ""}` }]} />
         <div className="d-flex justify-content-between mb-3">
           <div className="text-start border-0 rounded-0 border-start border-primary border-5 h-100">
             <div className="ms-2">
-              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">Bộ sưu tập: {collection.name}</h3>
+              <h3 className="mb-0 h3 fw-bold text-uppercase text-primary-emphasis">
+                Bộ sưu tập: {collection.name || ""}
+              </h3>
             </div>
           </div>
-
           <div className="d-flex align-items-center">
             <span className="me-2">Lọc:</span>
             <FormSelect value={filter} onChange={handleFilterChange} className="w-auto">
@@ -87,8 +100,6 @@ function CollectionServices() {
         </div>
         {loading ? (
           <p>Đang tải dịch vụ...</p>
-        ) : error ? (
-          <p>Có lỗi xảy ra: {error.message}</p>
         ) : (
           <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             {paginatedServices.length > 0 ? (
