@@ -23,22 +23,4 @@ export default defineConfig({
       "@styles": path.resolve(__dirname, "src/styles"),
     },
   },
-  define: {
-    "process.env": {
-      VITE_API_URL: import.meta.env.VITE_API_URL,
-    },
-  },
-  // server: {
-  //   proxy: {
-  //     "/api": {
-  //       target: "https://cms.30glow.site",
-  //       changeOrigin: true,
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //       rewrite: (path) => path.replace(/^\/api/, ""),
-  //     },
-  //   },
-  // },
 });

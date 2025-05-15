@@ -17,32 +17,21 @@ function Index() {
   const [productIndex, setProductIndex] = useState([]);
 
   useEffect(() => {
-    setSlideIndex([
-      {
-        id: 1,
-        name: "Slide 1",
-        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-      },
-      {
-        id: 2,
-        name: "Slide 2",
-        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-      },
-      {
-        id: 3,
-        name: "Slide 3",
-        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-      },
-      {
-        id: 4,
-        name: "Slide 4",
-        desktop: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-        mobile: "https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg",
-      },
-    ])
+    // Call API Slide
+    const Slide = async () => {
+      try {
+        await axios
+          .get(import.meta.env.VITE_API_URL + "/slides")
+          .then((res) => {
+            setSlideIndex(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     // Call API Services
     const Service = async () => {
@@ -90,7 +79,8 @@ function Index() {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => setLoading(false));
+      })
+      .finally(() => setLoading(false));
   }, []);
   return (
     <>
@@ -140,17 +130,16 @@ function Index() {
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
         >
-          {slideIndex ? (
-            slideIndex?.map((item, index) => (
-              <>
-                <SwiperSlide key={index}>
-                  <Link to="/dich-vu">
-                    <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
-                  </Link>
-                </SwiperSlide>
-              </>
-            ))
-          ) : (
+          {slideIndex?.map((item, index) => (
+            <>
+              <SwiperSlide key={index}>
+                <Link to="/dich-vu">
+                  <Image src={import.meta.env.VITE_URL + item.desktop} fluid className="w-100 height-100" alt={item.name} />
+                </Link>
+              </SwiperSlide>
+            </>
+          ))}
+          {slideIndex?.length === 0 && (
             <SwiperSlide>
               <Image src="https://storage.30shine.com/banner/2024/20240717_banner_khumui_w.jpg" fluid className="w-100 height-100" alt="Slide 1" />
             </SwiperSlide>
@@ -287,13 +276,13 @@ function Index() {
           className="mySwiper"
         >
           <SwiperSlide>
-            <Link to="/thuong-hieu/la-roche-posay">
+            <Link to="/thuong-hieu/laborie-derma">
               <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
           <SwiperSlide>
-            <Link to="/thuong-hieu/la-roche-posay">
-              <img src="https://www.theskinfit.com/uploads/brand_banner/lAROCHE.jpg" className="img-fluid" alt="..." />
+            <Link to="/thuong-hieu/laborie-derma">
+              <img src="https://theskinfit.com/cdn/shop/files/armaf_banner_1500x.png?v=1747059011" className="img-fluid" alt="..." />
             </Link>
           </SwiperSlide>
         </Swiper>
